@@ -5,13 +5,11 @@ class AuthService {
 		this.api = createApiClient(baseUrl);
 	}
 
-	// register
 	async create(data) {
 		return (await this.api.post('/register', data)).data;
 	}
 
 	
-
 }
 
 export default new AuthService();

@@ -169,7 +169,7 @@
 
                     <div class="text-center text-grey-dark mt-7">
                         Đã có tài khoản?
-                        <a class="no-underline border-b border-blue-800 text-blue-800" href="#">
+                        <a class="no-underline border-b border-blue-800 text-blue-800" href="/auth/login">
                             Đăng nhập
                         </a>
                     </div>

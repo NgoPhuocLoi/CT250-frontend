@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 @layer components {
-    .register-field {
-        @apply outline-none block border-0 w-full p-3 rounded transition-all duration-200 ease-linear focus:placeholder:opacity-100  data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0;
-    }
-
-    .register-label {
-      @apply pointer-events-none absolute left-3 top-1.5 mb-0 origin-[0_0] truncate px-0.5 pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.3rem] peer-focus:scale-[0.9] peer-focus:text-neutral-950 peer-data-[te-input-state-active]:-translate-y-[1.3rem] peer-data-[te-input-state-active]:scale-[0.9] motion-reduce:transition-none;
-    }
-
-    .register-image {
-        @apply hover:cursor-pointer h-10 w-10 mr-4 mb-2 rounded;
-      }
+  .register-field {
+    @apply outline-none block border-0 w-full p-3 rounded transition-all duration-200 ease-linear focus:placeholder:opacity-100  data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0;
   }
+
+  .register-label {
+    @apply pointer-events-none absolute left-3 top-1.5 mb-0 origin-[0_0] truncate px-0.5 pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.3rem] peer-focus:scale-[0.9] peer-focus:text-neutral-950 peer-data-[te-input-state-active]:-translate-y-[1.3rem] peer-data-[te-input-state-active]:scale-[0.9] motion-reduce:transition-none;
+  }
+
+  .register-image {
+    @apply hover:cursor-pointer h-10 w-10 mr-4 mb-2 rounded;
+  }
+}

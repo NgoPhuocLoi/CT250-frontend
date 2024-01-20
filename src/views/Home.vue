@@ -1,5 +1,11 @@
-<script setup></script>
+<script setup>
+import Carousel from "@/components/home/Carousel.vue";
+import HomeCategory from "@/components/home/HomeCategory.vue";
+</script>
 
 <template>
-  <h1>Home page</h1>
+  <div class="pt-[72px]">
+    <Carousel />
+    <HomeCategory />
+  </div>
 </template>

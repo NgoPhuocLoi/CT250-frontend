@@ -5,6 +5,7 @@
                 <FooterAbout />
                 <FooterAccount />
                 <FooterContact />
+                <FooterMap />
             </div>
         </div>
         <div class="bg-neutral-200 p-4 text-center">
@@ -17,6 +18,7 @@
 import FooterAbout from './FooterAbout.vue';
 import FooterAccount from './FooterAccount.vue';
 import FooterContact from './FooterContact.vue';
+import FooterMap from './FooterMap.vue';
 </script>
 
 <style></style>

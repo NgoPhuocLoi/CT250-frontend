@@ -27,7 +27,7 @@ const images = [
         pagination-clickable="true"
       >
         <swiper-slide v-for="image of images" :key="image.id">
-          <img :src="image.url" alt="" class="h-full" />
+          <img :src="image.url" alt="" class="w-full" />
         </swiper-slide>
       </swiper-container>
     </div>

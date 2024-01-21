@@ -1,7 +1,7 @@
 <script setup></script>
 <template>
   <div class="w-full mb-10 flex justify-center">
-    <div class="max-w-[1210px] w-full">
+    <div class="container mx-auto">
       <slot></slot>
     </div>
   </div>

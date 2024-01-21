@@ -1,11 +1,29 @@
 <script setup>
+import { onMounted } from "vue";
 import { SearchIcon, UserIcon, CartIcon } from "../icons";
+import categoryService from "@/services/category";
+import { useCategoryStore } from "@/stores";
 
 const icons = [UserIcon, CartIcon];
-const searching = defineModel();
+const headerState = defineModel();
+const categoryStore = useCategoryStore();
+
+onMounted(async () => {
+  try {
+    const res = await categoryService.getAll();
+    categoryStore.setCategories(res.metadata);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+function openCategoryMenu(categoryId) {
+  categoryStore.setActiveCategoryId = categoryId;
+  headerState.openMenu = true;
+}
 </script>
 <template>
-  <nav class="px-[20px] h-full w-full flex items-center justify-between">
+  <nav class="h-full w-full flex items-center justify-between">
     <div class="flex items-center h-full">
       <div class="pr-7">
         <a href="#">
@@ -32,27 +50,15 @@ const searching = defineModel();
           </svg>
         </a>
       </div>
-      <ul class="py-4 h-full flex items-center">
+      <ul class="h-full flex items-center">
         <li
-          class="h-100 text-[15px] h-full px-4 flex flex-col justify-center group cursor-pointer"
+          v-for="category of categoryStore.categories"
+          :key="category.id"
+          class="text-[15px] h-full px-4 flex flex-col justify-center group cursor-pointer"
+          @mouseenter="() => openCategoryMenu(category.id)"
+          @mouseleave="headerState.openMenu = false"
         >
-          <span class="font-bold"> NU </span>
-          <span
-            class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
-          ></span>
-        </li>
-        <li
-          class="h-100 text-[15px] h-full px-4 flex flex-col justify-center group cursor-pointer"
-        >
-          <span class="font-bold"> NAM </span>
-          <span
-            class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
-          ></span>
-        </li>
-        <li
-          class="h-100 text-[15px] h-full px-4 flex flex-col justify-center group cursor-pointer"
-        >
-          <span class="font-bold"> SO SINH </span>
+          <span class="font-bold"> {{ category.name }} </span>
           <span
             class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
           ></span>
@@ -62,7 +68,7 @@ const searching = defineModel();
     {{ model }}
     <div class="flex items-end gap-4">
       <div
-        @click="searching = true"
+        @click="headerState.searching = true"
         class="p-2 cursor-pointer w-[50px] h-[50px] flex items-center justify-center"
       >
         <SearchIcon />

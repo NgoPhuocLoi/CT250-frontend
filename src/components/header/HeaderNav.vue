@@ -18,8 +18,9 @@ onMounted(async () => {
 });
 
 function openCategoryMenu(categoryId) {
-  categoryStore.setActiveCategoryId = categoryId;
-  headerState.openMenu = true;
+  categoryStore.setActiveCategoryId(categoryId);
+  console.log(categoryStore.activeCategoryId);
+  headerState.value.openMenu = true;
 }
 </script>
 <template>
@@ -54,7 +55,7 @@ function openCategoryMenu(categoryId) {
         <li
           v-for="category of categoryStore.categories"
           :key="category.id"
-          class="text-[15px] h-full px-4 flex flex-col justify-center group cursor-pointer"
+          class="text-lg h-full px-4 flex flex-col justify-center group cursor-pointer"
           @mouseenter="() => openCategoryMenu(category.id)"
           @mouseleave="headerState.openMenu = false"
         >

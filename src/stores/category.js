@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const useCategoryStore = defineStore("category", () => {
   const categories = ref([]);
@@ -10,10 +10,22 @@ const useCategoryStore = defineStore("category", () => {
   };
 
   const setActiveCategoryId = (payload) => {
-    activeCategoryId.id = payload;
+    activeCategoryId.value = payload;
   };
 
-  return { categories, setCategories, activeCategoryId, setActiveCategoryId };
+  const activeCategoryChildren = computed(() =>
+    activeCategoryId.value > 0
+      ? categories.value.find((c) => c.id === activeCategoryId.value).child
+      : []
+  );
+
+  return {
+    categories,
+    setCategories,
+    activeCategoryId,
+    setActiveCategoryId,
+    activeCategoryChildren,
+  };
 });
 
 export default useCategoryStore;

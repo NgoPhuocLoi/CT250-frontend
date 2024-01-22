@@ -4,6 +4,7 @@ import RegisterForm from "@/components/auth/RegisterForm.vue";
 import LoginForm from "@/components/auth/LoginForm.vue";
 
 import Home from "@/views/Home.vue";
+import Products from "@/views/Products.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -31,6 +32,10 @@ const router = createRouter({
         {
           path: "",
           component: Home,
+        },
+        {
+          path: "/women/skirt",
+          component: Products,
         },
       ],
     },

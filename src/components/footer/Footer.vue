@@ -1,6 +1,6 @@
 <template>
     <footer class="sticky top-[100vh] bg-neutral-100 text-center text-neutral-600 lg:text-left">
-        <div class="mx-6 py-10 text-center md:text-left">
+        <div class="container mx-auto py-10 text-center md:text-left">
             <div class="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                 <FooterAbout />
                 <FooterAccount />

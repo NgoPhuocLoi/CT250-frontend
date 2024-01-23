@@ -63,6 +63,14 @@ function openCategoryMenu(categoryId) {
             class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
           ></span>
         </li>
+        <li
+          class="text-lg h-full px-4 flex flex-col justify-center group cursor-pointer"
+        >
+          <span class="font-bold"> Tin tức </span>
+          <span
+            class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
+          ></span>
+        </li>
       </ul>
     </div>
     {{ model }}

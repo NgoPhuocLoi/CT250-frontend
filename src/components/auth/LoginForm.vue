@@ -68,83 +68,80 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import AuthService from '@/services/auth';
+import router from "@/router";
+
+import { useAccountStore } from "@/stores";
+const accountStore = useAccountStore();
 
 import {
   Input,
   initTE,
 } from "tw-elements";
 
-export default {
-  name: 'LoginForm',
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-  },
-  data() {
-    const userSchema = yup.object().shape({
-      email: yup
-        .string()
-        .required('Không được để trống email.')
-        .email('Email không hợp lệ.')
-        .max(50, 'Email tối đa 50 ký tự.'),
-      password: yup
-        .string()
-        .required('Không được để trống mật khẩu.')
-        .min(8, 'Mật khẩu phải chứa ít nhất 8 ký tự.'),
-    });
-    return {
-      user: {},
-      userSchema,
-      images: {
-        email: "https://cdn1.iconfinder.com/data/icons/contact-us-flat-1/58/008_-_Email-64.png",
-        password: "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678115-lock-open-64.png",
-        eyeOn: "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-2/576/eye-64.png",
-        eyeOff: "https://cdn3.iconfinder.com/data/icons/mix-pack-6/44/Asset_25-64.png",
-      }
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        await AuthService.login(this.user);
+const userSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Không được để trống email.')
+    .email('Email không hợp lệ.')
+    .max(50, 'Email tối đa 50 ký tự.'),
+  password: yup
+    .string()
+    .required('Không được để trống mật khẩu.')
+    .min(8, 'Mật khẩu phải chứa ít nhất 8 ký tự.'),
+});
 
-        Toast.fire({
-          icon: 'success',
-          title: 'Đăng nhập thành công!'
-        })
-        setTimeout(() => {
-          this.$router.replace('/');
-        }, 1500);
-      } catch (error) {
-        Toast.fire({
-          icon: 'error',
-          title: 'Nhập sai email hoặc mật khẩu!'
-        })
-      }
-    },
-    toggleShowPassword(id, eyeId) {
-      this.onClickInput();
-      let x = document.getElementById(id);
-      let y = document.getElementById(eyeId);
-      if (x.type === "password") {
-        x.type = "text";
-        y.src = this.images.eyeOff;
-      } else {
-        x.type = "password";
-        y.src = this.images.eyeOn;
-      }
-    },
-    onClickInput() {
-      initTE({ Input });
-    },
-  },
-
+const images = {
+  email: "https://cdn1.iconfinder.com/data/icons/contact-us-flat-1/58/008_-_Email-64.png",
+  password: "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678115-lock-open-64.png",
+  eyeOn: "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-2/576/eye-64.png",
+  eyeOff: "https://cdn3.iconfinder.com/data/icons/mix-pack-6/44/Asset_25-64.png",
 }
+
+const user = ref({});
+
+async function login() {
+  try {
+    const res = await AuthService.login(user.value);
+    accountStore.setAccount(res.metadata);
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Đăng nhập thành công!'
+    });
+
+    setTimeout(() => {
+      router.replace('/');
+    }, 1500);
+  } catch (error) {
+    console.log(error)
+    Toast.fire({
+      icon: 'error',
+      title: 'Nhập sai email hoặc mật khẩu!'
+    })
+  }
+}
+
+function toggleShowPassword(id, eyeId) {
+  this.onClickInput();
+  let x = document.getElementById(id);
+  let y = document.getElementById(eyeId);
+  if (x.type === "password") {
+    x.type = "text";
+    y.src = images.eyeOff;
+  } else {
+    x.type = "password";
+    y.src = images.eyeOn;
+  }
+}
+function onClickInput() {
+  initTE({ Input });
+}
+
 </script>
 
 <style></style>

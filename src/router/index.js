@@ -46,7 +46,7 @@ const router = createRouter({
           component: MainCategoryVue,
         },
         {
-          path: "/women/skirt",
+          path: "/woman/skirt",
           component: Products,
         },
         {

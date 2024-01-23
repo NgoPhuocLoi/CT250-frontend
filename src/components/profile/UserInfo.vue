@@ -74,7 +74,7 @@
                         <label for="male">
                             <img :src="images.genderMale" class="register-image" />
                         </label>
-                        <input id="male" name="gender" value="male" type="radio" class="peer/male" @click="male" />
+                        <input id="male" name="gender" :value="true" v-model="user.gender" type="radio" class="peer/male" />
                         <label for="male" class=" text-neutral-500 peer-checked/male:text-neutral-900 ml-2">
                             <strong>Nam</strong>
                         </label>
@@ -83,7 +83,8 @@
                         <label for="female">
                             <img :src="images.genderFemale" class="register-image" />
                         </label>
-                        <input id="female" name="gender" value="female" type="radio" class="peer/female" @click="female" />
+                        <input id="female" name="gender" :value="false" v-model="user.gender" type="radio"
+                            class="peer/female" />
                         <label for="female" class=" text-neutral-500 peer-checked/female:text-neutral-900 ml-2">
                             <strong>Nữ</strong>
                         </label>
@@ -120,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import AuthService from '@/services/auth';
@@ -152,6 +153,7 @@ const userSchema = yup.object().shape({
 });
 
 const user = ref({});
+
 const birthday = ref("");
 
 const images = {

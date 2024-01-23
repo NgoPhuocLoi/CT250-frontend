@@ -23,19 +23,19 @@
         <!-- Filter section, show/hide based on section state. -->
         <div v-if="showMenuOption" class="pt-6" id="filter-section-1">
             <div class="space-y-4">
-                <div v-for="(option, index1) in options" :key="index1" class="flex flex-col items-start">
+                <div v-for="(option, index1) in categoryStore.categories" :key="index1" class="flex flex-col items-start">
 
                     <div class="flex items-center">
-                        <input :id="option" :value="option" type="radio" v-model="categoryOption"
+                        <input :id="option.id" :value="option.id" type="radio" v-model="categoryOption"
                             class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                        <label :for="option" class="ml-3 text-gray-600">{{ option }}</label>
+                        <label :for="option.id" class="ml-3 text-gray-600">{{ option.name }}</label>
                     </div>
 
-                    <div v-if="categoryOption === option" class="ml-6">
-                        <div v-for="(childOption, index2) in childOptions[index1]" :key="index2" class="flex items-center">
-                            <input :id="childOption" :value="childOption" type="radio" v-model="categoryChildOption"
+                    <div v-if="categoryOption === option.id" class="ml-6">
+                        <div v-for="(childOption, index2) in option.child" :key="index2" class="flex items-center">
+                            <input :id="childOption.id" :value="childOption.id" type="radio" v-model="categoryChildOption"
                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                            <label :for="childOption" class="ml-3 text-gray-600">{{ childOption }}</label>
+                            <label :for="childOption.id" class="ml-3 text-gray-600">{{ childOption.name }}</label>
                         </div>
                     </div>
 
@@ -46,16 +46,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import categoryService from "@/services/category";
+import { useCategoryStore } from "@/stores";
+
+const categoryStore = useCategoryStore();
+
 const showMenuOption = ref(false);
-const categoryOption = ref('Nữ');
+const categoryOption = ref('');
 const categoryChildOption = ref('');
-const options = ref(["Nam", "Nữ", "Trẻ Em"]);
-const childOptions = [
-    ["Áo Polo", "Áo Thun", "Áo Sơ Mi"],
-    ["Đầm", "Áo Thun", "Áo Kiểu", "Áo Len"],
-    ["Áo Nỉ", "Áo Len", "Áo Khoác"]
-];
+
+onMounted(async () => {
+  try {
+    const res = await categoryService.getAll();
+    categoryStore.setCategories(res.metadata);
+    console.log(categoryStore);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 </script>
 

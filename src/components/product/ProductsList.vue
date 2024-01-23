@@ -6,13 +6,9 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import ProductCard from "@/components/product/ProductCard.vue";
-export default {
-    components: {
-        ProductCard,
-    }
-}
+
 </script>
 
 <style></style>

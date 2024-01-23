@@ -76,7 +76,6 @@ import AuthService from '@/services/auth';
 import {
   Input,
   initTE,
-  Datepicker,
 } from "tw-elements";
 
 export default {
@@ -100,7 +99,6 @@ export default {
     });
     return {
       user: {},
-      birthday: "",
       userSchema,
       images: {
         email: "https://cdn1.iconfinder.com/data/icons/contact-us-flat-1/58/008_-_Email-64.png",
@@ -141,19 +139,8 @@ export default {
         y.src = this.images.eyeOn;
       }
     },
-    male() {
-      this.user.gender = true;
-    },
-    female() {
-      this.user.gender = false;
-    },
     onClickInput() {
       initTE({ Input });
-    },
-    onClickDateInput() {
-      initTE({ Datepicker, Input });
-    },
-    created() {
     },
   },
 

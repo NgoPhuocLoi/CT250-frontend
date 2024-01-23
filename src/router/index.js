@@ -7,6 +7,7 @@ import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
+import MainCategoryVue from "@/views/MainCategory.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,7 @@ const router = createRouter({
         },
       ],
     },
+
     {
       path: "/",
       component: MainLayout,
@@ -32,6 +34,10 @@ const router = createRouter({
         {
           path: "",
           component: Home,
+        },
+        {
+          path: "/:mainCategory",
+          component: MainCategoryVue,
         },
         {
           path: "/women/skirt",

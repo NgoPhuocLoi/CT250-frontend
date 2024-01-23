@@ -33,3 +33,5 @@ const images = [
     </div>
   </HomeSection>
 </template>
+
+<style></style>

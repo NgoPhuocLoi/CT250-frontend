@@ -19,7 +19,6 @@ onMounted(async () => {
 
 function openCategoryMenu(categoryId) {
   categoryStore.setActiveCategoryId(categoryId);
-  console.log(categoryStore.activeCategoryId);
   headerState.value.openMenu = true;
 }
 </script>

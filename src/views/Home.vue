@@ -6,7 +6,7 @@ import HomeProducts from "@/components/home/HomeProducts.vue";
 </script>
 
 <template>
-  <div class="pt-[72px]">
+  <div>
     <Carousel />
     <HomeCategory />
     <HomeProducts title="Sản phẩm mới" />

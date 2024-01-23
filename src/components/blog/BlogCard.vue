@@ -1,9 +1,14 @@
-<script setup></script>
+<script setup>
+const props = defineProps(["horizontal"]);
+</script>
 <template>
-  <div class="w-full border shadow cursor-pointer">
-    <div class="w-full">
+  <div
+    class="w-full h-full border shadow cursor-pointer grid"
+    :class="props.horizontal ? 'grid-cols-2' : 'grid-cols-1 grid-rows-3'"
+  >
+    <div :class="!props.horizontal ? 'row-start-1 row-span-2' : ''">
       <img
-        class="w-full"
+        class="w-full h-full object-cover"
         src="https://media.fmplus.com.vn/uploads/news/37dbc36f-e169-403d-b6cc-77eb0b6250ca.jpg"
       />
     </div>
@@ -13,7 +18,10 @@
         VUI CHƠI TẾT VỚI DEAL 50% CHO MŨ BẢO HIỂM ASIA
       </div>
 
-      <p class="text-gray-600 line-clamp-3">
+      <p
+        class="text-gray-600"
+        :class="props.horizontal ? 'line-clamp-3' : 'line-clamp-3'"
+      >
         Tết đến Xuân sang, ưu đãi ngập tràn. Deal hời giảm 50% cho Mũ bảo hiểm
         Asia yên tâm vui chơi dịp Xuân về. Deal hời giảm 50% cho Mũ bảo hiểm
         Asia yên tâm vui chơi dịp Xuân về.

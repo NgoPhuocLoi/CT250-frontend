@@ -8,6 +8,7 @@ import Products from "@/views/Products.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
 import MainCategoryVue from "@/views/MainCategory.vue";
+import BlogVue from "@/views/Blog.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,10 @@ const router = createRouter({
         {
           path: "",
           component: Home,
+        },
+        {
+          path: "/tin-tuc",
+          component: BlogVue,
         },
         {
           path: "/:mainCategory",

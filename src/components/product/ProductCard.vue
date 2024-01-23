@@ -18,7 +18,7 @@
         <span>VND</span>
       </div>
 
-      <div class="text-lg truncate">Váy chữ a nữ cổ tàu thắt nơ</div>
+      <div class="text-lg truncate pb-2">Váy chữ a nữ cổ tàu thắt nơ</div>
     </div>
   </div>
 </template>

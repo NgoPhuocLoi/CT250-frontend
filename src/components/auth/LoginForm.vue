@@ -1,8 +1,8 @@
 <template>
   <div class="py-5 bg-grey-lighter min-h-screen flex flex-col">
     <div class="container max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
-      <div class=" px-6 rounded shadow-md text-black w-full">
-        <h1 class="mb-8 text-4xl font-bold text-center">Đăng nhập</h1>
+      <div class="px-6 rounded shadow-md border text-black w-full">
+        <h1 class="mt-6 mb-8 text-4xl font-bold text-center">Đăng nhập</h1>
 
         <Form @submit="login" :validation-schema="userSchema" class="mb-12">
 

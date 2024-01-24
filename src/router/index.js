@@ -4,6 +4,8 @@ import AuthLayout from "@/layouts/AuthLayout.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
 import ProfileLayout from "@/layouts/ProfileLayout.vue";
 import UserInfo from "@/components/profile/UserInfo.vue";
+import OrderManagement from "@/components/profile/OrderManagement.vue";
+import AddressList from "@/components/profile/AddressList.vue";
 
 import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
@@ -61,6 +63,14 @@ const router = createRouter({
             {
               path: "",
               component: UserInfo,
+            },
+            {
+              path: "quan-ly-don-hang",
+              component: OrderManagement,
+            },
+            {
+              path: "so-dia-chi",
+              component: AddressList,
             },
           ],
         },

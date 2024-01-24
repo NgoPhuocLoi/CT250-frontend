@@ -17,28 +17,28 @@
 </template>
 
 <script setup>
-import { CameraIcon, UserInfoIcon, OrderListIcon, AddressListIcon, CouponIcon, LogOutIcon } from "../icons";
+import { CameraIcon, UserInfoIcon, OrderManagementIcon, AddressListIcon, CouponIcon, LogOutIcon } from "../icons";
 const routerLinkClass = "flex items-center justify-items-start pl-6 gap-x-4 h-14 px-5 py-6 mb-3 border rounded focus:border-slate-950";
 const links = [
     {
         icon: UserInfoIcon,
         title: "Thông tin cá nhân",
-        url: "",
+        url: "/tai-khoan",
     },
     {
-        icon: OrderListIcon,
+        icon: OrderManagementIcon,
         title: "Quản lý đơn hàng",
-        url: "/profile/orders",
+        url: "/tai-khoan/quan-ly-don-hang",
     },
     {
         icon: AddressListIcon,
         title: "Sổ địa chỉ",
-        url: "/profile/addresses",
+        url: "/tai-khoan/so-dia-chi",
     },
     {
         icon: CouponIcon,
         title: "Kho voucher",
-        url: "/profile/vouchers",
+        url: "/tai-khoan/kho-voucher",
     },
     {
         icon: LogOutIcon,

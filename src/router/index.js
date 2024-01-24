@@ -2,6 +2,10 @@ import LoginForm from "@/components/auth/LoginForm.vue";
 import RegisterForm from "@/components/auth/RegisterForm.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
+import ProfileLayout from "@/layouts/ProfileLayout.vue";
+import RegisterForm from "@/components/auth/RegisterForm.vue";
+import LoginForm from "@/components/auth/LoginForm.vue";
+import UserInfo from "@/components/profile/UserInfo.vue";
 
 import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
@@ -28,7 +32,6 @@ const router = createRouter({
         },
       ],
     },
-
     {
       path: "/",
       component: MainLayout,
@@ -50,12 +53,21 @@ const router = createRouter({
           component: MainCategoryVue,
         },
         {
-          path: "/women/skirt",
+          path: "/woman/skirt",
           component: Products,
+        },
+        {
+          path: "/profile",
+          component: ProfileLayout,
+          children: [
+            {
+              path: "",
+              component: UserInfo,
+            },
+          ],
         },
       ],
     },
   ],
 });
-
 export default router;

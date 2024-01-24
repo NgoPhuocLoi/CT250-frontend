@@ -3,8 +3,6 @@ import RegisterForm from "@/components/auth/RegisterForm.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
 import ProfileLayout from "@/layouts/ProfileLayout.vue";
-import RegisterForm from "@/components/auth/RegisterForm.vue";
-import LoginForm from "@/components/auth/LoginForm.vue";
 import UserInfo from "@/components/profile/UserInfo.vue";
 
 import Home from "@/views/Home.vue";

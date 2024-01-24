@@ -1,3 +1,5 @@
+import LoginForm from "@/components/auth/LoginForm.vue";
+import RegisterForm from "@/components/auth/RegisterForm.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
 import ProfileLayout from "@/layouts/ProfileLayout.vue";
@@ -8,9 +10,10 @@ import UserInfo from "@/components/profile/UserInfo.vue";
 import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
 
-import { createRouter, createWebHistory } from "vue-router";
+import Blog from "@/views/blog/Blog.vue";
+import BlogList from "@/views/blog/BlogList.vue";
 import MainCategoryVue from "@/views/MainCategory.vue";
-import BlogVue from "@/views/Blog.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +42,11 @@ const router = createRouter({
         },
         {
           path: "/tin-tuc",
-          component: BlogVue,
+          component: Blog,
+        },
+        {
+          path: "/tin-tuc/:blogCategory",
+          component: BlogList,
         },
         {
           path: "/:mainCategory",
@@ -58,9 +65,9 @@ const router = createRouter({
               component: UserInfo,
             },
           ],
-        }
+        },
       ],
     },
-  ]
+  ],
 });
 export default router;

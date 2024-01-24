@@ -5,6 +5,7 @@ export { default as AddressIcon } from "./AddressIcon.vue";
 export { default as EmailIcon } from "./EmailIcon.vue";
 export { default as FacebookIcon } from "./FacebookIcon.vue";
 export { default as PhoneIcon } from "./PhoneIcon.vue";
+export { default as CameraIcon } from "./CameraIcon.vue";
 export { default as UserInfoIcon } from "./UserInfoIcon.vue";
 export { default as OrderListIcon } from "./OrderListIcon.vue";
 export { default as AddressListIcon } from "./AddressListIcon.vue";

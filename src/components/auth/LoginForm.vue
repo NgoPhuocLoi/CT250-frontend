@@ -7,46 +7,36 @@
         <Form @submit="login" :validation-schema="userSchema" class="mb-12">
 
           <!-- email begin -->
-          <div class="flex items-center m-4 mb-2">
-            <label for="email">
-              <img :src="images.email" class="register-image" />
+          <div class="flex flex-col w-full">
+            <label for="email" class="text-xl">
+              Email
             </label>
-            <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-              <Field @click="onClickInput" type="email" name="email" id="email" v-model="user.email"
-                class="register-field peer" />
-              <label for="email" class="register-label">
-                Email
-              </label>
-            </div>
+            <Field type="email" name="email" id="email" v-model="user.email"
+              class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
           </div>
-          <div class="ml-12 mb-1">
-            <ErrorMessage name="email" class="ml-7 text-sm text-red-600" />
+          <div class="mb-4">
+            <ErrorMessage name="email" class="text-sm text-red-600" />
           </div>
           <!-- email end -->
 
           <!-- password begin -->
-          <div class="flex items-center m-4 mb-2">
-            <label for="password">
-              <img :src="images.password" class="register-image" />
+          <div class="flex flex-col w-full">
+            <label for="password" class="text-xl">
+              Mật khẩu
             </label>
-            <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-              <Field @click="onClickInput" type="password" name="password" id="password" v-model="user.password"
-                class="register-field peer" />
-              <label for="password" class="register-label">
-                Mật khẩu
-              </label>
-
-              <!-- show password begin -->
-              <div class="peer absolute inset-y-0 right-0 pr-3 flex items-center leading-5">
+            <div class="relative">
+              <Field type="password" name="password" id="password" v-model="user.password"
+                class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
+              <!-- show confirm password begin -->
+              <div class="absolute right-4 top-[50%] translate-y-[-50%] ">
                 <img @click="toggleShowPassword('password', 'eyePassword')" id="eyePassword" :src="images.eyeOn"
                   class="hover:cursor-pointer h-8 w-8" />
               </div>
-              <!-- show password end -->
-
+              <!-- show confirm password end -->
             </div>
           </div>
-          <div class="ml-12 mb-1">
-            <ErrorMessage name="password" class="ml-7 text-sm text-red-600" />
+          <div class="mb-4">
+            <ErrorMessage name="password" class="text-sm text-red-600" />
           </div>
           <!-- password end -->
 
@@ -57,7 +47,7 @@
 
           <div class="text-center text-grey-dark mt-7">
             Chưa có tài khoản?
-            <a class="no-underline border-b border-blue-800 text-blue-800" href="/auth/register">
+            <a class="no-underline border-b border-blue-800 text-blue-800" href="/xac-thuc/dang-ky">
               Đăng ký
             </a>
           </div>
@@ -77,11 +67,6 @@ import router from "@/router";
 
 import { useAccountStore } from "@/stores";
 const accountStore = useAccountStore();
-
-import {
-  Input,
-  initTE,
-} from "tw-elements";
 
 const userSchema = yup.object().shape({
   email: yup
@@ -118,7 +103,6 @@ async function login() {
       router.replace('/');
     }, 1500);
   } catch (error) {
-    console.log(error)
     Toast.fire({
       icon: 'error',
       title: 'Nhập sai email hoặc mật khẩu!'
@@ -127,7 +111,6 @@ async function login() {
 }
 
 function toggleShowPassword(id, eyeId) {
-  this.onClickInput();
   let x = document.getElementById(id);
   let y = document.getElementById(eyeId);
   if (x.type === "password") {
@@ -137,9 +120,6 @@ function toggleShowPassword(id, eyeId) {
     x.type = "password";
     y.src = images.eyeOn;
   }
-}
-function onClickInput() {
-  initTE({ Input });
 }
 
 </script>

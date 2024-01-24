@@ -6,150 +6,114 @@
 
                 <Form @submit="createUser" :validation-schema="userSchema" class="mb-12">
                     <!-- full name begin -->
-                    <div class="flex items-center m-4 mb-2">
-                        <label for="fullName">
-                            <img :src="images.fullName" class="register-image" />
+                    <div class="flex flex-col w-full">
+                        <label for="fullName" class="text-xl">
+                            Họ tên
                         </label>
-                        <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                            <Field @click="onClickInput" type="text" name="fullName" id="fullName" v-model="user.fullName"
-                                class="register-field peer" />
-                            <label for="fullName" class="register-label">
-                                Họ tên
-                            </label>
-                        </div>
+                        <Field type="text" name="fullName" id="fullName" v-model="user.fullName"
+                            class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
                     </div>
-                    <div class="ml-12 mb-1">
-                        <ErrorMessage name="fullName" class="ml-7 text-sm text-red-600" />
+                    <div class="mb-4">
+                        <ErrorMessage name="fullName" class="text-sm text-red-600" />
                     </div>
                     <!-- full name begin -->
 
                     <!-- email begin -->
-                    <div class="flex items-center m-4 mb-2">
-                        <label for="email">
-                            <img :src="images.email" class="register-image" />
+                    <div class="flex flex-col w-full">
+                        <label for="email" class="text-xl">
+                            Email
                         </label>
-                        <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                            <Field @click="onClickInput" type="email" name="email" id="email" v-model="user.email"
-                                class="register-field peer" />
-                            <label for="email" class="register-label">
-                                Email
-                            </label>
-                        </div>
+                        <Field type="email" name="email" id="email" v-model="user.email"
+                            class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
                     </div>
-                    <div class="ml-12 mb-1">
-                        <ErrorMessage name="email" class="ml-7 text-sm text-red-600" />
+                    <div class="mb-4">
+                        <ErrorMessage name="email" class="text-sm text-red-600" />
                     </div>
                     <!-- email end -->
 
                     <!-- password begin -->
-                    <div class="flex items-center m-4 mb-2">
-                        <label for="password">
-                            <img :src="images.password" class="register-image" />
+                    <div class="flex flex-col w-full">
+                        <label for="password" class="text-xl">
+                            Mật khẩu
                         </label>
-                        <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                            <Field @click="onClickInput" type="password" name="password" id="password"
-                                v-model="user.password" class="register-field peer" />
-                            <label for="password" class="register-label">
-                                Mật khẩu
-                            </label>
-
-                            <!-- show password begin -->
-                            <div class="peer absolute inset-y-0 right-0 pr-3 flex items-center leading-5">
+                        <div class="relative">
+                            <Field type="password" name="password" id="password" v-model="user.password"
+                                class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
+                            <!-- show confirm password begin -->
+                            <div class="absolute right-4 top-[50%] translate-y-[-50%] ">
                                 <img @click="toggleShowPassword('password', 'eyePassword')" id="eyePassword"
                                     :src="images.eyeOn" class="hover:cursor-pointer h-8 w-8" />
                             </div>
-                            <!-- show password end -->
-
+                            <!-- show confirm password end -->
                         </div>
                     </div>
-                    <div class="ml-12 mb-1">
-                        <ErrorMessage name="password" class="ml-7 text-sm text-red-600" />
+                    <div class="mb-4">
+                        <ErrorMessage name="password" class="text-sm text-red-600" />
                     </div>
                     <!-- password end -->
 
                     <!-- confirm password begin -->
-                    <div class="flex items-center m-4 mb-2">
-                        <label for="confirmPassword">
-                            <img :src="images.confirmPassword" class="register-image" />
+                    <div class="flex flex-col w-full">
+                        <label for="confirmPassword" class="text-xl">
+                            Nhập lại mật khẩu
                         </label>
-                        <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                            <Field @click="onClickInput" type="password" name="confirmPassword" id="confirmPassword"
-                                class="register-field peer" />
-                            <label for="confirmPassword" class="register-label">
-                                Nhập lại mật khẩu
-                            </label>
-
+                        <div class="relative">
+                            <Field type="password" name="confirmPassword" id="confirmPassword" v-model="user.password"
+                                class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
                             <!-- show confirm password begin -->
-                            <div class="peer absolute inset-y-0 right-0 pr-3 flex items-center leading-5">
+                            <div class="absolute right-4 top-[50%] translate-y-[-50%] ">
                                 <img @click="toggleShowPassword('confirmPassword', 'eyeConfirmPassword')"
                                     id="eyeConfirmPassword" :src="images.eyeOn" class="hover:cursor-pointer h-8 w-8" />
                             </div>
                             <!-- show confirm password end -->
-
                         </div>
                     </div>
-                    <div class="ml-12 mb-1">
-                        <ErrorMessage name="confirmPassword" class="ml-7 text-sm text-red-600" />
+                    <div class="mb-4">
+                        <ErrorMessage name="password" class="text-sm text-red-600" />
                     </div>
                     <!-- confirm password end -->
 
                     <!-- phone begin -->
-                    <div class="flex items-center m-4 mb-2">
-                        <label for="phone">
-                            <img :src="images.phone" class="register-image" />
+                    <div class="flex flex-col w-full">
+                        <label for="phone" class="text-xl">
+                            Số điện thoại
                         </label>
-                        <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                            <Field @click="onClickInput" type="tel" name="phone" id="phone" v-model="user.phone"
-                                class="register-field peer" />
-                            <label for="phone" class="register-label">
-                                Số điện thoại
-                            </label>
-                        </div>
+                        <Field type="tel" name="phone" id="phone" v-model="user.phone"
+                            class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
                     </div>
-                    <div class="ml-12 mb-1">
-                        <ErrorMessage name="phone" class="ml-7 text-sm text-red-600" />
+                    <div class="mb-4">
+                        <ErrorMessage name="phone" class="text-sm text-red-600" />
                     </div>
                     <!-- phone end -->
 
                     <!-- gender begin -->
-                    <div class="flex items-center justify-around m-4">
-                        <div class="flex items-center">
-                            <label for="male">
-                                <img :src="images.genderMale" class="register-image" />
-                            </label>
-                            <input id="male" name="gender" :value="true" v-model="user.gender" type="radio"
-                                class="peer/male" />
-                            <label for="male" class=" text-neutral-500 peer-checked/male:text-neutral-900 ml-2">
-                                <strong>Nam</strong>
-                            </label>
-                        </div>
-                        <div class="flex items-center">
-                            <label for="female">
-                                <img :src="images.genderFemale" class="register-image" />
-                            </label>
-                            <input id="female" name="gender" :value="false" v-model="user.gender" type="radio"
-                                class="peer/female" />
-                            <label for="female" class=" text-neutral-500 peer-checked/female:text-neutral-900 ml-2">
-                                <strong>Nữ</strong>
-                            </label>
+                    <div class="flex flex-col w-full">
+                        <label for="male" class="text-xl">
+                            Giới tính
+                        </label>
+                        <div class="flex items-center justify-between w-[75%] p-3 mt-3 mb-2">
+                            <div class="flex items-center">
+                                <input id="male" name="gender" :value="true" v-model="user.gender" type="radio" />
+                                <label for="male" class="text-xl ml-3">Nam</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="female" name="gender" :value="false" v-model="user.gender" type="radio" />
+                                <label for="female" class=" text-xl ml-3">Nữ</label>
+                            </div>
                         </div>
                     </div>
                     <!-- gender end -->
 
                     <!-- birthday begin -->
-                    <div class="flex items-center m-4 mt-6 mb-2">
-                        <label for="birthday">
-                            <img :src="images.birthday" class="register-image" />
+                    <div class="flex flex-col w-full" data-te-datepicker-init data-te-input-wrapper-init
+                        data-te-disable-future="true">
+                        <label for="birthday" class="text-xl">
+                            Ngày sinh
                         </label>
-                        <div class="relative mb-3 w-full" data-te-datepicker-init data-te-input-wrapper-init
-                            data-te-disable-future="true">
-                            <Field data-te-datepicker-toggle-ref data-te-datepicker-toggle-button-ref
-                                @click="onClickDateInput" onkeydown="return false;" type="text" name="birthday"
-                                v-model="birthday" id="birthday" class="register-field peer" />
-                            <label for="birthday" class="register-label">
-                                Ngày sinh
-                            </label>
-                        </div>
+                        <Field @click="onClickDateInput" onkeydown="return false;" data-te-datepicker-toggle-ref
+                            data-te-datepicker-toggle-button-ref type="text" name="birthday" id="birthday"
+                            v-model="user.birthday" class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2"
+                            placeholder="--/--/----" />
                     </div>
                     <!-- birthday end -->
 
@@ -213,16 +177,8 @@ const userSchema = yup.object().shape({
 });
 
 const images = {
-    fullName: "https://cdn1.iconfinder.com/data/icons/okku-office/32/Okku_Office_Expand-07-512.png",
-    email: "https://cdn1.iconfinder.com/data/icons/contact-us-flat-1/58/008_-_Email-64.png",
-    password: "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678115-lock-open-64.png",
-    confirmPassword: "https://cdn3.iconfinder.com/data/icons/flat-artistic-common-6/32/key-ok-64.png",
     eyeOn: "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-2/576/eye-64.png",
     eyeOff: "https://cdn3.iconfinder.com/data/icons/mix-pack-6/44/Asset_25-64.png",
-    phone: "https://cdn1.iconfinder.com/data/icons/contact-us-flat-1/58/033_-_Telephone-64.png",
-    genderMale: "https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-64.png",
-    genderFemale: "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/female_woman_avatar_portrait_1-64.png",
-    birthday: "https://cdn1.iconfinder.com/data/icons/christmas-2251/64/cake-birthday-candle-party-dessert-64.png",
 }
 
 const user = ref({});
@@ -239,10 +195,9 @@ async function createUser() {
             title: 'Đăng ký tài khoản thành công!'
         })
         setTimeout(() => {
-            router.push('/auth/login');
+            router.push('/xac-thuc/dang-nhap');
         }, 1500);
     } catch (error) {
-        console.log(error)
         Toast.fire({
             icon: 'error',
             title: 'Email bạn đăng ký đã được sử dụng!'
@@ -251,7 +206,6 @@ async function createUser() {
 }
 
 function toggleShowPassword(id, eyeId) {
-    this.onClickInput();
     let x = document.getElementById(id);
     let y = document.getElementById(eyeId);
     if (x.type === "password") {
@@ -263,9 +217,6 @@ function toggleShowPassword(id, eyeId) {
     }
 }
 
-function onClickInput() {
-    initTE({ Input });
-}
 function onClickDateInput() {
     initTE({ Datepicker, Input });
 }

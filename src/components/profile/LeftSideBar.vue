@@ -1,7 +1,12 @@
 <template>
     <div class="flex flex-col w-full md:w-1/4 mr-10">
-        <div class="flex justify-center">
-            <img src="https://media.fmplus.com.vn/defaults/user.png" alt="">
+        <div class="relative">
+            <div class="flex justify-center">
+                <img src="https://media.fmplus.com.vn/defaults/user.png" alt="">
+            </div>
+            <div class="absolute w-9 h-9 mt-1 left-[60%] bottom-0 bg-white rounded-[50%] cursor-pointer">
+                <CameraIcon />
+            </div>
         </div>
         <p class="text-2xl text-center my-3">No Name</p>
         <router-link v-for="(link, index) in links" :key="index" :to="link.url" :class="routerLinkClass">
@@ -12,7 +17,7 @@
 </template>
 
 <script setup>
-import { UserInfoIcon, OrderListIcon, AddressListIcon, CouponIcon, LogOutIcon } from "../icons";
+import { CameraIcon, UserInfoIcon, OrderListIcon, AddressListIcon, CouponIcon, LogOutIcon } from "../icons";
 const routerLinkClass = "flex items-center justify-items-start pl-6 gap-x-4 h-14 px-5 py-6 mb-3 border rounded focus:border-slate-950";
 const links = [
     {

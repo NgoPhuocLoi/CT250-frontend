@@ -1,127 +1,102 @@
 <template>
-    <div class="w-full md:w-3/4 lg:ml-4 shadow-md">
+    <div class="w-full md:w-3/4 lg:ml-4">
         <div class="rounded shadow p-6">
             <div class="text-3xl text-center mb-3">
                 Thông tin cá nhân
             </div>
-
-            <Form @submit="createUser" :validation-schema="userSchema" class="mb-12">
+            <Form @submit="updateUser" :validation-schema="userSchema" class="mb-3">
                 <!-- full name begin -->
-                <div class="flex items-center m-4 mb-2">
-                    <label for="fullName">
-                        <img :src="images.fullName" class="register-image" />
+                <div class="flex flex-col w-full">
+                    <label for="fullName" class="text-xl">
+                        Họ tên
                     </label>
-                    <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                        <Field @click="onClickInput" type="text" name="fullName" id="fullName" v-model="user.fullName"
-                            class="register-field peer" />
-                        <label for="fullName" class="register-label">
-                            Họ tên
-                        </label>
-                    </div>
+                    <Field type="text" name="fullName" id="fullName" v-model="user.fullName"
+                        class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
                 </div>
-                <div class="ml-12 mb-1">
-                    <ErrorMessage name="fullName" class="ml-7 text-sm text-red-600" />
+                <div class="mb-4">
+                    <ErrorMessage name="fullName" class="text-sm text-red-600" />
                 </div>
                 <!-- full name begin -->
 
                 <div class="flex justify-between">
-                    <div>
+                    <div class="w-[45%]">
                         <!-- email begin -->
-                        <div class="flex items-center m-4 mb-2">
-                            <label for="email">
-                                <img :src="images.email" class="register-image" />
+                        <div class="flex flex-col w-full">
+                            <label for="email" class="text-xl">
+                                Email
                             </label>
-                            <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                                <Field @click="onClickInput" type="email" name="email" id="email" v-model="user.email"
-                                    class="register-field peer" />
-                                <label for="email" class="register-label">
-                                    Email
-                                </label>
-                            </div>
+                            <Field type="email" name="email" id="email" v-model="user.email"
+                                class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
                         </div>
-                        <div class="ml-12 mb-1">
-                            <ErrorMessage name="email" class="ml-7 text-sm text-red-600" />
+                        <div class="mb-4">
+                            <ErrorMessage name="email" class="text-sm text-red-600" />
                         </div>
                         <!-- email end -->
                     </div>
 
-                    <div>
+                    <div class="w-[45%]">
                         <!-- phone begin -->
-                        <div class="flex items-center m-4 mb-2">
-                            <label for="phone">
-                                <img :src="images.phone" class="register-image" />
+                        <div class="flex flex-col w-full">
+                            <label for="phone" class="text-xl">
+                                Số điện thoại
                             </label>
-                            <div class="relative mb-3 w-full" data-te-input-wrapper-init>
-                                <Field @click="onClickInput" type="tel" name="phone" id="phone" v-model="user.phone"
-                                    class="register-field peer" />
-                                <label for="phone" class="register-label">
-                                    Số điện thoại
-                                </label>
-                            </div>
+                            <Field type="tel" name="phone" id="phone" v-model="user.phone"
+                                class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" />
                         </div>
-                        <div class="ml-12 mb-1">
-                            <ErrorMessage name="phone" class="ml-7 text-sm text-red-600" />
+                        <div class="mb-4">
+                            <ErrorMessage name="phone" class="text-sm text-red-600" />
                         </div>
                         <!-- phone end -->
                     </div>
                 </div>
 
-
-
-                <!-- gender begin -->
-                <div class="flex items-center justify-around m-4">
-                    <div class="flex items-center">
-                        <label for="male">
-                            <img :src="images.genderMale" class="register-image" />
-                        </label>
-                        <input id="male" name="gender" :value="true" v-model="user.gender" type="radio" class="peer/male" />
-                        <label for="male" class=" text-neutral-500 peer-checked/male:text-neutral-900 ml-2">
-                            <strong>Nam</strong>
-                        </label>
+                <div class="flex justify-between">
+                    <div class="w-[45%]">
+                        <!-- gender begin -->
+                        <div class="flex flex-col w-full">
+                            <label for="male" class="text-xl">
+                                Giới tính
+                            </label>
+                            <div class="flex items-center justify-between w-[75%] p-3 mt-3 mb-2">
+                                <div class="flex items-center">
+                                    <input id="male" name="gender" :value="true" v-model="user.gender" type="radio" />
+                                    <label for="male" class="text-xl ml-3">Nam</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="female" name="gender" :value="false" v-model="user.gender" type="radio" />
+                                    <label for="female" class=" text-xl ml-3">Nữ</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- gender end -->
                     </div>
-                    <div class="flex items-center">
-                        <label for="female">
-                            <img :src="images.genderFemale" class="register-image" />
-                        </label>
-                        <input id="female" name="gender" :value="false" v-model="user.gender" type="radio"
-                            class="peer/female" />
-                        <label for="female" class=" text-neutral-500 peer-checked/female:text-neutral-900 ml-2">
-                            <strong>Nữ</strong>
-                        </label>
-                    </div>
-                </div>
-                <!-- gender end -->
 
-                <!-- birthday begin -->
-                <div class="flex items-center m-4 mt-6 mb-2">
-                    <label for="birthday">
-                        <img :src="images.birthday" class="register-image" />
-                    </label>
-                    <div class="relative mb-3 w-full" data-te-datepicker-init data-te-input-wrapper-init
-                        data-te-disable-future="true">
-                        <Field data-te-datepicker-toggle-ref data-te-datepicker-toggle-button-ref @click="onClickDateInput"
-                            onkeydown="return false;" type="text" name="birthday" v-model="birthday" id="birthday"
-                            class="register-field peer" />
-                        <label for="birthday" class="register-label">
-                            Ngày sinh
-                        </label>
+                    <div class="w-[45%]">
+                        <!-- birthday begin -->
+                        <div class="flex flex-col w-full" data-te-datepicker-init data-te-input-wrapper-init
+                            data-te-disable-future="true">
+                            <label for="birthday" class="text-xl">
+                                Ngày sinh
+                            </label>
+                            <Field @click="onClickDateInput" onkeydown="return false;" data-te-datepicker-toggle-ref
+                                data-te-datepicker-toggle-button-ref type="text" name="birthday" id="birthday"
+                                v-model="user.birthday" class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2"
+                                placeholder="--/--/----" />
+                        </div>
+                        <!-- birthday end -->
                     </div>
                 </div>
-                <!-- birthday end -->
-
                 <button type="submit"
                     class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
                     Lưu chỉnh sửa
                 </button>
-
             </Form>
-
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import AuthService from '@/services/auth';
@@ -156,18 +131,6 @@ const user = ref({});
 
 const birthday = ref("");
 
-const images = {
-    fullName: "https://cdn1.iconfinder.com/data/icons/okku-office/32/Okku_Office_Expand-07-512.png",
-    email: "https://cdn1.iconfinder.com/data/icons/contact-us-flat-1/58/008_-_Email-64.png",
-    phone: "https://cdn1.iconfinder.com/data/icons/contact-us-flat-1/58/033_-_Telephone-64.png",
-    genderMale: "https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-64.png",
-    genderFemale: "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/female_woman_avatar_portrait_1-64.png",
-    birthday: "https://cdn1.iconfinder.com/data/icons/christmas-2251/64/cake-birthday-candle-party-dessert-64.png",
-}
-
-function onClickInput() {
-    initTE({ Input });
-}
 function onClickDateInput() {
     initTE({ Datepicker, Input });
 }

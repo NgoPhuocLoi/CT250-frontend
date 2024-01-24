@@ -16,15 +16,15 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/auth",
+      path: "/xac-thuc",
       component: AuthLayout,
       children: [
         {
-          path: "register",
+          path: "dang-ky",
           component: RegisterForm,
         },
         {
-          path: "login",
+          path: "dang-nhap",
           component: LoginForm,
         },
       ],
@@ -46,11 +46,11 @@ const router = createRouter({
           component: MainCategoryVue,
         },
         {
-          path: "/woman/skirt",
+          path: "/nu/vay",
           component: Products,
         },
         {
-          path: "/profile",
+          path: "/tai-khoan",
           component: ProfileLayout,
           children: [
             {

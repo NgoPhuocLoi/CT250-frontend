@@ -1,10 +1,10 @@
 <template>
     <div class="w-full md:w-3/4 lg:ml-4">
-        <div class="rounded shadow-md border p-5 w-full h-full">
+        <div class="rounded shadow-md border p-3 w-full h-full">
             <div class="text-3xl text-center mb-3">
                 Thông tin cá nhân
             </div>
-            <Form @submit="updateUser" :validation-schema="userSchema" class="mb-3 p-5">
+            <Form @submit="updateUser" :validation-schema="userSchema" class="p-5">
                 <!-- full name begin -->
                 <div class="flex flex-col w-full">
                     <label for="fullName" class="text-xl">

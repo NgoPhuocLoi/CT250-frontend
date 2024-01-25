@@ -13,6 +13,7 @@ export { default as CouponIcon } from "./CouponIcon.vue";
 export { default as LogOutIcon } from "./LogOutIcon.vue";
 export { default as EditIcon } from "./EditIcon.vue";
 export { default as DeleteIcon } from "./DeleteIcon.vue";
+export { default as VoucherInfoIcon } from "./VoucherInfoIcon.vue";
 
 
 

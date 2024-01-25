@@ -1,11 +1,11 @@
 <template>
   <div class="w-full md:w-3/4 lg:ml-4">
-    <div class="rounded shadow-md border p-5 w-full h-full">
-      <div class="text-3xl text-center mb-3">
+    <div class="rounded shadow-md border p-3 mb-6 w-full h-full">
+      <div class="text-3xl text-center mb-6">
         Sổ địa chỉ
       </div>
       <div class="flex justify-end">
-        <button class="mt-3 p-[8px] text-center py-3 rounded bg-black text-white hover:opacity-85 focus:outline-none">
+        <button class="p-[8px] text-center py-3 rounded bg-black text-white hover:opacity-85 focus:outline-none">
           Thêm địa chỉ mới
         </button>
       </div>

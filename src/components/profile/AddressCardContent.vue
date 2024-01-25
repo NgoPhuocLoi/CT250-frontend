@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col p-5 rounded-sm">
+  <div class="flex flex-col p-2 rounded-[3px]">
     <div class="flex flex-col gap-4">
       <p class="flex items-start gap-3">
         <label class="w-[90px]">Địa chỉ</label>:

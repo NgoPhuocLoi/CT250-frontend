@@ -2,24 +2,21 @@
     <div class="w-full md:w-3/4 lg:ml-4">
         <div class="rounded shadow-md border p-3 mb-6 w-full h-full">
             <div class="text-3xl text-center mb-3">
-                Quản lý đơn hàng
+                Kho voucher
             </div>
             <div>
-                <OrderNav />
-                <OrderSearch />
-                <OrderList />
+                <VoucherNav />
+                <div class="w-full grid grid-cols-2 gap-[10px]">
+                    <VoucherCard v-for="i in 4" :key="i" />
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
-import OrderNav from "./OrderNav.vue";
-import OrderSearch from "./OrderSearch.vue";
-import OrderList from "./OrderList.vue";
-
+import VoucherNav from './VoucherNav.vue';
+import VoucherCard from './VoucherCard.vue';
 </script>
 
 <style></style>

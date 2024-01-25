@@ -43,7 +43,7 @@ const links = [
     {
         icon: LogOutIcon,
         title: "Đăng xuất",
-        url: "/logout",
+        url: "/dang-xuat",
     },
 ]
 </script>

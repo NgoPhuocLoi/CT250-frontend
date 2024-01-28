@@ -9,7 +9,9 @@ import AddressList from "@/components/profile/AddressList.vue";
 import VoucherList from "@/components/profile/VoucherList.vue";
 
 import Home from "@/views/Home.vue";
-import Products from "@/views/Products.vue";
+
+import Products from "@/views/product/Products.vue";
+import ProductDetail from "@/views/product/ProductDetail.vue";
 
 import Blog from "@/views/blog/Blog.vue";
 import BlogList from "@/views/blog/BlogList.vue";
@@ -52,6 +54,10 @@ const router = createRouter({
         {
           path: "/:mainCategory",
           component: MainCategoryVue,
+        },
+        {
+          path: "/nu/vay/:slug",
+          component: ProductDetail,
         },
         {
           path: "/nu/vay",

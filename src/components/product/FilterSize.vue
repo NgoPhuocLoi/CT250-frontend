@@ -1,32 +1,19 @@
 <template>
     <div class="border-b border-gray-200 py-6">
-        <h3 class="-my-3 flow-root">
-            <!-- Expand/collapse section button -->
-            <button type="button" @click="showMenuOption = !showMenuOption"
-                class="flex w-full items-center justify-between bg-white py-3 text-gray-400 hover:text-gray-500"
-                aria-controls="filter-section-2">
-                <span class="font-medium text-gray-900">Kích cỡ</span>
-                <span class="ml-6 flex items-center">
-                    <!-- Expand icon, show/hide based on section open state. -->
-                    <svg v-if="!showMenuOption" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                            d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                    </svg>
-                    <!-- Collapse icon, show/hide based on section open state. -->
-                    <svg v-if="showMenuOption" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </span>
-            </button>
-        </h3>
+        <FilterHeader title="Kích cỡ" :showMenuOption="showMenuOption" :toggleShowMenuOption="changeShowMenuOption" />
         <!-- Filter section, show/hide based on section state. -->
-        <div v-if="showMenuOption" class="pt-6" id="filter-section-2">
-            <div v-for="(option, index) in options" :key="index" class="space-y-4">
-                <div class="flex items-center">
-                    <input :id="option" :value="option" type="checkbox" v-model="sizeOptions"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label :for="option" class="ml-3 text-gray-600">{{ option }}</label>
+
+        <div v-if="showMenuOption" class="pt-6">
+            <div class="opacity-100 h-auto overflow-hidden">
+                <div class="mb-0 flex flex-row flex-wrap">
+                    <div @click="toggleOption(option)" v-for="(option, index) in options" :key="index"
+                        class="mr-0 mb-[10px] flex basis-[48%] gap-[5px] w-[40%] h-auto items-center cursor-pointer">
+                        <div class="flex justify-center items-center ">
+                            <TickIcon v-if="isChosed(option)" />
+                            <EmptyBoxIcon v-else />
+                            <p class="m-0 ml-[10px] p-0 truncate text-ellipsis whitespace-nowrap">{{ option.name }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,9 +22,59 @@
 
 <script setup>
 import { ref } from 'vue';
+import FilterHeader from './FilterHeader.vue';
+import { TickIcon, EmptyBoxIcon } from '../icons';
+
 const showMenuOption = ref(false);
 const sizeOptions = ref([]);
-const options = ref(["S", "M", "L", "X", "XL"]);
+
+const options = ref([
+    {
+        id: 1,
+        name: "S"
+    },
+    {
+        id: 2,
+        name: "M"
+    },
+    {
+        id: 3,
+        name: "L"
+    },
+    {
+        id: 4,
+        name: "X"
+    },
+    {
+        id: 5,
+        name: "XL"
+    },
+    {
+        id: 6,
+        name: "XXL"
+    },
+])
+
+function changeShowMenuOption() {
+    showMenuOption.value = !showMenuOption.value;
+}
+
+function isChosed(option) {
+    return sizeOptions.value.includes(option);
+}
+
+function addOption(option) {
+    sizeOptions.value.push(option);
+}
+
+function removeOption(option) {
+    sizeOptions.value = sizeOptions.value.filter(item => item.id != option.id);
+}
+
+function toggleOption(option) {
+    isChosed(option) ? removeOption(option) : addOption(option);
+}
+
 </script>
 
 <style></style>

@@ -14,6 +14,12 @@ export { default as LogOutIcon } from "./LogOutIcon.vue";
 export { default as EditIcon } from "./EditIcon.vue";
 export { default as DeleteIcon } from "./DeleteIcon.vue";
 export { default as VoucherInfoIcon } from "./VoucherInfoIcon.vue";
+export { default as ExpandIcon } from "./ExpandIcon.vue";
+export { default as CollapseIcon } from "./CollapseIcon.vue";
+export { default as TickIcon } from "./TickIcon.vue";
+export { default as EmptyBoxIcon } from "./EmptyBoxIcon.vue";
+export { default as TickRoundIcon } from "./TickRoundIcon.vue";
+export { default as EmptyRoundBoxIcon } from "./EmptyRoundBoxIcon.vue";
 
 
 

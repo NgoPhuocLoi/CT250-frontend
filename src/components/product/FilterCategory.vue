@@ -1,44 +1,51 @@
 <template>
     <div class="border-b border-gray-200 py-6">
-        <h3 class="-my-3 flow-root">
-            <!-- Expand/collapse section button -->
-            <button type="button" @click="showMenuOption = !showMenuOption"
-                class="flex w-full items-center justify-between bg-white py-3 text-gray-400 hover:text-gray-500"
-                aria-controls="filter-section-1">
-                <span class="font-medium text-gray-900">Phân loại</span>
-                <span class="ml-6 flex items-center">
-                    <!-- Expand icon, show/hide based on section open state. -->
-                    <svg v-if="!showMenuOption" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                            d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                    </svg>
-                    <!-- Collapse icon, show/hide based on section open state. -->
-                    <svg v-if="showMenuOption" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </span>
-            </button>
-        </h3>
+        <FilterHeader title="Phân loại" :showMenuOption="showMenuOption" :toggleShowMenuOption="changeShowMenuOption" />
         <!-- Filter section, show/hide based on section state. -->
-        <div v-if="showMenuOption" class="pt-6" id="filter-section-1">
-            <div class="space-y-4">
-                <div v-for="(option, index1) in categoryStore.categories" :key="index1" class="flex flex-col items-start">
-
-                    <div class="flex items-center">
-                        <input :id="option.id" :value="option.id" type="radio" v-model="categoryOption"
-                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                        <label :for="option.id" class="ml-3 text-gray-600">{{ option.name }}</label>
-                    </div>
-
-                    <div v-if="categoryOption === option.id" class="ml-6">
-                        <div v-for="(childOption, index2) in option.child" :key="index2" class="flex items-center">
-                            <input :id="childOption.id" :value="childOption.id" type="radio" v-model="categoryChildOption"
-                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                            <label :for="childOption.id" class="ml-3 text-gray-600">{{ childOption.name }}</label>
+        <div v-if="showMenuOption" class="pt-6">
+            <div class="opacity-100 h-auto overflow-hidden">
+                <div class="px-0 flex flex-col">
+                    <!-- v-for -->
+                    <div @click="chooseOption(option.id)" v-for="(option, index1) in categoryStore.categories" :key="index1"
+                        class="mb-0 flex flex-col items-start justify-start cursor-pointer">
+                        <div class="w-full flex items-center">
+                            <TickRoundIcon v-if="categoryOption == option.id" />
+                            <EmptyRoundBoxIcon v-else />
+                            <p class="m-0 p-0 pl-[10px] flex flex-col">{{ option.name }}</p>
+                        </div>
+                        <div class="flex flex-col py-[5px] px-0 w-full ml-6">
+                            <!-- v-for -->
+                            <div @click="chooseChild1Option(child1Option.id)" v-for="(child1Option, index2) in option.child"
+                                :key="index2" class="mb-0 h-auto  mr-[20px]">
+                                <!-- v-if -->
+                                <div :class="{ hidden: categoryOption != option.id }" class="flex flex-col">
+                                    <div class="flex items-center">
+                                        <div class="flex justify-center items-center">
+                                            <TickIcon v-if="categoryChild1Option == child1Option.id" />
+                                            <EmptyBoxIcon v-else />
+                                        </div>
+                                        <p class="m-0 p-0 pl-[10px] flex flex-col">{{ child1Option.name }}</p>
+                                    </div>
+                                    <div class="flex flex-col py-[5px] px-0 w-full ml-6">
+                                        <!-- v-for -->
+                                        <div @click="chooseChild2Option(child2Option.id)"
+                                            v-for="(child2Option, index3) in child1Option.child" :key="index3"
+                                            class="mb-0 h-auto mr-[20px]">
+                                            <!-- v-if -->
+                                            <div :class="{ hidden: categoryChild1Option != child1Option.id }"
+                                                class="flex items-center py-[5px]">
+                                                <div class="flex justify-center items-center">
+                                                    <TickRoundIcon v-if="categoryChild2Option == child2Option.id" />
+                                                    <EmptyRoundBoxIcon v-else />
+                                                </div>
+                                                <p class="m-0 p-0 pl-[10px] flex flex-col">{{ child2Option.name }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -49,22 +56,44 @@
 import { ref, onMounted } from 'vue';
 import categoryService from "@/services/category";
 import { useCategoryStore } from "@/stores";
+import FilterHeader from './FilterHeader.vue';
+import { TickIcon, EmptyBoxIcon, TickRoundIcon, EmptyRoundBoxIcon } from '../icons';
 
 const categoryStore = useCategoryStore();
 
 const showMenuOption = ref(false);
-const categoryOption = ref('');
-const categoryChildOption = ref('');
+const categoryOption = ref(0);
+const categoryChild1Option = ref(0);
+const categoryChild2Option = ref(0);
 
 onMounted(async () => {
-  try {
-    const res = await categoryService.getAll();
-    categoryStore.setCategories(res.metadata);
-    console.log(categoryStore);
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        const res = await categoryService.getAll();
+        categoryStore.setCategories(res.metadata);
+    } catch (error) {
+        console.log(error);
+    }
 });
+
+function changeShowMenuOption() {
+    showMenuOption.value = !showMenuOption.value;
+}
+
+function chooseOption(optionId) {
+    categoryOption.value = optionId;
+    // categoryChild1Option.value = 0;
+    // categoryChild2Option.value = 0;
+}
+
+function chooseChild1Option(optionId) {
+    categoryChild1Option.value = optionId;
+    // categoryChild2Option.value = 0;
+
+}
+
+function chooseChild2Option(optionId) {
+    categoryChild2Option.value = optionId;
+}
 
 </script>
 

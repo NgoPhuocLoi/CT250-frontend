@@ -1,57 +1,21 @@
 <template>
     <div class="border-b border-gray-200 py-6">
-        <h3 class="-my-3 flow-root">
-            <!-- Expand/collapse section button -->
-            <button type="button" @click="showMenuOption = !showMenuOption"
-                class="flex w-full items-center justify-between bg-white py-3  text-gray-400 hover:text-gray-500"
-                aria-controls="filter-section-0">
-                <span class="font-medium text-gray-900">Màu sắc</span>
-                <span class="ml-6 flex items-center">
-                    <!-- Expand icon, show/hide based on section open state. -->
-                    <svg v-if="!showMenuOption" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                            d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                    </svg>
-                    <!-- Collapse icon, show/hide based on section open state. -->
-                    <svg v-if="showMenuOption" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </span>
-            </button>
-        </h3>
+        <FilterHeader title="Màu sắc" :showMenuOption="showMenuOption" :toggleShowMenuOption="changeShowMenuOption" />
         <!-- Filter section, show/hide based on section state. -->
-        <div v-if="showMenuOption" class="pt-6" id="filter-section-0">
-            <div class="space-y-4">
-                <div class="flex items-center">
-                    <input id="filter-color-0" name="color[]" value="white" type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="filter-color-0" class="ml-3  text-gray-600">Trắng</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="filter-color-1" name="color[]" value="beige" type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="filter-color-1" class="ml-3  text-gray-600">Xám</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="filter-color-3" name="color[]" value="brown" type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="filter-color-3" class="ml-3  text-gray-600">Nâu</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="filter-color-5" name="color[]" value="purple" type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="filter-color-5" class="ml-3  text-gray-600">Tím</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="filter-color-4" name="color[]" value="green" type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="filter-color-4" class="ml-3  text-gray-600">Xanh lá</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="filter-color-2" name="color[]" value="blue" type="checkbox" checked
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="filter-color-2" class="ml-3  text-gray-600">Xanh dương</label>
+        <div v-if="showMenuOption" class="pt-6">
+            <div class="opacity-100 h-auto overflow-hidden">
+                <div class="mb-0 flex flex-row flex-wrap">
+                    <div @click="toggleOption(option)" v-for="(option, index) in options" :key="index"
+                        class="mr-0 mb-[10px] flex basis-[48%] gap-[5px] w-[40%] h-auto items-center cursor-pointer">
+                        <div class="flex justify-center items-center ">
+                            <TickIcon v-if="isChosed(option)" />
+                            <EmptyBoxIcon v-else />
+                        </div>
+                        <div class="ml-[5px] border">
+                            <div :class="option.colorClass" class="w-[20px] h-[20px]"></div>
+                        </div>
+                        <p class="m-0 p-0 truncate text-ellipsis whitespace-nowrap">{{ option.name }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,7 +24,82 @@
 
 <script setup>
 import { ref } from 'vue';
+import FilterHeader from './FilterHeader.vue';
+import { TickIcon, EmptyBoxIcon } from '../icons';
+
 const showMenuOption = ref(false);
+const colorOptions = ref([]);
+const options = ref([
+    {
+        colorClass: 'bg-[#009dffd9]',
+        name: 'Xanh dương',
+    },
+    {
+        colorClass: 'bg-[#00cc4fd9]',
+        name: 'Xanh lá',
+    },
+    {
+        colorClass: 'bg-[#050000d9]',
+        name: 'Đen',
+    },
+    {
+        colorClass: 'bg-[#74b72ed9]',
+        name: 'Xanh bơ',
+    },
+    {
+        colorClass: 'bg-[#7a5800d9]',
+        name: 'Nâu',
+    },
+    {
+        colorClass: 'bg-[#9e9a9ad9]',
+        name: 'Xám',
+    },
+    {
+        colorClass: 'bg-[#e61414d9]',
+        name: 'Đỏ',
+    },
+    {
+        colorClass: 'bg-[#ff1493d9]',
+        name: 'Hồng',
+    },
+    {
+        colorClass: 'bg-[#ff9d32d9]',
+        name: 'Cam',
+    },
+    {
+        colorClass: 'bg-[#ffff00d9]',
+        name: 'Vàng',
+    },
+    {
+        colorClass: 'bg-[#fff5dcd9]',
+        name: 'Kem/Be',
+    },
+    {
+        colorClass: 'bg-[#ffffffd9]',
+        name: 'Trắng',
+    },
+]);
+
+function changeShowMenuOption() {
+    showMenuOption.value = !showMenuOption.value;
+}
+
+function isChosed(option) {
+    return colorOptions.value.includes(option);
+}
+
+function addOption(option) {
+    colorOptions.value.push(option);
+}
+
+function removeOption(option) {
+    colorOptions.value = colorOptions.value.filter(item => item.id != option.id);
+}
+
+function toggleOption(option) {
+    isChosed(option) ? removeOption(option) : addOption(option);
+}
+
 </script>
 
 <style></style>

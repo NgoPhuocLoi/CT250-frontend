@@ -8,7 +8,8 @@
                             v-for="variant in variants" :key="variant.id" :src="variant.color.color_thumbnail" />
                     </div>
                     <div class="relative w-[85%] flex justify-center items-center">
-                        <img class="w-full h-full" :src="choosedVariant.color.color_thumbnail">
+                        <!-- <img class="w-full h-full" :src="choosedVariant.color.color_thumbnail"> -->
+                        <img class="w-full h-full" :src="url">
                     </div>
                 </div>
                 <div class="flex flex-col gap-3 w-[25%] ml-5 mr-0">
@@ -108,8 +109,8 @@ onMounted(async () => {
     try {
         const res = await ProductService.getOneWithSlug(route.params.slug);
         product.value = res.metadata;
-        url.value = product.value.image[0].url;
         variants.value = product.value.variant;
+        url.value = product.value.image[0].url;
         choosedVariant.value = product.value.variant[0];
     } catch (error) {
         console.log(error);

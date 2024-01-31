@@ -23,26 +23,9 @@
                         </div>
                     </div>
 
-                    <div class="flex  flex-col gap-5 mt-8">
-                        <div class="flex justify-between items-center">
-                            <div class="text-3xl uppercase font-bold py-3">Mô tả</div>
-                            <div class="text-xl font-bold">Mã sản phẩm: {{ product.id }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xl font-bold mb-2">Tổng quan:</div>
-                            <div>{{ product.overview }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xl font-bold mb-2">Chất liệu:</div>
-                            <div>{{ product.material }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xl font-bold mb-2">Hướng dẫn giặt:</div>
-                            <div>{{ product.instruction }}</div>
-                        </div>
-                    </div>
-
+                    <ProductDescription :product="product" />
                 </div>
+
                 <div class="flex w-[40%] flex-col gap-3 ml-5 mr-0">
                     <div class="mb-5 text-4xl font-bold">{{ product.name }}</div>
                     <div class="mb-4 text-red-500 text-3xl font-bold">{{ new
@@ -73,15 +56,16 @@
                             <div> {{ choosedVariant.size.name }}</div>
                         </div>
                         <div class="flex flex-wrap gap-2">
-                            <button @click="chooseSize(size)" v-for="size in availableSize" :key="size.name"
-                                :class="[(choosedSize.name == size.name) ? 'border-2 border-red-500' : 'border border-slate-900']"
+                            <button @click="chooseSize(size)" v-for="size in product.size" :key="size.name"
+                                :disabled="!sizeAvailable(size)"
+                                :class="[(choosedSize.name == size.name) ? 'border-2 border-red-500' : 'border border-gray-300', sizeAvailable(size) ? '' : 'disabled text-slate-300 bg-[url(https://asset.uniqlo.com/g/icons/chip_disabled.svg)]']"
                                 class="w-[75px] h-[55px] border text-center rounded hover:opacity-85 focus:outline-none">
                                 {{ size.name }}
                             </button>
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-2">
                         <div class="text-xl uppercase font-bold mb-2">Số lượng</div>
                         <div class="relative inline-flex mb-2">
                             <div @click="decreaseQuantity"
@@ -99,28 +83,34 @@
                     </div>
 
                     <button type="submit"
-                        class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
+                        class="w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
                         Thêm vào giỏ hàng
                     </button>
                 </div>
             </div>
-
         </div>
+
     </div>
 </template>
 
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { CollapseIcon, ExpandIcon, PreviousIcon, NextIcon } from "@/components/icons";
-const quantity = ref(1);
+import ProductDescription from "@/components/product/ProductDescription.vue";
 
+const quantity = ref(1);
 const choosedVariant = ref({});
 const choosedColor = ref({});
 const choosedSize = ref({});
-
 const availableSize = ref([]);
-
 const currentImageIdx = ref(0);
+
+function sizeAvailable(size) {
+    for (let item of availableSize.value) {
+        if (item.name === size.name) return true;
+    }
+    return false;
+}
 
 const product = ref({
     id: 1,
@@ -401,6 +391,7 @@ function chooseSize(size) {
     -ms-user-select: none;
     user-select: none;
 }
+
 .noSelect:focus {
     outline: none !important;
 }

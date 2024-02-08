@@ -23,6 +23,7 @@ export { default as EmptyRoundBoxIcon } from "./EmptyRoundBoxIcon.vue";
 export { default as PreviousIcon } from "./PreviousIcon.vue";
 export { default as NextIcon } from "./NextIcon.vue";
 export { default as ArrowUpDownIcon } from "./ArrowUpDownIcon.vue";
+export { default as TrashIcon } from "./TrashIcon.vue";
 
 
 

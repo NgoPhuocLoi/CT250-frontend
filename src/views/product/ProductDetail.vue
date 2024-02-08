@@ -67,7 +67,7 @@
 
                     <div class="mb-2">
                         <div class="text-xl uppercase font-bold mb-2">Số lượng</div>
-                        <div class="relative inline-flex mb-2">
+                        <div class="noSelect relative inline-flex mb-2">
                             <div @click="decreaseQuantity"
                                 class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border border-slate-900 ">
                                 <CollapseIcon />
@@ -83,6 +83,7 @@
                     </div>
 
                     <button type="submit"
+                        @click="addToCart"
                         class="w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
                         Thêm vào giỏ hàng
                     </button>
@@ -97,6 +98,9 @@
 import { onMounted, ref, computed } from "vue";
 import { CollapseIcon, ExpandIcon, PreviousIcon, NextIcon } from "@/components/icons";
 import ProductDescription from "@/components/product/ProductDescription.vue";
+
+import { useCartStore } from '@/stores';
+const cartStore = useCartStore();
 
 const quantity = ref(1);
 const choosedVariant = ref({});
@@ -147,40 +151,49 @@ const product = ref({
     ],
     color: [
         {
+            colorId: 1,
             name: "00 WHITE",
             color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_00_467212_chip.jpg"
         },
         {
+            colorId: 2,
             name: "09 BLACK",
             color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_09_467212_chip.jpg"
         },
         {
+            colorId: 3,
             name: "11 PINK",
             color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_11_467212_chip.jpg"
         },
         {
+            colorId: 4,
             name: "40 CREAM",
             color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_40_467212_chip.jpg"
         },
         {
+            colorId: 5,
             name: "69 NAVY",
             color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_69_467212_chip.jpg"
         }
     ],
     size: [
         {
+            sizeId: 1,
             name: "S",
             description: "1m48-1m55, 45kg"
         },
         {
+            sizeId: 2,
             name: "M",
             description: "1m55-1m60, 50kg"
         },
         {
+            sizeId: 3,
             name: "L",
             description: "1m60-1m70, 55kg"
         },
         {
+            sizeId: 4,
             name: "XL",
             description: "1m70-1m80, 60kg"
         }
@@ -190,10 +203,12 @@ const product = ref({
             quantity: 5,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_00_467212.jpg?width=750",
             color: {
+                colorId: 1,
                 name: "00 WHITE",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_00_467212_chip.jpg"
             },
             size: {
+                sizeId: 1,
                 name: "S",
                 description: "1m48-1m55, 45kg"
             },
@@ -202,10 +217,12 @@ const product = ref({
             quantity: 7,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_00_467212.jpg?width=750",
             color: {
+                colorId: 1,
                 name: "00 WHITE",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_00_467212_chip.jpg"
             },
             size: {
+                sizeId: 2,
                 name: "M",
                 description: "1m55-1m60, 50kg"
             },
@@ -214,10 +231,12 @@ const product = ref({
             quantity: 10,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_00_467212.jpg?width=750",
             color: {
+                colorId: 1,
                 name: "00 WHITE",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_00_467212_chip.jpg"
             },
             size: {
+                sizeId: 3,
                 name: "L",
                 description: "1m60-1m70, 55kg"
             },
@@ -226,10 +245,12 @@ const product = ref({
             quantity: 10,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_09_467212.jpg?width=750",
             color: {
+                colorId: 2,
                 name: "09 BLACK",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_09_467212_chip.jpg"
             },
             size: {
+                sizeId: 2,
                 name: "M",
                 description: "1m55-1m60, 50kg"
             },
@@ -238,10 +259,12 @@ const product = ref({
             quantity: 15,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_11_467212.jpg?width=750",
             color: {
+                colorId: 3,
                 name: "11 PINK",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_11_467212_chip.jpg"
             },
             size: {
+                sizeId: 3,
                 name: "L",
                 description: "1m60-1m70, 55kg"
             },
@@ -250,10 +273,12 @@ const product = ref({
             quantity: 13,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_11_467212.jpg?width=750",
             color: {
+                colorId: 3,
                 name: "11 PINK",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_11_467212_chip.jpg"
             },
             size: {
+                sizeId: 4,
                 name: "XL",
                 description: "1m70-1m80, 60kg"
             }
@@ -262,10 +287,12 @@ const product = ref({
             quantity: 20,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_40_467212.jpg?width=750",
             color: {
+                colorId: 4,
                 name: "40 CREAM",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_40_467212_chip.jpg"
             },
             size: {
+                sizeId: 3,
                 name: "L",
                 description: "1m60-1m70, 55kg"
             },
@@ -274,10 +301,12 @@ const product = ref({
             quantity: 25,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_69_467212.jpg?width=750",
             color: {
+                colorId: 5,
                 name: "69 NAVY",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_69_467212_chip.jpg"
             },
             size: {
+                sizeId: 1,
                 name: "S",
                 description: "1m48-1m55, 45kg"
             },
@@ -286,10 +315,12 @@ const product = ref({
             quantity: 8,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_69_467212.jpg?width=750",
             color: {
+                colorId: 5,
                 name: "69 NAVY",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_69_467212_chip.jpg"
             },
             size: {
+                sizeId: 3,
                 name: "L",
                 description: "1m60-1m70, 55kg"
             },
@@ -298,10 +329,12 @@ const product = ref({
             quantity: 16,
             image: "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/467212/item/vngoods_69_467212.jpg?width=750",
             color: {
+                colorId: 5,
                 name: "69 NAVY",
                 color_thumbnail: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/467212/chip/goods_69_467212_chip.jpg"
             },
             size: {
+                sizeId: 4,
                 name: "XL",
                 description: "1m70-1m80, 60kg"
             }
@@ -379,20 +412,15 @@ function chooseSize(size) {
     changeVariant(choosedColor.value, choosedSize.value);
 }
 
+function addToCart() {
+    cartStore.addItem({ product: product.value, variant: choosedVariant.value, quantity: quantity.value });
+    Toast.fire({
+      icon: 'success',
+      title: 'Đã thêm sản phẩm vào giỏ hàng!'
+    });
+}
+
 </script>
 
 <style>
-.noSelect {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.noSelect:focus {
-    outline: none !important;
-}
 </style>

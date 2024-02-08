@@ -13,6 +13,8 @@ import Home from "@/views/Home.vue";
 import Products from "@/views/product/Products.vue";
 import ProductDetail from "@/views/product/ProductDetail.vue";
 
+import Cart from "@/views/Cart.vue";
+
 import Blog from "@/views/blog/Blog.vue";
 import BlogList from "@/views/blog/BlogList.vue";
 import MainCategoryVue from "@/views/MainCategory.vue";
@@ -62,6 +64,10 @@ const router = createRouter({
         {
           path: "/nu/vay",
           component: Products,
+        },
+        {
+          path: "/gio-hang",
+          component: Cart,
         },
         {
           path: "/tai-khoan",

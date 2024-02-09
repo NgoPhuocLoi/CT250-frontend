@@ -2,7 +2,7 @@
     <div class="flex flex-col gap-5 mt-8">
         <div class="flex justify-between items-center border-b">
             <div class="text-3xl uppercase font-bold py-3">Mô tả</div>
-            <div class="text-xl font-bold">Mã sản phẩm: {{ product.id }}</div>
+            <div class="text-xl font-bold">Mã sản phẩm: {{ productStore.product.id }}</div>
         </div>
         <div v-for="(item, index) in items" :key="index" class="border-b">
             <h2 class="mb-0" :id="'heading' + index">
@@ -35,21 +35,21 @@ import {
     initTE,
 } from "tw-elements";
 
-const props = defineProps(['product']);
-const product = ref(props.product);
+import { useProductStore } from '@/stores';
+const productStore = useProductStore();
 
 const items = ref([
     {
         name: "Tổng quan",
-        content: product.value.overview
+        content: productStore.product.overview
     },
     {
         name: "Chất liệu",
-        content: product.value.material
+        content: productStore.product.material
     },
     {
         name: "Hướng dẫn giặt",
-        content: product.value.instruction
+        content: productStore.product.instruction
     },
 ])
 

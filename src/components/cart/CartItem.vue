@@ -18,7 +18,9 @@
                             <router-link :to="'/nu/vay/' + item.product.slug"
                                 class="cursor-pointer line-clamp-1 overflow-hidden text-ellipsis">{{ item.product.name
                                 }}</router-link>
-                            <div class="flex w-full gap-3">
+                            <!-- size and color begin -->
+                            <div data-te-toggle="modal" data-te-target="#exampleModalLg" data-te-ripple-init
+                                data-te-ripple-color="light" class="flex w-full gap-3">
                                 <div class="border rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]">
                                     <div :style="{ backgroundImage: 'url(' + item.variant.color.color_thumbnail + ')' }"
                                         class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer">
@@ -27,7 +29,8 @@
                                         <ArrowUpDownIcon />
                                     </div>
                                 </div>
-                                <div class="border rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]">
+                                <div
+                                    class="noSelect border rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]">
                                     <div class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer">
                                         {{ item.variant.size.name }}
                                     </div>
@@ -36,6 +39,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- size and color end -->
                         </div>
                     </div>
                 </div>
@@ -73,19 +77,33 @@
                 <!-- xoa begin -->
                 <div @click="cartStore.deleteItem({ product: item.product, variant: item.variant })"
                     class="w-[5%] cursor-pointer">
-                    <TrashIcon />
+                    <DeleteIcon />
                 </div>
                 <!-- xoa end -->
             </div>
         </div>
+
+        <CartModal :item="item" />
+
     </div>
 </template>
 
 <script setup>
-import { TickIcon, EmptyBoxIcon, ArrowUpDownIcon, CollapseIcon, ExpandIcon, TrashIcon } from '@/components/icons';
+import { TickIcon, EmptyBoxIcon, ArrowUpDownIcon, CollapseIcon, ExpandIcon, DeleteIcon, CloseIcon } from '@/components/icons';
 import { useCartStore } from '@/stores';
+import { onMounted } from 'vue';
+
 const cartStore = useCartStore();
 const props = defineProps(['item']);
+
+import CartModal from '@/components/cart/CartModal.vue';
+
+// Initialization for ES Users
+import {
+    Modal,
+    Ripple,
+    initTE,
+} from "tw-elements";
 
 const typeQuantity = async () => {
     if (props.item.count < 1 || props.item.count > props.item.variant.quantity) {
@@ -93,6 +111,10 @@ const typeQuantity = async () => {
         return;
     }
 }
+
+onMounted(() => {
+    initTE({ Modal, Ripple });
+})
 
 </script>
 

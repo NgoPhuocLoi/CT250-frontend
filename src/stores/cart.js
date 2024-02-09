@@ -75,7 +75,7 @@ const useCartStore = defineStore("cart", () => {
       currItem.product.id == item.product.id
     )[0];
 
-    totalCost.value -= targetItem.count * item.product.price;
+    // totalCost.value -= targetItem.count * item.product.price;
     items.value = items.value.filter(currItem =>
       currItem.variant.color.colorId != item.variant.color.colorId ||
       currItem.variant.size.sizeId != item.variant.size.sizeId ||

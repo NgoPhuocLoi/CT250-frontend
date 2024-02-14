@@ -20,7 +20,7 @@ const categoryStore = useCategoryStore();
           <div class="mb-2">{{ category.name }}</div>
           <ul class="text-gray-500 text-sm">
             <li
-              v-for="childCategory in category.child"
+              v-for="childCategory in category.children"
               class="mb-2 cursor-pointer"
             >
               {{ childCategory.name }}

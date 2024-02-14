@@ -15,7 +15,7 @@ const useCategoryStore = defineStore("category", () => {
 
   const activeCategoryChildren = computed(() =>
     activeCategoryId.value > 0
-      ? categories.value.find((c) => c.id === activeCategoryId.value).child
+      ? categories.value.find((c) => c.id === activeCategoryId.value).children
       : []
   );
 

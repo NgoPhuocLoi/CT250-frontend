@@ -1,3 +1,4 @@
+import { PRODUCT_ALL } from "@/constants/productType";
 import createApiClient from "./api";
 
 class ProductService {
@@ -5,8 +6,12 @@ class ProductService {
     this.api = createApiClient(baseUrl);
   }
 
-  async getAll(data) {
-    return (await this.api.get("/")).data;
+  async getAll() {
+    return await this.getByType(PRODUCT_ALL);
+  }
+
+  async getByType(type) {
+    return (await this.api.get("/", { params: { type } })).data;
   }
 
   async getOneWithSlug(slug) {

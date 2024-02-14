@@ -10,8 +10,8 @@ class ProductService {
     return await this.getByType(PRODUCT_ALL);
   }
 
-  async getByType(type) {
-    return (await this.api.get("/", { params: { type } })).data;
+  async getByType(type, limit = 10) {
+    return (await this.api.get("/", { params: { type, limit } })).data;
   }
 
   async getOneWithSlug(slug) {

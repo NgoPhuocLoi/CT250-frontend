@@ -1,7 +1,7 @@
 <template>
   <div @click="viewDetail" class="cursor-pointer hover:shadow duration-75">
     <div class="w-full">
-      <img class="w-full" :src="sampleProduct.image[0].url" />
+      <img class="w-full" :src="product.images[0].path" />
     </div>
 
     <div class="p-3 pb-0">

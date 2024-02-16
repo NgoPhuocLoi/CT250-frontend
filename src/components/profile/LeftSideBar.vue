@@ -10,7 +10,7 @@
         </div>
         <p class="text-2xl text-center my-3">No Name</p>
         <router-link v-for="(link, index) in links" :key="index" :to="link.url"
-            class="flex items-center justify-items-start pl-6 gap-x-4 h-14 px-5 py-6 mb-3 border rounded focus:border-slate-950">
+            class="flex items-center justify-items-start pl-6 gap-x-4 h-14 px-5 py-6 mb-3 border-[0.5px] border-gray-300 rounded focus:border-slate-950">
             <component :is="link.icon" />
             <p>{{ link.title }}</p>
         </router-link>

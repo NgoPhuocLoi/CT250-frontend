@@ -4,7 +4,7 @@
         <div class="mb-4 text-red-500 text-3xl font-bold">{{ new
             Intl.NumberFormat().format(productStore.product.price) }}
             VND</div>
-        <div class="mb-2 border-b pb-3">{{ productStore.product.description }}</div>
+        <div class="mb-2 border-p-[0.5px] border-gray-300 pb-3">{{ productStore.product.description }}</div>
         <div class="mb-2">
             <div class="flex gap-2 text-xl uppercase font-bold">
                 <div class="mb-2">Còn lại:</div>
@@ -19,7 +19,7 @@
             <div class="flex gap-2">
                 <div @click="productStore.chooseColor(color)" v-for="color in productStore.product.color" :key="color.name"
                     :style="{ backgroundImage: 'url(' + color.color_thumbnail + ')' }"
-                    :class="[(productStore.choosedColor.name == color.name) ? 'border-2 border-red-500' : 'border border-slate-900']"
+                    :class="[(productStore.choosedColor.name == color.name) ? 'border-2 border-red-500' : 'border-[0.5px] border-gray-300']"
                     class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer"></div>
             </div>
         </div>
@@ -31,8 +31,8 @@
             <div class="flex flex-wrap gap-2">
                 <button @click="productStore.chooseSize(size)" v-for="size in productStore.product.size" :key="size.name"
                     :disabled="!productStore.sizeAvailable(size)"
-                    :class="[(productStore.choosedSize.name == size.name) ? 'border-2 border-red-500' : 'border border-gray-300', productStore.sizeAvailable(size) ? '' : 'disabled text-slate-300 bg-[url(https://asset.uniqlo.com/g/icons/chip_disabled.svg)]']"
-                    class="w-[75px] h-[55px] border text-center rounded hover:opacity-85 focus:outline-none">
+                    :class="[(productStore.choosedSize.name == size.name) ? 'border-2 border-red-500' : 'border-[0.5px] border-gray-300', productStore.sizeAvailable(size) ? '' : 'disabled text-slate-300 bg-[url(https://asset.uniqlo.com/g/icons/chip_disabled.svg)]']"
+                    class="w-[75px] h-[55px] border-[0.5px] border-gray-300 text-center rounded hover:opacity-85 focus:outline-none">
                     {{ size.name }}
                 </button>
             </div>
@@ -42,13 +42,13 @@
             <div class="text-xl uppercase font-bold mb-2">Số lượng</div>
             <div class="noSelect relative inline-flex mb-2">
                 <div @click="productStore.decreaseQuantity"
-                    class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border border-slate-900 ">
+                    class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300">
                     <CollapseIcon />
                 </div>
-                <input class="h-[42px] w-[84px] text-red-500 text-center border border-slate-900 border-x-0" type="number"
+                <input class="h-[42px] w-[84px] text-red-500 text-center border-[0.5px] border-gray-300 border-x-0" type="number"
                     v-model="productStore.quantity" />
                 <div @click="productStore.increaseQuantity"
-                    class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border border-slate-900">
+                    class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300">
                     <ExpandIcon />
                 </div>
             </div>

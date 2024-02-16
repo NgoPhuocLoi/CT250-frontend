@@ -1,6 +1,6 @@
 <template>
     <div class="px-[15px] pt-[15px] pb-0">
-        <div class="w-full flex flex-col border-b-[0.5px] py-[15px]">
+        <div class="w-full flex flex-col border-b-[0.5px] border-gray-300 py-[15px]">
             <div class="flex items-center *:flex *:justify-center">
                 <!-- checkbox begin -->
                 <div class="noSelect w-[3%] flex justify-start cursor-pointer">
@@ -21,7 +21,7 @@
                             <!-- size and color begin -->
                             <div data-te-toggle="modal" data-te-target="#exampleModalLg" data-te-ripple-init
                                 data-te-ripple-color="light" class="flex w-full gap-3">
-                                <div class="border rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]">
+                                <div class="border-[0.5px] border-gray-300 rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]">
                                     <div :style="{ backgroundImage: 'url(' + item.variant.color.color_thumbnail + ')' }"
                                         class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer">
                                     </div>
@@ -30,7 +30,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="noSelect border rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]">
+                                    class="noSelect border-[0.5px] border-gray-300 rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]">
                                     <div class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer">
                                         {{ item.variant.size.name }}
                                     </div>
@@ -48,13 +48,13 @@
                 <div class="w-[20%]">
                     <div class="noSelect relative inline-flex mb-2">
                         <div @click="cartStore.removeItem({ product: item.product, variant: item.variant })"
-                            class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border">
+                            class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300">
                             <CollapseIcon />
                         </div>
-                        <input class="h-[42px] w-[84px] text-red-500 text-center border border-x-0" type="number"
+                        <input class="h-[42px] w-[84px] text-red-500 text-center border-[0.5px] border-gray-300 border-x-0" type="number"
                             v-model="item.count" :onkeyup="typeQuantity" />
                         <div @click="cartStore.addItem({ product: item.product, variant: item.variant, quantity: 1 })"
-                            class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border">
+                            class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300">
                             <ExpandIcon />
                         </div>
                     </div>

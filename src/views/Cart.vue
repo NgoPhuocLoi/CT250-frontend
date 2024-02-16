@@ -4,8 +4,12 @@
             <h1 class="text-4xl font-bold tracking-tight text-gray-900">Giỏ hàng</h1>
         </div>
         <div class="w-full flex justify-between">
-            <CartLeft />
-            <CartRight />
+            <div class="min-w-[65%]">
+                <CartLeft />
+            </div>
+            <div class="w-[33%]">
+                <CartRight />
+            </div>
         </div>
     </div>
 </template>

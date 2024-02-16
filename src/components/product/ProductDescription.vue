@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col gap-5 mt-8">
-        <div class="flex justify-between items-center border-b">
+        <div class="flex justify-between items-center border-b-[0.5px] border-gray-300">
             <div class="text-3xl uppercase font-bold py-3">Mô tả</div>
             <div class="text-xl font-bold">Mã sản phẩm: {{ productStore.product.id }}</div>
         </div>
-        <div v-for="(item, index) in items" :key="index" class="border-b">
+        <div v-for="(item, index) in items" :key="index" class="border-b-[0.5px] border-gray-300">
             <h2 class="mb-0" :id="'heading' + index">
                 <button
                     class="group relative flex w-full items-center rounded-none border-0 bg-white text-left text-xl font-bold mb-2 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none "

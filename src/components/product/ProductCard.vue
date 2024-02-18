@@ -23,8 +23,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, toRef } from "vue";
+import { ref, toRef } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const props = defineProps(["product"]);
 const product = toRef(() => props.product);
 
@@ -253,6 +255,6 @@ const sampleProduct = ref({
 });
 
 function viewDetail() {
-  router.replace(`/nu/vay/${product.value.slug}`);
+  router.push("/san-pham/" + product.value.slug);
 }
 </script>

@@ -1,17 +1,17 @@
 <template>
-    <div class="text-lg container mx-auto">
-        <div class="py-10 px-[7%]">
-            <div class="flex gap-8 flex-nowrap">
-                <div class="noSelect w-[60%] flex flex-col">
-                    <ProductImage />
-                    <ProductDescription />
-                </div>
-                <div class="w-[40%] ml-5 mr-0">
-                    <ProductInfo :isUpdate="false" />
-                </div>
-            </div>
+  <div class="text-lg container mx-auto">
+    <div class="py-10 px-[7%]">
+      <div class="flex gap-8 flex-nowrap">
+        <div class="noSelect w-[60%] flex flex-col">
+          <ProductImage :activeImage="activeImage" v-model="currentImageIdx" />
+          <ProductDescription />
         </div>
+        <div class="w-[40%] ml-5 mr-0">
+          <ProductInfo :isUpdate="false" />
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -19,9 +19,21 @@
 import ProductImage from "@/components/product/ProductImage.vue";
 import ProductDescription from "@/components/product/ProductDescription.vue";
 import ProductInfo from "@/components/product/ProductInfo.vue";
+import { computed, onMounted, ref } from "vue";
+import { useProductStore } from "@/stores";
+import productService from "@/services/product";
+import { useRoute } from "vue-router";
 
 // import { useCartStore } from '@/stores';
 // const cartStore = useCartStore();
+const productStore = useProductStore();
+const route = useRoute();
+
+const currentImageIdx = ref(0);
+
+const activeImage = computed(
+  () => productStore.detailProductInfo?.images[currentImageIdx.value].path
+);
 
 // const quantity = ref(1);
 // const choosedVariant = ref({});
@@ -29,6 +41,16 @@ import ProductInfo from "@/components/product/ProductInfo.vue";
 // const choosedSize = ref({});
 // const availableSize = ref([]);
 // const currentImageIdx = ref(0);
+
+onMounted(async () => {
+  try {
+    const res = await productService.getOneBySlug(route.params.productSlug);
+    console.log("DONE");
+    productStore.setDetailProductInfo(res.metadata);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // function sizeAvailable(size) {
 //     for (let item of availableSize.value) {
@@ -340,7 +362,6 @@ import ProductInfo from "@/components/product/ProductInfo.vue";
 //       title: 'Đã thêm sản phẩm vào giỏ hàng!'
 //     });
 // }
-
 </script>
 
 <style></style>

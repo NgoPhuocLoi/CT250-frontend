@@ -14,8 +14,8 @@ class ProductService {
     return (await this.api.get("/", { params: { type, limit } })).data;
   }
 
-  async getOneWithSlug(slug) {
-    return (await this.api.get(`/${slug}`)).data;
+  async getOneBySlug(slug) {
+    return (await this.api.get(`/slug/${slug}`)).data;
   }
 }
 

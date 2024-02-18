@@ -59,7 +59,7 @@ const router = createRouter({
           component: MainCategoryVue,
         },
         {
-          path: "/nu/vay/:slug",
+          path: "/san-pham/:productSlug",
           component: ProductDetail,
         },
         {

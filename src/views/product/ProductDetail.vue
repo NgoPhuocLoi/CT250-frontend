@@ -7,7 +7,28 @@
           <ProductDescription />
         </div>
         <div class="w-[40%] ml-5 mr-0">
-          <ProductInfo :isUpdate="false" />
+          <ProductInfo v-if="!loadingStore.loading" :isUpdate="false" />
+          <div
+            v-else
+            role="status"
+            class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
+          >
+            <div class="w-full">
+              <div class="h-7 bg-gray-200 rounded-full w-full mb-4"></div>
+              <div
+                class="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"
+              ></div>
+              <div class="h-3 bg-gray-200 rounded-full mb-2.5"></div>
+              <div
+                class="h-3 bg-gray-200 rounded-full max-w-[440px] mb-2.5"
+              ></div>
+              <div
+                class="h-2 bg-gray-200 rounded-full max-w-[460px] mb-2.5"
+              ></div>
+              <div class="h-2 bg-gray-200 rounded-full max-w-[360px]"></div>
+            </div>
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
       </div>
     </div>
@@ -20,13 +41,14 @@ import ProductImage from "@/components/product/ProductImage.vue";
 import ProductDescription from "@/components/product/ProductDescription.vue";
 import ProductInfo from "@/components/product/ProductInfo.vue";
 import { computed, onMounted, ref } from "vue";
-import { useProductStore } from "@/stores";
+import { useLoadingStore, useProductStore } from "@/stores";
 import productService from "@/services/product";
 import { useRoute } from "vue-router";
 
 // import { useCartStore } from '@/stores';
 // const cartStore = useCartStore();
 const productStore = useProductStore();
+const loadingStore = useLoadingStore();
 const route = useRoute();
 
 const currentImageIdx = ref(0);
@@ -43,12 +65,15 @@ const activeImage = computed(
 // const currentImageIdx = ref(0);
 
 onMounted(async () => {
+  loadingStore.startLoading();
   try {
     const res = await productService.getOneBySlug(route.params.productSlug);
     console.log("DONE");
     productStore.setDetailProductInfo(res.metadata);
   } catch (error) {
     console.log(error);
+  } finally {
+    loadingStore.endLoading();
   }
 });
 

@@ -14,17 +14,25 @@ import {
 const newestProducts = ref([]);
 const trendingProducts = ref([]);
 const forYouProducts = ref([]);
+const fetchingProducts = ref(false);
 
 onMounted(async () => {
-  const res = await Promise.all(
-    [PRODUCT_NEWEST, PRODUCT_TRENDING, PRODUCT_FOR_YOU].map((type) =>
-      productService.getByType(type)
-    )
-  );
+  fetchingProducts.value = true;
+  try {
+    const res = await Promise.all(
+      [PRODUCT_NEWEST, PRODUCT_TRENDING, PRODUCT_FOR_YOU].map((type) =>
+        productService.getByType(type)
+      )
+    );
 
-  newestProducts.value = res[0].metadata;
-  trendingProducts.value = res[1].metadata;
-  forYouProducts.value = res[2].metadata;
+    newestProducts.value = res[0].metadata;
+    trendingProducts.value = res[1].metadata;
+    forYouProducts.value = res[2].metadata;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    fetchingProducts.value = false;
+  }
 });
 </script>
 
@@ -32,9 +40,21 @@ onMounted(async () => {
   <div>
     <Carousel />
     <HomeCategory />
-    <HomeProducts title="Sản phẩm mới" :products="newestProducts" />
-    <HomeProducts title="Xu hướng" :products="trendingProducts" />
+    <HomeProducts
+      :fetchingProducts="fetchingProducts"
+      title="Sản phẩm mới"
+      :products="newestProducts"
+    />
+    <HomeProducts
+      :fetchingProducts="fetchingProducts"
+      title="Xu hướng"
+      :products="trendingProducts"
+    />
     <HomeBlog />
-    <HomeProducts title="Gợi ý cho bạn" :products="forYouProducts" />
+    <HomeProducts
+      :fetchingProducts="fetchingProducts"
+      title="Gợi ý cho bạn"
+      :products="forYouProducts"
+    />
   </div>
 </template>

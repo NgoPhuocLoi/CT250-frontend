@@ -21,6 +21,30 @@ import BlogList from "@/views/blog/BlogList.vue";
 import MainCategoryVue from "@/views/MainCategory.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
+import authService from "@/services/auth";
+import store, { useAccountStore, useLoadingStore } from "@/stores";
+
+const loadingStore = useLoadingStore(store);
+const accountStore = useAccountStore(store);
+
+const authenticateUser = async (to, from) => {
+  const accessToken = localStorage["accesstoken"];
+
+  if (!accessToken) return { name: "Login" };
+
+  try {
+    loadingStore.startLoading();
+    const loggedInAccount = await authService.getLoggedInAccount(accessToken);
+    accountStore.setAccount(loggedInAccount.metadata);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return { name: "Login" };
+  } finally {
+    loadingStore.endLoading();
+  }
+};
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,10 +55,12 @@ const router = createRouter({
         {
           path: "dang-ky",
           component: RegisterForm,
+          name: "Register",
         },
         {
           path: "dang-nhap",
           component: LoginForm,
+          name: "Login",
         },
       ],
     },
@@ -77,6 +103,7 @@ const router = createRouter({
         {
           path: "/tai-khoan",
           component: ProfileLayout,
+          beforeEnter: authenticateUser,
           children: [
             {
               path: "",

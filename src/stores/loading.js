@@ -5,15 +5,25 @@ const useLoadingStore = defineStore("loading", () => {
   const loading = ref(false);
   const loadingProgress = ref(0);
   let loadingIntervalId;
+  let loadingIntervalPace = 20;
 
   const startLoading = () => {
     loading.value = true;
-    loadingIntervalId = setInterval(frame, 40);
-    function frame() {
+    loadingIntervalId = setInterval(frameFast, loadingIntervalPace);
+    function frameFast() {
       if (loadingProgress.value >= 52) {
         clearInterval(loadingIntervalId);
+        loadingIntervalId = setInterval(frameSlow, loadingIntervalPace);
       } else {
-        loadingProgress.value += 1;
+        loadingProgress.value += 0.8;
+      }
+    }
+
+    function frameSlow() {
+      if (loadingProgress.value >= 86) {
+        clearInterval(loadingIntervalId);
+      } else {
+        loadingProgress.value += 0.3;
       }
     }
   };

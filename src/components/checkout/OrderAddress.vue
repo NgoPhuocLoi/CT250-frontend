@@ -12,14 +12,29 @@
             </button>
         </div>
         <div v-for="i in 3" :key="i">
-            <OrderAddressCard />
+            <div class="flex items-center gap-2 border-b-[0.5px] border-gray-300 my-5 rounded-sm">
+                <div class="w-full flex items-center">
+                    <input :id="i" name="address" :value="i" v-model="address" type="radio" />
+                    <label :for="i" class="w-full flex items-center gap-3 text-xl ml-3 cursor-pointer">
+                        <div>
+                            <TickRoundIcon v-if="address == i" />
+                            <EmptyRoundBoxIcon v-else />
+                        </div>
+                        <OrderAddressCard :i="i" />
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { TickIcon, EmptyBoxIcon, AddressListIcon, DeleteIcon, EditIcon } from '@/components/icons';
-import OrderAddressCard from "@/components/checkout/OrderAddressCard.vue"
+import { ref } from "vue";
+import { AddressListIcon } from '@/components/icons';
+import OrderAddressCard from "@/components/checkout/OrderAddressCard.vue";
+import { TickRoundIcon, EmptyRoundBoxIcon } from '@/components/icons';
+
+const address = ref(1);
 
 import { useCartStore } from '@/stores';
 const cartStore = useCartStore();

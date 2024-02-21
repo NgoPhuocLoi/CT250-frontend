@@ -53,19 +53,6 @@
 </template>
 
 <script setup>
-import { TickIcon, EmptyBoxIcon, ArrowUpDownIcon, CollapseIcon, ExpandIcon, DeleteIcon, CloseIcon } from '@/components/icons';
-import { useCartStore } from '@/stores';
-import { onMounted } from 'vue';
-
-const cartStore = useCartStore();
 const props = defineProps(['item']);
-
-const typeQuantity = async () => {
-    if (props.item.count < 1 || props.item.count > props.item.variant.quantity) {
-        props.item.count = 0;
-        return;
-    }
-}
-
 </script>
 

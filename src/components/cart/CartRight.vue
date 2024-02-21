@@ -6,10 +6,10 @@
                 {{ new Intl.NumberFormat().format(cartStore.totalCost) }} VND
             </p>
         </div>
-        <button type="submit"
+        <RouterLink to="/thanh-toan"
             class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
             Thanh toán
-        </button>
+        </RouterLink>
     </div>
 </template>
 

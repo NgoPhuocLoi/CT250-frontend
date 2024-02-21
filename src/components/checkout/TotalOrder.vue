@@ -6,6 +6,22 @@
                 Chi tiết thanh toán
             </div>
         </div>
+        <div class="pb-5 pt-3 border-b-[0.5px] border-gray-300">
+            <div>
+                <div class="flex justify-between">
+                    <p>Tổng tiền hàng</p>
+                    <p>225.000 VND</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Phí vận chuyển</p>
+                    <p>15.000 VND</p>
+                </div>
+            </div>
+        </div>
+        <div class="pt-3 flex justify-between">
+            <p>Tổng thanh toán</p>
+            <p>240.000 VND</p>
+        </div>
         <button type="submit"
             class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
             Thanh toán

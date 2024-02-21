@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { TickIcon, EmptyBoxIcon, CartIcon, DeleteIcon, EditIcon } from '@/components/icons';
+import { CartIcon } from '@/components/icons';
 import OrderProductItem from '@/components/checkout/OrderProductItem.vue';
 
 import { useCartStore } from '@/stores';

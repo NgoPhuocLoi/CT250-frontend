@@ -5,13 +5,23 @@
         <div class="mb-0 flex flex-row flex-wrap gap-[7px]">
           <img
             v-if="!loadingStore.loading"
-            @click="currentImageIdx = index"
             class="mr-0 mb-[7px] flex basis-[48%] w-[40%] h-auto items-center cursor-pointer"
-            v-for="(image, index) in productStore.detailProductInfo?.images"
+            :src="activeProductImageOfColor?.image.path"
+            @click="currentImageId = activeProductImageOfColor?.id"
+            :class="{
+              'border-2 border-red-500':
+                currentImageId == activeProductImageOfColor?.id,
+            }"
+          />
+          <img
+            v-if="!loadingStore.loading"
+            class="mr-0 mb-[7px] flex basis-[48%] w-[40%] h-auto items-center cursor-pointer"
+            v-for="(image, index) in subImages"
+            @click="currentImageId = image.id"
             :key="image.id"
             :src="image.image.path"
             :class="{
-              'border-2 border-red-500': index == currentImageIdx,
+              'border-2 border-red-500': image.id == currentImageId,
             }"
           />
 
@@ -50,23 +60,55 @@
 import { NextIcon, PreviousIcon } from "@/components/icons";
 import { useLoadingStore, useProductStore } from "@/stores";
 import ImageSkeleton from "@/components/skeleton/ImageSkeleton.vue";
-import { toRef } from "vue";
+import { computed, ref, toRef, watch } from "vue";
+import { storeToRefs } from "pinia";
 const productStore = useProductStore();
 const loadingStore = useLoadingStore();
+
+const { detailProductInfo, selectedVariant } = storeToRefs(productStore);
 
 const props = defineProps(["activeImage"]);
 const activeImage = toRef(() => props.activeImage);
 
-const currentImageIdx = defineModel();
+const currentImageId = defineModel();
+
+const activeProductImageOfColor = ref(null);
+
+watch([detailProductInfo, selectedVariant], () => {
+  activeProductImageOfColor.value = detailProductInfo.value.images.find(
+    (image) => image.color?.id === selectedVariant.value?.colorId
+  );
+
+  currentImageId.value = activeProductImageOfColor.value?.id;
+});
+
+const subImages = computed(() =>
+  productStore.detailProductInfo?.images.filter((img) => {
+    console.log(img.color);
+    return img.color === null;
+  })
+);
 
 function nextImage() {
-  currentImageIdx.value =
-    (currentImageIdx.value + 1) % productStore.detailProductInfo?.images.length;
+  const indexOfCurrentImage = subImages.value.findIndex(
+    (image) => image.id === currentImageId.value
+  );
+  if (indexOfCurrentImage < subImages.value.length - 1) {
+    currentImageId.value = subImages.value[indexOfCurrentImage + 1].id;
+  } else {
+    currentImageId.value = activeProductImageOfColor.value.id;
+  }
 }
 function previousImage() {
-  currentImageIdx.value =
-    currentImageIdx.value == 0
-      ? productStore.detailProductInfo?.images.length - 1
-      : currentImageIdx.value - 1;
+  const indexOfCurrentImage = subImages.value.findIndex(
+    (image) => image.id === currentImageId.value
+  );
+  if (indexOfCurrentImage == -1) {
+    currentImageId.value = subImages.value.at(-1).id;
+  } else if (indexOfCurrentImage >= 1) {
+    currentImageId.value = subImages.value[indexOfCurrentImage - 1].id;
+  } else {
+    currentImageId.value = activeProductImageOfColor.value.id;
+  }
 }
 </script>

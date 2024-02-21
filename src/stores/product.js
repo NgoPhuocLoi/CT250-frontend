@@ -1,16 +1,23 @@
+import { useCartStore } from "@/stores";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { useCartStore } from "@/stores";
 
 const useProductStore = defineStore("variant", () => {
   const initialiseStore = async (item) => {
     product.value = item.product;
-    choosedVariant.value = item.variant;
   };
 
-  const detailProductInfo = ref(null);
+  const detailProductInfo = ref();
+
+  const selectedVariant = ref(null);
+
+  const setSelectedVariant = (variant) => {
+    console.log("CHANED STATE");
+    selectedVariant.value = variant;
+  };
 
   const setDetailProductInfo = (productInfo) => {
+    console.log("CHANED STATE");
     detailProductInfo.value = productInfo;
   };
 
@@ -269,58 +276,6 @@ const useProductStore = defineStore("variant", () => {
     ],
   });
 
-  // const product = ref({});
-  const quantity = ref(1);
-  const choosedVariant = ref({});
-  const choosedColor = ref({});
-  const choosedSize = ref({});
-  const availableSize = ref([]);
-  const currentImageIdx = ref(0);
-
-  choosedVariant.value = product.value.variant[0];
-
-  choosedColor.value = product.value.variant[0].color;
-
-  const sizeAvailable = (size) => {
-    for (let item of availableSize.value) {
-      if (item.name === size.name) return true;
-    }
-    return false;
-  };
-
-  const allImageUrls = computed(() => {
-    const productImageUrls = product.value.image.map((image) => image.url);
-    return [choosedVariant.value.image, ...productImageUrls];
-  });
-
-  getAvailableSize(choosedColor.value);
-
-  const decreaseQuantity = () => {
-    if (quantity.value >= 1) {
-      quantity.value -= 1;
-      errorMessage.value = "";
-    } else {
-      errorMessage.value = "Số lượng phải lớn hơn 0!";
-    }
-  };
-
-  const increaseQuantity = () => {
-    if (quantity.value < choosedVariant.value.quantity) {
-      quantity.value += 1;
-      errorMessage.value = "";
-    } else {
-      errorMessage.value = "Số lượng vượt quá số lượng còn lại trong kho!";
-    }
-  };
-
-  const errorMessage = computed(() => {
-    return quantity.value < 0
-      ? "Số lượng phải lớn hơn 0!"
-      : quantity.value > choosedVariant.value.quantity
-      ? "Số lượng vượt quá số lượng còn lại trong kho!"
-      : "";
-  });
-
   function chooseCurrentImage(index) {
     currentImageIdx.value = index;
   }
@@ -332,13 +287,6 @@ const useProductStore = defineStore("variant", () => {
   function previousImage() {
     currentImageIdx.value =
       currentImageIdx.value > 0 ? currentImageIdx.value - 1 : 7;
-  }
-
-  function changeVariant(color, size) {
-    const res = product.value.variant.filter(
-      (item) => item.color.name === color.name && item.size.name === size.name
-    );
-    if (res.length) choosedVariant.value = res[0];
   }
 
   function getAvailableSize(color) {
@@ -362,50 +310,31 @@ const useProductStore = defineStore("variant", () => {
     changeVariant(choosedColor.value, choosedSize.value);
   }
 
-  function addToCart() {
-    cartStore.addItem({
-      product: product.value,
-      variant: choosedVariant.value,
-      quantity: quantity.value,
-    });
+  function addToCart({ product, variant, quantity }) {
+    cartStore.addItem({ product, variant, quantity });
     Toast.fire({
       icon: "success",
       title: "Đã thêm sản phẩm vào giỏ hàng!",
     });
   }
 
-  function updateCart() {
-    cartStore.deleteItem({
-      product: product.value,
-      variant: choosedVariant.value,
-    });
-    addToCart();
-  }
+  // function updateCart() {
+  //   cartStore.deleteItem({
+  //     product: product.value,
+  //     variant: choosedVariant.value,
+  //   });
+  //   addToCart();
+  // }
 
   return {
     initialiseStore,
     product,
-    quantity,
-    choosedVariant,
-    choosedColor,
-    choosedSize,
-    availableSize,
-    currentImageIdx,
-    sizeAvailable,
-    allImageUrls,
-    decreaseQuantity,
-    increaseQuantity,
-    errorMessage,
-    chooseCurrentImage,
-    nextImage,
-    previousImage,
-    changeVariant,
-    chooseColor,
-    chooseSize,
     addToCart,
-    updateCart,
+    // updateCart,
     detailProductInfo,
     setDetailProductInfo,
+    selectedVariant,
+    setSelectedVariant,
   };
 });
 

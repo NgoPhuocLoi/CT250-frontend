@@ -1,15 +1,15 @@
 <template>
   <div @click="viewDetail" class="cursor-pointer hover:shadow duration-75">
     <div class="w-full">
-      <img class="w-full" :src="product.images[0].image.path" />
+      <img class="w-full" :src="product.colors[0].productImage.image.path" />
     </div>
 
     <div class="p-3 pb-0">
       <div class="mb-2 flex gap-2">
         <div
-          v-for="color in sampleProduct.color"
+          v-for="color in product.colors"
           :key="color.name"
-          :style="{ backgroundImage: 'url(' + color.color_thumbnail + ')' }"
+          :style="{ backgroundImage: 'url(' + color.thumbnailImage.path + ')' }"
           class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer"
         ></div>
       </div>

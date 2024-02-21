@@ -54,7 +54,7 @@ const route = useRoute();
 const currentImageIdx = ref(0);
 
 const activeImage = computed(
-  () => productStore.detailProductInfo?.images[currentImageIdx.value].path
+  () => productStore.detailProductInfo?.images[currentImageIdx.value].image.path
 );
 
 // const quantity = ref(1);

@@ -37,13 +37,14 @@
         data-te-collapse-item
         :aria-labelledby="'heading' + index"
       >
-        <div class="py-4 whitespace-pre-line">
-          {{
+        <div
+          v-html="
             productStore.detailProductInfo
               ? productStore.detailProductInfo[item.field]
-              : ""
-          }}
-        </div>
+              : ''
+          "
+          class="py-4 whitespace-pre-line"
+        ></div>
       </div>
     </div>
   </div>

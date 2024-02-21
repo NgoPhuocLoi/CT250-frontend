@@ -9,7 +9,7 @@
             class="mr-0 mb-[7px] flex basis-[48%] w-[40%] h-auto items-center cursor-pointer"
             v-for="(image, index) in productStore.detailProductInfo?.images"
             :key="image.id"
-            :src="image.path"
+            :src="image.image.path"
             :class="{
               'border-2 border-red-500': index == currentImageIdx,
             }"

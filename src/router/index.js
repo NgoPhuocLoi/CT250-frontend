@@ -80,10 +80,7 @@ const router = createRouter({
           path: "/tin-tuc/:blogCategory",
           component: BlogList,
         },
-        {
-          path: "/:mainCategory",
-          component: MainCategoryVue,
-        },
+
         {
           path: "/san-pham/:productSlug",
           component: ProductDetail,
@@ -122,6 +119,10 @@ const router = createRouter({
               component: VoucherList,
             },
           ],
+        },
+        {
+          path: "/:mainCategory",
+          component: MainCategoryVue,
         },
       ],
     },

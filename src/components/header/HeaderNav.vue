@@ -48,7 +48,9 @@ function openCategoryMenu(categoryId) {
           @mouseenter="() => openCategoryMenu(category.id)"
           @mouseleave="headerState.openMenu = false"
         >
-          <span class="font-bold"> {{ category.name }} </span>
+          <RouterLink :to="category.slug">
+            <span class="font-bold"> {{ category.name }} </span>
+          </RouterLink>
           <span
             class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
           ></span>
@@ -56,10 +58,12 @@ function openCategoryMenu(categoryId) {
         <li
           class="text-lg h-full px-4 flex flex-col justify-center group cursor-pointer"
         >
-          <span class="font-bold"> Tin tức </span>
-          <span
-            class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
-          ></span>
+          <RouterLink to="/tin-tuc">
+            <span class="font-bold"> Tin tức </span>
+            <span
+              class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
+            ></span>
+          </RouterLink>
         </li>
       </ul>
     </div>

@@ -13,7 +13,7 @@
 
         <!-- Product grid -->
         <div class="col-span-3">
-          <ProductsList />
+          <!-- <ProductsList /> -->
         </div>
       </div>
     </section>

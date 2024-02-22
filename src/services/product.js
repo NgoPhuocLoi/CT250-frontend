@@ -14,6 +14,12 @@ class ProductService {
     return (await this.api.get("/", { params: { type, limit } })).data;
   }
 
+  async getByCategories({ categoryIds = [], type, limit = 10 }) {
+    console.log(categoryIds);
+    return (await this.api.get("/", { params: { type, limit, categoryIds } }))
+      .data;
+  }
+
   async getOneBySlug(slug) {
     return (await this.api.get(`/slug/${slug}`)).data;
   }

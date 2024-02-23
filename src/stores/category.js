@@ -4,6 +4,7 @@ import { computed, ref } from "vue";
 const useCategoryStore = defineStore("category", () => {
   const categories = ref([]);
   const activeCategoryId = ref(0);
+  const selectedSubCategory = ref();
 
   const setCategories = (payload) => {
     categories.value = payload;
@@ -12,6 +13,14 @@ const useCategoryStore = defineStore("category", () => {
   const setActiveCategoryId = (payload) => {
     activeCategoryId.value = payload;
   };
+
+  const setSelectedSubCategory = (payload) => {
+    selectedSubCategory.value = payload;
+  };
+
+  const activeCategory = computed(() =>
+    categories.value.find((c) => c.id === activeCategoryId.value)
+  );
 
   const activeCategoryChildren = computed(() =>
     activeCategoryId.value > 0
@@ -25,6 +34,9 @@ const useCategoryStore = defineStore("category", () => {
     activeCategoryId,
     setActiveCategoryId,
     activeCategoryChildren,
+    activeCategory,
+    selectedSubCategory,
+    setSelectedSubCategory,
   };
 });
 

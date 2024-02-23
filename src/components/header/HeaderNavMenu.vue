@@ -17,57 +17,24 @@ const categoryStore = useCategoryStore();
     <div class="container mx-auto">
       <div class="grid grid-cols-4 gap-8">
         <div v-for="category in categoryStore.activeCategoryChildren">
-          <div class="mb-2">{{ category.name }}</div>
+          <RouterLink
+            :to="`/${categoryStore.activeCategory?.slug}/${category.slug}/tat-ca`"
+            class="mb-3 uppercase block"
+            @click="categoryStore.setSelectedSubCategory(category)"
+            >{{ category.name }}
+          </RouterLink>
           <ul class="text-gray-500 text-sm">
-            <li
+            <RouterLink
               v-for="childCategory in category.children"
-              class="mb-2 cursor-pointer"
+              class="mb-2 cursor-pointer block"
+              :to="`/${categoryStore.activeCategory?.slug}/${category.slug}/${childCategory.slug}`"
+              @click="categoryStore.setSelectedSubCategory(childCategory)"
             >
               {{ childCategory.name }}
-            </li>
+            </RouterLink>
           </ul>
         </div>
       </div>
-      <!-- <div class="flex-1">
-        <a href="#">
-          <img
-            src="https://media-fmplus.cdn.vccloud.vn/uploads/menus/6d850279-a1e6-4398-90ed-ca2269421442.jpg"
-            alt=""
-            class="w-full"
-          />
-        </a>
-      </div>
-      <div class="flex-1">
-        <div>
-          <div class="mb-2">Ao nam</div>
-          <ul class="text-gray-500 text-sm">
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-          </ul>
-        </div>
-      </div>
-      <div class="flex-1">
-        <div>
-          <div class="mb-2">Ao nam</div>
-          <ul class="text-gray-500 text-sm">
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-            <li class="mb-2 cursor-pointer">Ao thun</li>
-          </ul>
-        </div>
-      </div>
-      <div class="flex-1">
-        <a href="#">
-          <img
-            src="https://media-fmplus.cdn.vccloud.vn/uploads/menus/6d850279-a1e6-4398-90ed-ca2269421442.jpg"
-            alt=""
-            class="w-full"
-          />
-        </a>
-      </div> -->
     </div>
   </div>
 </template>

@@ -85,10 +85,7 @@ const router = createRouter({
           path: "/san-pham/:productSlug",
           component: ProductDetail,
         },
-        {
-          path: "/nu/vay",
-          component: Products,
-        },
+
         {
           path: "/gio-hang",
           component: Cart,
@@ -123,6 +120,10 @@ const router = createRouter({
         {
           path: "/:mainCategory",
           component: MainCategoryVue,
+        },
+        {
+          path: "/:mainCategory/:secondaryCategory/:ternaryCategory",
+          component: Products,
         },
       ],
     },

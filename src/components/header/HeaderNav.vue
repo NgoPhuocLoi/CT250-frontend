@@ -41,30 +41,28 @@ function openCategoryMenu(categoryId) {
         </RouterLink>
       </div>
       <ul class="h-full flex items-center">
-        <li
+        <RouterLink
           v-for="category of categoryStore.categories"
           :key="category.id"
           class="text-lg h-full px-4 flex flex-col justify-center group cursor-pointer"
           @mouseenter="() => openCategoryMenu(category.id)"
           @mouseleave="headerState.openMenu = false"
+          :to="'/' + category.slug"
         >
-          <RouterLink :to="category.slug">
-            <span class="font-bold"> {{ category.name }} </span>
-          </RouterLink>
+          <span class="font-bold uppercase"> {{ category.name }} </span>
           <span
             class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
           ></span>
-        </li>
-        <li
+        </RouterLink>
+        <RouterLink
+          to="/tin-tuc"
           class="text-lg h-full px-4 flex flex-col justify-center group cursor-pointer"
         >
-          <RouterLink to="/tin-tuc">
-            <span class="font-bold"> Tin tức </span>
-            <span
-              class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
-            ></span>
-          </RouterLink>
-        </li>
+          <span class="font-bold uppercase"> Tin tức </span>
+          <span
+            class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
+          ></span>
+        </RouterLink>
       </ul>
     </div>
     {{ model }}

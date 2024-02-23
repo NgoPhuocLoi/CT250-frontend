@@ -51,7 +51,7 @@ const fetchProducts = async () => {
     const res = await productService.getByCategories({
       categoryIds: [activeCategory.value?.id],
       type: "Newest",
-      limit: 7,
+      limit: 10,
     });
     products.value = res.metadata;
 
@@ -75,23 +75,6 @@ const fetchProducts = async () => {
       />
     </div>
 
-    <div class="mb-[50px]">
-      <div class="mb-6 text-3xl font-bold text-center">DANH MỤC NỔI BẬT</div>
-
-      <div class="grid grid-cols-4 gap-4">
-        <div v-for="i in 8">
-          <div>
-            <img
-              class="w-full"
-              src="https://im.uniqlo.com/global-cms/spa/res73ca36910cd326191232045f05d8690ffr.jpg"
-              alt=""
-            />
-          </div>
-          <div class="my-3 text-center">AO KHOAC</div>
-        </div>
-      </div>
-    </div>
-
     <div
       class="mb-[50px] h-full"
       v-for="(productSection, index) of productSections"
@@ -101,18 +84,12 @@ const fetchProducts = async () => {
         {{ productSection.title }}
       </div>
 
-      <div class="flex gap-[50px] h-full">
-        <div class="w-[30%]">
-          <!-- <ProductCard :product="firstProduct" /> -->
-        </div>
-        <div class="w-[70%]">
-          <div class="grid grid-cols-3 gap-4">
-            <ProductCard
-              class="mb-2"
-              v-for="product of products"
-              :product="product"
-            />
-          </div>
+      <div class="grid gap-[50px] grid-cols-5 grid-rows-3 h-full">
+        <div
+          v-for="(product, index) of products"
+          :class="index === 0 ? 'col-span-2 row-span-3' : ''"
+        >
+          <ProductCard :product="product" />
         </div>
       </div>
 

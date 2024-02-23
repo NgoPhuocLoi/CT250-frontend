@@ -13,7 +13,7 @@
 
         <!-- Product grid -->
         <div class="col-span-3">
-          <!-- <ProductsList /> -->
+          <ProductsList />
         </div>
       </div>
     </section>
@@ -27,6 +27,9 @@ import FilterSize from "@/components/product/FilterSize.vue";
 import FilterColor from "@/components/product/FilterColor.vue";
 import FilterPrice from "@/components/product/FilterPrice.vue";
 import ProductsList from "@/components/product/ProductsList.vue";
+import { useCategoryStore } from "@/stores";
+
+const categoryStore = useCategoryStore();
 </script>
 
 <style></style>

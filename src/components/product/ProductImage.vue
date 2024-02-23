@@ -84,7 +84,6 @@ watch([detailProductInfo, selectedVariant], () => {
 
 const subImages = computed(() =>
   productStore.detailProductInfo?.images.filter((img) => {
-    console.log(img.color);
     return img.color === null;
   })
 );

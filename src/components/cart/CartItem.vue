@@ -14,13 +14,17 @@
         <div class="w-[42%]">
           <div class="flex gap-[2%]">
             <div class="flex w-[100px] pe-4">
-              <img class="w-full" :src="variantInfo.productImage.path" alt="" />
+              <img
+                class="w-full"
+                :src="item.color.productImage.image.path"
+                alt=""
+              />
             </div>
             <div class="flex flex-col gap-3 justify-center">
               <router-link
-                :to="'/nu/vay/' + item.product.slug"
+                :to="'/nu/vay/' + item.slug"
                 class="cursor-pointer line-clamp-1 overflow-hidden text-ellipsis"
-                >{{ item.product.name }}</router-link
+                >{{ item.name }}</router-link
               >
               <!-- size and color begin -->
               <div
@@ -36,7 +40,7 @@
                   <div
                     :style="{
                       backgroundImage:
-                        'url(' + variantInfo.color.thumbnailImage.path + ')',
+                        'url(' + item.color.thumbnailImage.path + ')',
                     }"
                     class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer"
                   ></div>
@@ -50,7 +54,7 @@
                   <div
                     class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer"
                   >
-                    {{ variantInfo.size.name }}
+                    {{ item.size.name }}
                   </div>
                   <div class="flex items-center h-[15px] w-[15px]">
                     <ArrowUpDownIcon />
@@ -66,12 +70,7 @@
         <div class="w-[20%]">
           <div class="noSelect relative inline-flex mb-2">
             <div
-              @click="
-                cartStore.removeItem({
-                  product: item.product,
-                  variant: item.variant,
-                })
-              "
+              @click="() => decreaseQuantity(1)"
               class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300"
             >
               <CollapseIcon />
@@ -79,17 +78,11 @@
             <input
               class="h-[42px] w-[84px] text-red-500 text-center border-[0.5px] border-gray-300 border-x-0"
               type="number"
-              v-model="item.count"
+              v-model="item.quantity"
               :onkeyup="typeQuantity"
             />
             <div
-              @click="
-                cartStore.addItem({
-                  product: item.product,
-                  variant: item.variant,
-                  quantity: 1,
-                })
-              "
+              @click="() => increaseQuantity(1)"
               class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300"
             >
               <ExpandIcon />
@@ -99,26 +92,18 @@
         <!-- so luong end -->
         <!-- don gia begin -->
         <div class="w-[15%]">
-          {{ new Intl.NumberFormat().format(item.product.price) }}
+          {{ new Intl.NumberFormat().format(item.price) }}
           VND
         </div>
         <!-- don gia end -->
         <!-- tong tinh begin -->
         <div class="w-[15%]">
-          {{ new Intl.NumberFormat().format(item.product.price * item.count) }}
+          {{ new Intl.NumberFormat().format(item.price * item.quantity) }}
           VND
         </div>
         <!-- tong tinh end -->
         <!-- xoa begin -->
-        <div
-          @click="
-            cartStore.deleteItem({
-              product: item.product,
-              variant: item.variant,
-            })
-          "
-          class="w-[5%] cursor-pointer"
-        >
+        <div @click="deleteItem" class="w-[5%] cursor-pointer">
           <DeleteIcon />
         </div>
         <!-- xoa end -->
@@ -144,38 +129,65 @@ import { computed, onMounted, toRef } from "vue";
 
 const cartStore = useCartStore();
 const props = defineProps(["item"]);
+const emits = defineEmits(["deleteItem"]);
 
 const item = toRef(() => props.item);
 
-const variantInfo = computed(() => {
-  console.log(props.item);
-  return {
-    ...item.value.variant,
-    productImage: item.value.product.images.find(
-      (image) => image.color?.id === item.value.variant.colorId
-    )?.image,
-    color: item.value.product.colors.find(
-      (color) => color.id === item.value.variant.colorId
-    ),
-    size: item.value.product.sizes.find(
-      (size) => size.id === item.value.variant.sizeId
-    ),
-  };
-});
+// const variantInfo = computed(() => {
+//   console.log(props.item);
+//   return {
+//     ...item.value.variant,
+//     productImage: item.value.product.images.find(
+//       (image) => image.color?.id === item.value.variant.colorId
+//     )?.image,
+//     color: item.value.product.colors.find(
+//       (color) => color.id === item.value.variant.colorId
+//     ),
+//     size: item.value.product.sizes.find(
+//       (size) => size.id === item.value.variant.sizeId
+//     ),
+//   };
+// });
 
 import CartModal from "@/components/cart/CartModal.vue";
 
 // Initialization for ES Users
 import { Modal, Ripple, initTE } from "tw-elements";
 
-const typeQuantity = async () => {
-  if (props.item.count < 1 || props.item.count > props.item.variant.quantity) {
-    props.item.count = 0;
-    return;
-  }
-};
-
 onMounted(() => {
   initTE({ Modal, Ripple });
 });
+
+const increaseQuantity = (numberToIncrease) => {
+  item.value.quantity += numberToIncrease;
+  cartStore.changeQuantityOfItem(
+    {
+      productId: item.value.id,
+      colorId: item.value.color.id,
+      sizeId: item.value.size.id,
+    },
+    item.value.quantity
+  );
+};
+
+const decreaseQuantity = (numberToDecrease) => {
+  if (item.value.quantity - numberToDecrease <= 0) return;
+  item.value.quantity -= numberToDecrease;
+  cartStore.changeQuantityOfItem(
+    {
+      productId: item.value.id,
+      colorId: item.value.color.id,
+      sizeId: item.value.size.id,
+    },
+    item.value.quantity
+  );
+};
+
+const deleteItem = () => {
+  emits("deleteItem", {
+    productId: item.value.id,
+    colorId: item.value.color.id,
+    sizeId: item.value.size.id,
+  });
+};
 </script>

@@ -88,16 +88,8 @@
       </div>
     </div>
 
-    <button
-      type="submit"
-      @click="handleAddProductToCart"
-      class="w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none"
-    >
-      Thêm vào giỏ hàng
-    </button>
-
-    <!-- <AddToCartButton v-if="!isUpdate" />
-    <UpdateCartButton v-else /> -->
+    <AddToCartButton :entered-quantity="enteredQuantity" v-if="!isUpdate" />
+    <UpdateCartButton v-else />
   </div>
   <div
     v-else
@@ -154,14 +146,6 @@ const isSizeAvailable = (sizeId) => {
       variant.colorId ==
         detailProductInfo.value.colors[selectedColorIndex.value].id
   ).quantity;
-};
-
-const handleAddProductToCart = () => {
-  productStore.addToCart({
-    product: detailProductInfo.value,
-    variant: selectedVariant.value,
-    quantity: enteredQuantity.value,
-  });
 };
 
 const decreaseQuantity = () => {

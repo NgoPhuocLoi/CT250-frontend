@@ -4,93 +4,73 @@ import { watch } from "vue";
 
 const useCartStore = defineStore("cart", () => {
   const items = ref([]);
-  const totalItems = ref(0);
-  const totalCost = ref(0);
+  const totalItems = computed(() => items.value.length);
+  const totalCost = computed(() =>
+    items.value.reduce((prev, item) => prev + item.price * item.quantity, 0)
+  );
 
-  const initialiseStore = async () => {
-    if (localStorage.getItem('cart')) {
-      items.value = JSON.parse(localStorage.getItem('cart'))
+  const getCartFromLocalStorage = () => {
+    if (localStorage.getItem("cart")) {
+      items.value = JSON.parse(localStorage.getItem("cart"));
     }
-    if (localStorage.getItem('cartTotalItems')) {
-      totalItems.value = parseInt(localStorage.getItem('cartTotalItems'))
-    }
-    if (localStorage.getItem('cartTotalCost')) {
-      totalCost.value = parseFloat(localStorage.getItem('cartTotalCost'))
-    }
-    return true;
   };
 
   watch(
-    items, (cart) => {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }, { deep: true }
+    items,
+    (cart) => {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    },
+    { deep: true }
   );
 
-  watch(
-    totalItems, (cartTotalItems) => { localStorage.setItem('cartTotalItems', JSON.stringify(cartTotalItems)) }, { deep: true }
-  );
+  const addItem = ({ productId, colorId, sizeId, quantity, price }) => {
+    const cartItem = {
+      productId,
+      colorId,
+      sizeId,
+      quantity,
+      price,
+    };
 
-  watch(
-    totalCost, (cartTotalCost) => { localStorage.setItem('cartTotalCost', JSON.stringify(cartTotalCost)) }, { deep: true }
-  );
+    const indexOfVariantInCart = findIndexOfItem(cartItem);
 
+    const variantAlreadyInCart = indexOfVariantInCart >= 0;
 
-  const addItem = (item) => {
-    let targetItem = items.value.filter(currItem =>
-      currItem.variant.color.colorId == item.variant.color.colorId &&
-      currItem.variant.size.sizeId == item.variant.size.sizeId &&
-      currItem.product.id == item.product.id
-    )[0];
-
-    if (targetItem && targetItem.count < item.variant.quantity) {
-      targetItem.count += item.quantity;
-      totalCost.value += item.quantity * item.product.price;
-    }
-    else if (!targetItem) {
-      items.value = [...items.value, { ...item, count: item.quantity }];
-      totalItems.value += 1;
-      totalCost.value += item.quantity * item.product.price;
+    if (!variantAlreadyInCart) {
+      items.value.push(cartItem);
+    } else {
+      items.value[indexOfVariantInCart].quantity += quantity;
     }
   };
 
-  const removeItem = (item) => {
-    let targetItem = items.value.filter(currItem =>
-      currItem.variant.color.colorId == item.variant.color.colorId &&
-      currItem.variant.size.sizeId == item.variant.size.sizeId &&
-      currItem.product.id == item.product.id
-    )[0];
+  const changeQuantityOfItem = (item, newQuantity) => {
+    const indexOfVariantInCart = findIndexOfItem(item);
 
-    if (targetItem.count > 1) {
-      targetItem.count -= 1;
-      totalCost.value -= item.product.price;
-    }
+    items.value[indexOfVariantInCart].quantity = newQuantity;
   };
 
   const deleteItem = (item) => {
-    totalItems.value -= 1;
+    const indexOfVariantInCart = findIndexOfItem(item);
+    items.value.splice(indexOfVariantInCart, 1);
+  };
 
-    let targetItem = items.value.filter(currItem =>
-      currItem.variant.color.colorId == item.variant.color.colorId &&
-      currItem.variant.size.sizeId == item.variant.size.sizeId &&
-      currItem.product.id == item.product.id
-    )[0];
-
-    // totalCost.value -= targetItem.count * item.product.price;
-    items.value = items.value.filter(currItem =>
-      currItem.variant.color.colorId != item.variant.color.colorId ||
-      currItem.variant.size.sizeId != item.variant.size.sizeId ||
-      currItem.product.id != item.product.id
+  const findIndexOfItem = ({ productId, sizeId, colorId }) => {
+    return items.value.findIndex(
+      (item) =>
+        item.productId === productId &&
+        item.sizeId === sizeId &&
+        item.colorId === colorId
     );
   };
 
   return {
     items,
     addItem,
-    removeItem,
     deleteItem,
     totalItems,
     totalCost,
-    initialiseStore,
+    getCartFromLocalStorage,
+    changeQuantityOfItem,
   };
 });
 

@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 import { SearchIcon, UserIcon, CartIcon } from "../icons";
 import categoryService from "@/services/category";
-import { useCategoryStore } from "@/stores";
+import { useCartStore, useCategoryStore } from "@/stores";
 
 const links = [
   {
@@ -17,8 +17,10 @@ const links = [
 
 const headerState = defineModel();
 const categoryStore = useCategoryStore();
+const cartStore = useCartStore();
 
 onMounted(async () => {
+  cartStore.getCartFromLocalStorage();
   try {
     const res = await categoryService.getAll();
     categoryStore.setCategories(res.metadata);
@@ -73,14 +75,25 @@ function openCategoryMenu(categoryId) {
       >
         <SearchIcon />
       </div>
+
       <router-link
-        v-for="(link, index) in links"
-        :key="index"
-        :to="link.url"
+        to="/tai-khoan"
         class="p-2 cursor-pointer w-[50px] h-[50px] flex items-center justify-center"
       >
-        <component :is="link.icon" />
-        <p>{{ link.title }}</p>
+        <UserIcon />
+      </router-link>
+
+      <router-link
+        to="/gio-hang"
+        class="p-2 cursor-pointer w-[50px] h-[50px] flex items-center justify-center relative"
+      >
+        <CartIcon />
+
+        <div
+          class="absolute text-white bg-red-600 w-[15px] h-[15px] rounded-full text-[12px] flex items-center justify-center top-1 right-1"
+        >
+          {{ cartStore.totalItems }}
+        </div>
       </router-link>
     </div>
   </nav>

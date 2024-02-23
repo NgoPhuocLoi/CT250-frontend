@@ -24,9 +24,10 @@
       <div class="border-[0.5px] border-t-0 border-gray-300">
         <!-- loop here -->
         <CartItem
-          v-for="(item, index) in cartStore.items"
-          :item="item"
+          v-for="(variant, index) of variantsInformationInCart"
+          :item="variant"
           :key="index"
+          @delete-item="(item) => handleDeleteItemAtIndex(item, index)"
         />
       </div>
     </div>
@@ -38,5 +39,47 @@ import { TickIcon, EmptyBoxIcon } from "@/components/icons";
 import CartItem from "@/components/cart/CartItem.vue";
 
 import { useCartStore } from "@/stores";
+import { onMounted, ref } from "vue";
+import productService from "@/services/product";
+import sizeService from "@/services/size";
 const cartStore = useCartStore();
+
+const variantsInformationInCart = ref([]);
+
+onMounted(async () => {
+  console.log(cartStore.items);
+  await fetchProductsInCart();
+});
+
+const fetchProductsInCart = async () => {
+  const distinctProductIds = Array.from(
+    new Set(cartStore.items.map((item) => item.productId))
+  );
+  try {
+    const [productsRes, sizesRes] = await Promise.all([
+      productService.getByProductIds({
+        productIds: distinctProductIds,
+      }),
+      sizeService.getAll(),
+    ]);
+
+    variantsInformationInCart.value = cartStore.items.map((item) => {
+      const product = productsRes.metadata.find((p) => p.id === item.productId);
+
+      return {
+        ...product,
+        color: product.colors.find((c) => c.id === item.colorId),
+        quantity: item.quantity,
+        size: sizesRes.metadata.find((size) => size.id === item.sizeId),
+      };
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleDeleteItemAtIndex = (item, index) => {
+  cartStore.deleteItem(item);
+  variantsInformationInCart.value.splice(index, 1);
+};
 </script>

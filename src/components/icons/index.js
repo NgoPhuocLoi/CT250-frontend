@@ -26,6 +26,7 @@ export { default as ArrowUpDownIcon } from "./ArrowUpDownIcon.vue";
 export { default as CloseIcon } from "./CloseIcon.vue";
 export { default as CoinIcon } from "./CoinIcon.vue";
 export { default as ListIcon } from "./ListIcon.vue";
+export { default as GoogleIcon } from "./GoogleIcon.vue";
 
 
 

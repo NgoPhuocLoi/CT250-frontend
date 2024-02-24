@@ -108,13 +108,13 @@
             data-te-disable-future="true">
             <label for="birthday" class="text-xl"> Ngày sinh </label>
             <Field @click="onClickDateInput" onkeydown="return false;" data-te-datepicker-toggle-ref
-              data-te-datepicker-toggle-button-ref type="text" name="birthday" id="birthday" v-model="user.birthday"
+              data-te-datepicker-toggle-button-ref type="text" name="birthday" id="birthday" v-model="birthday"
               class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" placeholder="--/--/----" />
           </div>
           <!-- birthday end -->
 
           <button type="submit"
-            class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
+            class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-gray-700 focus:outline-none">
             Đăng ký
           </button>
 
@@ -173,7 +173,7 @@ const images = {
     "https://cdn3.iconfinder.com/data/icons/mix-pack-6/44/Asset_25-64.png",
 };
 
-const user = ref({});
+const user = ref({ gender: true });
 
 const confirmPassword = ref("");
 
@@ -181,7 +181,7 @@ const birthday = ref("");
 
 async function createUser() {
   try {
-    user.value.birthday = moment(birthday.value, "dd/mm/yyyy").toISOString();
+    user.value.birthday = moment(birthday.value, "DD/MM/YYYY").toISOString();
     await AuthService.create(user.value);
 
     Toast.fire({

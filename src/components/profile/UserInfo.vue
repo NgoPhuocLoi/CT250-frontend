@@ -75,14 +75,14 @@
               data-te-disable-future="true">
               <label for="birthday" class="text-xl"> Ngày sinh </label>
               <Field @click="onClickDateInput" onkeydown="return false;" data-te-datepicker-toggle-ref
-                data-te-datepicker-toggle-button-ref type="text" name="birthday" id="birthday" v-model="user.birthday"
+                data-te-datepicker-toggle-button-ref type="text" name="birthday" id="birthday" v-model="birthday"
                 class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2" placeholder="--/--/----" />
             </div>
             <!-- birthday end -->
           </div>
         </div>
         <button type="submit"
-          class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none">
+          class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-gray-700 focus:outline-none">
           Lưu chỉnh sửa
         </button>
       </Form>
@@ -94,7 +94,6 @@
 import { ref, toRef } from "vue";
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import AuthService from "@/services/auth";
 import moment from "moment";
 
 import { Input, initTE, Datepicker } from "tw-elements";
@@ -114,6 +113,7 @@ const userSchema = yup.object().shape({
     .max(50, "Email tối đa 50 ký tự."),
   phone: yup
     .string()
+    .required("Không được để trống số điện thoại.")
     .matches(/((09|03|07|08|05)+([0-9]{8})\b)/g, "Số điện thoại không hợp lệ."),
 });
 
@@ -121,7 +121,8 @@ const accountStore = useAccountStore();
 
 const user = toRef(() => accountStore.account);
 
-const birthday = ref("");
+const birthday = ref(user.value.birthday === null ? null : moment(user.value.birthday).format("DD/MM/YYYY"));
+// const birthday = ref(moment(user.value.birthday).format("DD/MM/YYYY"));
 
 function onClickDateInput() {
   initTE({ Datepicker, Input });

@@ -1,9 +1,6 @@
 <template>
-  <button
-    type="submit"
-    @click="handleAddProductToCart"
-    class="w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none"
-  >
+  <button type="submit" @click="handleAddProductToCart"
+    class="w-full text-center py-3 rounded bg-black text-white hover:bg-gray-700 focus:outline-none">
     Thêm vào giỏ hàng
   </button>
 </template>

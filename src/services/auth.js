@@ -13,6 +13,10 @@ class AuthService {
     return (await this.api.post("/login", data)).data;
   }
 
+  async loginWithGoogle(data) {
+    return (await this.api.post("/loginWithGoogle", data)).data;
+  }
+
   async getLoggedInAccount(token) {
     return (
       await this.api.request({

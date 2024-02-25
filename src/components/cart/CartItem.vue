@@ -5,8 +5,11 @@
     >
       <div class="flex items-center *:flex *:justify-center">
         <!-- checkbox begin -->
-        <div class="noSelect w-[3%] flex justify-start cursor-pointer">
-          <TickIcon v-if="true" />
+        <div
+          @click="toggleSelectItem"
+          class="noSelect w-[3%] flex justify-start cursor-pointer"
+        >
+          <TickIcon v-if="item.selected" />
           <EmptyBoxIcon v-else />
         </div>
         <!-- checkbox end -->
@@ -69,24 +72,26 @@
         <!-- so luong begin -->
         <div class="w-[20%]">
           <div class="noSelect relative inline-flex mb-2">
-            <div
-              @click="() => decreaseQuantity(1)"
-              class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300"
+            <button
+              @click="() => changeQuantity(-1)"
+              class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:opacity-80"
+              :disabled="item.quantity <= 1"
             >
               <CollapseIcon />
-            </div>
+            </button>
             <input
               class="h-[42px] w-[84px] text-red-500 text-center border-[0.5px] border-gray-300 border-x-0"
               type="number"
-              v-model="item.quantity"
-              :onkeyup="typeQuantity"
+              :value="item.quantity"
+              @change="handleChangeQuantity"
             />
-            <div
-              @click="() => increaseQuantity(1)"
-              class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300"
+            <button
+              @click="() => changeQuantity(1)"
+              class="h-[42px] w-[42px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:opacity-80"
+              :disabled="item.quantity >= item.maximumQuantity"
             >
               <ExpandIcon />
-            </div>
+            </button>
           </div>
         </div>
         <!-- so luong end -->
@@ -115,17 +120,18 @@
 </template>
 
 <script setup>
+import CartModal from "@/components/cart/CartModal.vue";
 import {
-  TickIcon,
-  EmptyBoxIcon,
   ArrowUpDownIcon,
   CollapseIcon,
-  ExpandIcon,
   DeleteIcon,
-  CloseIcon,
+  EmptyBoxIcon,
+  ExpandIcon,
+  TickIcon,
 } from "@/components/icons";
 import { useCartStore } from "@/stores";
-import { computed, onMounted, toRef } from "vue";
+import { Modal, Ripple, initTE } from "tw-elements";
+import { onMounted, toRef } from "vue";
 
 const cartStore = useCartStore();
 const props = defineProps(["item"]);
@@ -133,33 +139,43 @@ const emits = defineEmits(["deleteItem"]);
 
 const item = toRef(() => props.item);
 
-// const variantInfo = computed(() => {
-//   console.log(props.item);
-//   return {
-//     ...item.value.variant,
-//     productImage: item.value.product.images.find(
-//       (image) => image.color?.id === item.value.variant.colorId
-//     )?.image,
-//     color: item.value.product.colors.find(
-//       (color) => color.id === item.value.variant.colorId
-//     ),
-//     size: item.value.product.sizes.find(
-//       (size) => size.id === item.value.variant.sizeId
-//     ),
-//   };
-// });
-
-import CartModal from "@/components/cart/CartModal.vue";
-
-// Initialization for ES Users
-import { Modal, Ripple, initTE } from "tw-elements";
-
 onMounted(() => {
   initTE({ Modal, Ripple });
 });
 
-const increaseQuantity = (numberToIncrease) => {
-  item.value.quantity += numberToIncrease;
+const handleChangeQuantity = (e) => {
+  const typedQuantity = +e.target.value;
+
+  if (typedQuantity > item.value.maximumQuantity) {
+    item.value.quantity = item.value.maximumQuantity;
+    Toast.fire({
+      icon: "error",
+      title: "Số lượng trong kho còn " + item.value.maximumQuantity,
+    });
+    changeQuantity(item.value.maximumQuantity - item.value.quantity);
+    return;
+  }
+
+  if (typedQuantity < 1) {
+    changeQuantity(1 - item.value.quantity);
+    return;
+  }
+
+  const numberToChange = typedQuantity - item.value.quantity;
+
+  changeQuantity(numberToChange);
+};
+
+const changeQuantity = (numberToChange) => {
+  const changedQuantity = item.value.quantity + numberToChange;
+  const isInvalidQuantity =
+    changedQuantity > item.value.maximumQuantity || changedQuantity < 1;
+  if (isInvalidQuantity) {
+    return;
+  }
+
+  item.value.quantity = changedQuantity;
+
   cartStore.changeQuantityOfItem(
     {
       productId: item.value.id,
@@ -170,17 +186,13 @@ const increaseQuantity = (numberToIncrease) => {
   );
 };
 
-const decreaseQuantity = (numberToDecrease) => {
-  if (item.value.quantity - numberToDecrease <= 0) return;
-  item.value.quantity -= numberToDecrease;
-  cartStore.changeQuantityOfItem(
-    {
-      productId: item.value.id,
-      colorId: item.value.color.id,
-      sizeId: item.value.size.id,
-    },
-    item.value.quantity
-  );
+const toggleSelectItem = () => {
+  cartStore.toggleSelectItem({
+    productId: item.value.id,
+    colorId: item.value.color.id,
+    sizeId: item.value.size.id,
+  });
+  item.value.selected = !item.value.selected;
 };
 
 const deleteItem = () => {

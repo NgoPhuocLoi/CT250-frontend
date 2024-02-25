@@ -4,9 +4,12 @@ import { watch } from "vue";
 
 const useCartStore = defineStore("cart", () => {
   const items = ref([]);
+
   const totalItems = computed(() => items.value.length);
   const totalCost = computed(() =>
-    items.value.reduce((prev, item) => prev + item.price * item.quantity, 0)
+    items.value
+      .filter((item) => item.selected)
+      .reduce((prev, item) => prev + item.price * item.quantity, 0)
   );
 
   const getCartFromLocalStorage = () => {
@@ -30,6 +33,7 @@ const useCartStore = defineStore("cart", () => {
       sizeId,
       quantity,
       price,
+      selected: true,
     };
 
     const indexOfVariantInCart = findIndexOfItem(cartItem);
@@ -63,6 +67,12 @@ const useCartStore = defineStore("cart", () => {
     );
   };
 
+  const toggleSelectItem = (item) => {
+    const indexOfVariantInCart = findIndexOfItem(item);
+    items.value[indexOfVariantInCart].selected =
+      !items.value[indexOfVariantInCart].selected;
+  };
+
   return {
     items,
     addItem,
@@ -71,6 +81,7 @@ const useCartStore = defineStore("cart", () => {
     totalCost,
     getCartFromLocalStorage,
     changeQuantityOfItem,
+    toggleSelectItem,
   };
 });
 

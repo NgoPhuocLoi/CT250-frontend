@@ -18,6 +18,10 @@
   .footer-title {
     @apply mb-4 flex justify-center font-semibold uppercase md:justify-start;
   }
+
+  .btn-basic {
+    @apply text-center py-3 rounded bg-black text-white hover:opacity-85;
+  }
 }
 
 .noSelect {
@@ -34,7 +38,7 @@
   outline: none !important;
 }
 
-[type=radio] {
+[type="radio"] {
   position: absolute;
   opacity: 0;
   width: 0;

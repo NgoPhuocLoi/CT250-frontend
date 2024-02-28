@@ -5,7 +5,7 @@ import MainLayout from "@/layouts/MainLayout.vue";
 import ProfileLayout from "@/layouts/ProfileLayout.vue";
 import UserInfo from "@/components/profile/UserInfo.vue";
 import OrderManagement from "@/components/profile/OrderManagement.vue";
-import AddressList from "@/components/profile/AddressList.vue";
+import UserAddresses from "@/components/profile/UserAddresses.vue";
 import VoucherList from "@/components/profile/VoucherList.vue";
 
 import Home from "@/views/Home.vue";
@@ -109,7 +109,7 @@ const router = createRouter({
             },
             {
               path: "so-dia-chi",
-              component: AddressList,
+              component: UserAddresses,
             },
             {
               path: "kho-voucher",

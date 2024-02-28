@@ -1,26 +1,49 @@
 <template>
-    <div class="w-full">
-        <div class="flex items-center justify-between p-2 rounded-sm">
-            <div class="flex items-center">
-                <p class="mr-4">User Name {{ props.i }} - 0856408499</p>
-                <div v-if="props.i == 1"
-                    class="flex justify-center items-center px-4 py-6 h-10 bg-orange-200 text-orange-600 rounded-full">
-                    Mặc định
-                </div>
-            </div>
-            <div class="flex cursor-pointer gap-3">
-                <EditIcon />
-                <DeleteIcon />
-            </div>
+  <div class="w-full">
+    <div class="flex items-center px-4 justify-between rounded-sm">
+      <div class="">
+        <div class="flex gap-3 items-center mb-2">
+          <p class="">
+            {{ props.address.contactName }} - {{ props.address.contactPhone }}
+          </p>
+          <div
+            v-if="props.address.isDefault"
+            class="flex text-sm justify-center items-center px-4 py-2 h-10 bg-orange-200 text-orange-600 rounded-full"
+          >
+            Mặc định
+          </div>
         </div>
-        <p class="p-2">abc, Hòa Hiệp Bắc, Liên Chiểu, Đà Nẵng</p>
+
+        <p class="">
+          {{ props.address.detailAddress }}, {{ props.address.wardName }},
+          {{ props.address.districtName }}, {{ props.address.provinceName }}
+        </p>
+      </div>
+      <div class="flex cursor-pointer gap-3">
+        <EditIcon
+          data-te-toggle="modal"
+          data-te-target="#addAddressModal"
+          @click="() => updateAddress(props.address)"
+        />
+        <DeleteIcon
+          data-te-toggle="modal"
+          data-te-target="#deleteAddressConfirmModal"
+          @click="addressStore.setAddressIdToDelete(props.address.id)"
+        />
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup>
-const props = defineProps(["i"]);
-import { DeleteIcon, EditIcon } from '@/components/icons';
-import { useCartStore } from '@/stores';
+const props = defineProps(["address"]);
+import { DeleteIcon, EditIcon } from "@/components/icons";
+import { useAddressStore, useCartStore } from "@/stores";
 const cartStore = useCartStore();
-</script>
+const addressStore = useAddressStore();
 
+function updateAddress(address) {
+  addressStore.setIsUpdatingAddress(true);
+  addressStore.setAddressToUpdate({ ...address });
+}
+</script>

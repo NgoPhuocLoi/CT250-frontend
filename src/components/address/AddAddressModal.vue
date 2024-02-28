@@ -1,26 +1,144 @@
 <script setup>
-import { onMounted } from "vue";
-
+import { onMounted, ref, toDisplayString, watch } from "vue";
 import { Modal, Ripple, initTE, Select } from "tw-elements";
-
 import EmptyBoxIcon from "@/components/icons/EmptyBoxIcon.vue";
+import TickIcon from "@/components/icons/TickIcon.vue";
+import addressService from "@/services/address";
+import { useAddressStore } from "@/stores";
 
-onMounted(() => {
-  initTE({ Modal, Ripple, Select });
+const emits = defineEmits(["addressChanged"]);
+const addressStore = useAddressStore();
+
+const provinces = ref([]);
+const districts = ref([]);
+const wards = ref([]);
+const modal = ref();
+
+watch(
+  () => addressStore.addressToUpdate,
+  async () => {
+    console.log("TRIGGER");
+    if (addressStore.isUpdatingAddress) {
+      await Promise.all([
+        getDistrictsOfProvince(addressStore.addressToUpdate.provinceId),
+        getWardsOfDistrict(addressStore.addressToUpdate.districtId),
+      ]);
+      userAddress.value = addressStore.addressToUpdate;
+    }
+  }
+);
+
+const userAddress = ref({
+  provinceId: 0,
+  districtId: 0,
+  wardCode: 0,
+  detailAddress: "",
+  contactName: "",
+  contactPhone: "",
+  isDefault: false,
 });
+
+onMounted(async () => {
+  initTE({ Modal, Ripple, Select });
+
+  const modalElement = document.getElementById("addAddressModal");
+
+  modal.value = new Modal(modalElement);
+
+  modalElement.addEventListener("hidden.te.modal", (e) => {
+    resetModal();
+    addressStore.setIsUpdatingAddress(false);
+    addressStore.setAddressToUpdate(null);
+    console.log("RESET");
+  });
+
+  await getProvinces();
+});
+
+async function onProvinceChange(e) {
+  userAddress.value.districtId = 0;
+  userAddress.value.wardCode = 0;
+  await getDistrictsOfProvince(e.target.value);
+}
+
+async function onDistrictChange(e) {
+  userAddress.value.wardCode = 0;
+  await getWardsOfDistrict(e.target.value);
+}
+
+function resetModal() {
+  userAddress.value = {
+    provinceId: 0,
+    districtId: 0,
+    wardCode: 0,
+    detailAddress: "",
+    contactName: "",
+    contactPhone: "",
+    isDefault: false,
+  };
+}
+
+async function handleAddNewAddress() {
+  try {
+    await addressService.addAddress(userAddress.value);
+    modal.value.hide();
+    emits("addressChanged");
+    Toast.fire({
+      icon: "success",
+      title: "Địa chỉ mới đã được thêm",
+    });
+    resetModal();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function handleUpdateAddress() {
+  try {
+    await addressService.update(
+      addressStore.addressToUpdate.id,
+      userAddress.value
+    );
+    modal.value.hide();
+    emits("addressChanged");
+    Toast.fire({
+      icon: "success",
+      title: "Địa chỉ đã được cập nhật",
+    });
+    resetModal();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getProvinces() {
+  try {
+    const res = await addressService.getProvinces();
+    provinces.value = res.metadata;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getDistrictsOfProvince(provinceId) {
+  try {
+    const res = await addressService.getDistricts(provinceId);
+    districts.value = res.metadata;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getWardsOfDistrict(districtId) {
+  try {
+    const res = await addressService.getWards(districtId);
+    wards.value = res.metadata;
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 <template>
-  <button
-    type="button"
-    class="p-[8px] btn-basic focus:outline-none"
-    data-te-toggle="modal"
-    data-te-target="#addAddressModal"
-    data-te-ripple-init
-    data-te-ripple-color="light"
-  >
-    Thêm địa chỉ mới
-  </button>
-
   <!-- Modal -->
   <div
     data-te-modal-init
@@ -45,7 +163,11 @@ onMounted(() => {
             class="text-xl font-medium leading-normal text-neutral-800 text-center w-full"
             id="addAddressModalLabel"
           >
-            Thêm địa chỉ mới
+            {{
+              addressStore.isUpdatingAddress
+                ? "Cập nhật địa chỉ"
+                : "Thêm địa chỉ mới"
+            }}
           </h5>
           <!--Close button-->
           <button
@@ -82,6 +204,7 @@ onMounted(() => {
               type="text"
               class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập họ và tên..."
+              v-model="userAddress.contactName"
             />
           </div>
 
@@ -91,6 +214,7 @@ onMounted(() => {
               type="text"
               class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập số điện thoại..."
+              v-model="userAddress.contactPhone"
             />
           </div>
 
@@ -99,30 +223,54 @@ onMounted(() => {
 
             <select
               class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              @change="onProvinceChange"
+              v-model="userAddress.provinceId"
             >
-              <option selected disabled>Chọn tỉnh thành</option>
-              <option v-for="i in 63">{{ i }}</option>
-            </select>
-          </div>
-          <div class="">
-            <label class="block">Tỉnh/ Thành phố</label>
-
-            <select
-              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
-            >
-              <option selected disabled>Chọn tỉnh thành</option>
-              <option v-for="i in 63">{{ i }}</option>
+              <option selected disabled value="0">Chọn tỉnh thành</option>
+              <option
+                v-for="province of provinces"
+                :value="province.ProvinceID"
+                :key="province.ProvinceID"
+              >
+                {{ province.ProvinceName }}
+              </option>
             </select>
           </div>
 
           <div class="">
-            <label class="block">Tỉnh/ Thành phố</label>
+            <label class="block">Quận/ Huyện</label>
 
             <select
               class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              v-model="userAddress.districtId"
+              @change="onDistrictChange"
             >
-              <option selected disabled>Chọn tỉnh thành</option>
-              <option v-for="i in 63">{{ i }}</option>
+              <option selected disabled value="0">Chọn Quận/ Huyện</option>
+              <option
+                v-for="district of districts"
+                :key="district.DistrictID"
+                :value="district.DistrictID"
+              >
+                {{ district.DistrictName }}
+              </option>
+            </select>
+          </div>
+
+          <div class="">
+            <label class="block">Khu vực</label>
+
+            <select
+              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              v-model="userAddress.wardCode"
+            >
+              <option selected disabled value="0">Chọn khu vực</option>
+              <option
+                v-for="ward of wards"
+                :key="ward.WardCode"
+                :value="ward.WardCode"
+              >
+                {{ ward.WardName }}
+              </option>
             </select>
           </div>
 
@@ -132,13 +280,14 @@ onMounted(() => {
               type="text"
               class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập địa chỉ cụ thể..."
+              v-model="userAddress.detailAddress"
             />
           </div>
 
           <div class="flex gap-2 items-center">
-            <div>
-              <!-- <TickIcon /> -->
-              <EmptyBoxIcon />
+            <div @click="userAddress.isDefault = !userAddress.isDefault">
+              <TickIcon v-if="userAddress.isDefault" />
+              <EmptyBoxIcon v-else />
             </div>
             <label class="">Đặt làm mặc định</label>
           </div>
@@ -148,24 +297,16 @@ onMounted(() => {
         <div
           class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-neutral-100 border-opacity-100 p-4"
         >
-          <button class="btn-basic px-8 py-2 mx-auto">Xác nhận</button>
-          <!-- <button
-            type="button"
-            class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-            data-te-modal-dismiss
-            data-te-ripple-init
-            data-te-ripple-color="light"
-          >
-            Close
-          </button>
           <button
-            type="button"
-            class="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-            data-te-ripple-init
-            data-te-ripple-color="light"
+            @click="
+              addressStore.isUpdatingAddress
+                ? handleUpdateAddress()
+                : handleAddNewAddress()
+            "
+            class="btn-basic px-8 py-2 mx-auto"
           >
-            Save changes
-          </button> -->
+            Xác nhận
+          </button>
         </div>
       </div>
     </div>

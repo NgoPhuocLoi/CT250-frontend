@@ -1,37 +1,24 @@
-import productService from "@/services/product";
-import sizeService from "@/services/size";
-
+import variantService from "./variant";
 class CartService {
   fetchProductsInCartWithItemsInLocalStorage = async (items) => {
-    const distinctProductIds = Array.from(
-      new Set(items.map((item) => item.productId))
-    );
+    if (!items || items.length === 0) return [];
     try {
-      const [productsRes, sizesRes] = await Promise.all([
-        productService.getByProductIds({
-          productIds: distinctProductIds,
-        }),
-        sizeService.getAll(),
-      ]);
+      const res = await variantService.getByVariantIds(
+        items.map((item) => item.variantId)
+      );
 
-      return items.map((item) => {
-        const product = productsRes.metadata.find(
-          (p) => p.id === item.productId
+      return res.metadata.map((variant) => {
+        const variantInCart = items.find(
+          (item) => item.variantId === variant.id
         );
         return {
-          ...product,
-          color: product.colors.find((c) => c.id === item.colorId),
-          quantity: item.quantity,
-          size: sizesRes.metadata.find((size) => size.id === item.sizeId),
-          maximumQuantity: product.variants.find(
-            (variant) =>
-              (variant.colorId = item.colorId && variant.sizeId === item.sizeId)
-          ).quantity,
-          selected: item.selected,
+          ...variant,
+          quantity: variantInCart.quantity,
+          maximumQuantity: variant.quantity,
+          selected: variantInCart.selected,
         };
       });
     } catch (error) {
-      console.log(error);
       return [];
     }
   };

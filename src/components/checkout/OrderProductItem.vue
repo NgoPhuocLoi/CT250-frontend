@@ -12,9 +12,9 @@
             </div>
             <div class="flex flex-col gap-3 justify-center">
               <router-link
-                :to="'/nu/vay/' + item.slug"
+                :to="'/san-pham/' + item.product.slug"
                 class="cursor-pointer line-clamp-1 overflow-hidden text-ellipsis"
-                >{{ item.name }}</router-link
+                >{{ item.product.name }}</router-link
               >
               <!-- size and color begin -->
               <div class="flex w-full">
@@ -41,13 +41,15 @@
         <!-- so luong end -->
         <!-- don gia begin -->
         <div class="w-[15%] flex justify-center">
-          {{ new Intl.NumberFormat().format(item.price) }}
+          {{ new Intl.NumberFormat().format(item.product.price) }}
           VND
         </div>
         <!-- don gia end -->
         <!-- tong tinh begin -->
         <div class="w-[20%] flex justify-center">
-          {{ new Intl.NumberFormat().format(item.price * item.quantity) }}
+          {{
+            new Intl.NumberFormat().format(item.product.price * item.quantity)
+          }}
           VND
         </div>
         <!-- tong tinh end -->

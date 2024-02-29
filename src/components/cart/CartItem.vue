@@ -25,9 +25,9 @@
             </div>
             <div class="flex flex-col gap-3 justify-center">
               <router-link
-                :to="'/nu/vay/' + item.slug"
+                :to="'/san-pham' + item.product.slug"
                 class="cursor-pointer line-clamp-1 overflow-hidden text-ellipsis"
-                >{{ item.name }}</router-link
+                >{{ item.product.name }}</router-link
               >
               <!-- size and color begin -->
               <div
@@ -97,13 +97,15 @@
         <!-- so luong end -->
         <!-- don gia begin -->
         <div class="w-[15%]">
-          {{ new Intl.NumberFormat().format(item.price) }}
+          {{ new Intl.NumberFormat().format(item.product.price) }}
           VND
         </div>
         <!-- don gia end -->
         <!-- tong tinh begin -->
         <div class="w-[15%]">
-          {{ new Intl.NumberFormat().format(item.price * item.quantity) }}
+          {{
+            new Intl.NumberFormat().format(item.product.price * item.quantity)
+          }}
           VND
         </div>
         <!-- tong tinh end -->
@@ -178,9 +180,7 @@ const changeQuantity = (numberToChange) => {
 
   cartStore.changeQuantityOfItem(
     {
-      productId: item.value.id,
-      colorId: item.value.color.id,
-      sizeId: item.value.size.id,
+      variantId: item.value.id,
     },
     item.value.quantity
   );
@@ -188,18 +188,14 @@ const changeQuantity = (numberToChange) => {
 
 const toggleSelectItem = () => {
   cartStore.toggleSelectItem({
-    productId: item.value.id,
-    colorId: item.value.color.id,
-    sizeId: item.value.size.id,
+    variantId: item.value.id,
   });
   item.value.selected = !item.value.selected;
 };
 
 const deleteItem = () => {
   emits("deleteItem", {
-    productId: item.value.id,
-    colorId: item.value.color.id,
-    sizeId: item.value.size.id,
+    vairantId: item.value.id,
   });
 };
 </script>

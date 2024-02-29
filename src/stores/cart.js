@@ -26,11 +26,10 @@ const useCartStore = defineStore("cart", () => {
     { deep: true }
   );
 
-  const addItem = ({ productId, colorId, sizeId, quantity, price }) => {
+  const addItem = ({ productId, variantId, quantity, price }) => {
     const cartItem = {
       productId,
-      colorId,
-      sizeId,
+      variantId,
       quantity,
       price,
       selected: true,
@@ -58,13 +57,8 @@ const useCartStore = defineStore("cart", () => {
     items.value.splice(indexOfVariantInCart, 1);
   };
 
-  const findIndexOfItem = ({ productId, sizeId, colorId }) => {
-    return items.value.findIndex(
-      (item) =>
-        item.productId === productId &&
-        item.sizeId === sizeId &&
-        item.colorId === colorId
-    );
+  const findIndexOfItem = ({ variantId }) => {
+    return items.value.findIndex((item) => item.variantId === variantId);
   };
 
   const toggleSelectItem = (item) => {

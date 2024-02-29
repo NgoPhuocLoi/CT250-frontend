@@ -22,23 +22,14 @@
         class="flex items-center gap-2 pb-3 border-b-[0.5px] border-gray-300 my-5 rounded-sm"
       >
         <div class="w-full flex items-center">
-          <div class="">
-            <input
-              :id="address.id"
-              name="address"
-              :value="address.id"
-              v-model="chosenAddressId"
-              type="radio"
+          <div
+            class="cursor-pointer"
+            @click="addressStore.setChosenAddressToCheckout(address)"
+          >
+            <TickRoundIcon
+              v-if="addressStore.chosenAddressToCheckout?.id == address.id"
             />
-            <label
-              :for="address.id"
-              class="w-full flex items-center gap-3 text-xl ml-3 cursor-pointer"
-            >
-              <div>
-                <TickRoundIcon v-if="chosenAddressId == address.id" />
-                <EmptyRoundBoxIcon v-else />
-              </div>
-            </label>
+            <EmptyRoundBoxIcon v-else />
           </div>
           <OrderAddressCard :address="address" />
         </div>
@@ -58,17 +49,18 @@ import { TickRoundIcon, EmptyRoundBoxIcon } from "@/components/icons";
 import addressService from "@/services/address";
 import AddAddressModal from "../address/AddAddressModal.vue";
 import DeleteConfirmModal from "../address/DeleteConfirmModal.vue";
+import { useAddressStore } from "@/stores";
+
+const addressStore = useAddressStore();
 
 const addresses = ref([]);
-
-const chosenAddressId = ref();
 
 watch(addresses, () => {
   const defaultAddress = addresses.value.find((address) => address.isDefault);
 
-  chosenAddressId.value = defaultAddress
-    ? defaultAddress.id
-    : addresses.value[0]?.id;
+  addressStore.setChosenAddressToCheckout(
+    defaultAddress ? defaultAddress : addresses.value[0]
+  );
 });
 
 onMounted(async () => {

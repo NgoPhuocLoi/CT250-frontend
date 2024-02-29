@@ -16,13 +16,18 @@
         </div>
         <div class="flex justify-between">
           <p>Phí vận chuyển</p>
-          <p>15.000 VND</p>
+          <p>{{ new Intl.NumberFormat().format(shippingFee) }} VND</p>
         </div>
       </div>
     </div>
     <div class="pt-3 flex justify-between">
       <p>Tổng thanh toán</p>
-      <p>240.000 VND</p>
+      <p>
+        {{
+          new Intl.NumberFormat().format(cartStore.totalCost + shippingFee)
+        }}
+        VND
+      </p>
     </div>
     <button
       type="submit"
@@ -41,6 +46,28 @@ import {
   DeleteIcon,
   EditIcon,
 } from "@/components/icons";
-import { useCartStore } from "@/stores";
+import { useAddressStore, useCartStore } from "@/stores";
+import shippingService from "@/services/shipping";
+import { ref, watch } from "vue";
+
 const cartStore = useCartStore();
+const addressStore = useAddressStore();
+
+const shippingFee = ref(0);
+
+watch(
+  () => addressStore.chosenAddressToCheckout,
+  async () => {
+    try {
+      const res = await shippingService.calculateOrderFee({
+        toDistrictId: addressStore.chosenAddressToCheckout.districtId,
+        toWardCode: addressStore.chosenAddressToCheckout.wardCode,
+      });
+
+      shippingFee.value = res.metadata.total;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 </script>

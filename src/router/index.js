@@ -1,17 +1,18 @@
 import LoginForm from "@/components/auth/LoginForm.vue";
 import RegisterForm from "@/components/auth/RegisterForm.vue";
+import OrderManagement from "@/components/profile/OrderManagement.vue";
+import OrderDetail from "@/components/profile/OrderDetail.vue";
+import UserAddresses from "@/components/profile/UserAddresses.vue";
+import UserInfo from "@/components/profile/UserInfo.vue";
+import VoucherList from "@/components/profile/VoucherList.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
 import ProfileLayout from "@/layouts/ProfileLayout.vue";
-import UserInfo from "@/components/profile/UserInfo.vue";
-import OrderManagement from "@/components/profile/OrderManagement.vue";
-import UserAddresses from "@/components/profile/UserAddresses.vue";
-import VoucherList from "@/components/profile/VoucherList.vue";
 
 import Home from "@/views/Home.vue";
 
-import Products from "@/views/product/Products.vue";
 import ProductDetail from "@/views/product/ProductDetail.vue";
+import Products from "@/views/product/Products.vue";
 
 import Cart from "@/views/Cart.vue";
 import Checkout from "@/views/Checkout.vue";
@@ -106,6 +107,10 @@ const router = createRouter({
             {
               path: "quan-ly-don-hang",
               component: OrderManagement,
+            },
+            {
+              path: "quan-ly-don-hang/:orderId",
+              component: OrderDetail,
             },
             {
               path: "so-dia-chi",

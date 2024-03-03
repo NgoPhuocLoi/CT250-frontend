@@ -15,8 +15,8 @@ const chosenOrderStatusId = defineModel();
     >
       <span class=""> Tất cả đơn </span>
       <span
-        class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
-        :class="chosenOrderStatusId === 0 ? 'bg-red-300' : ''"
+        class="w-full group-hover:bg-red-300 h-[3px]"
+        :class="chosenOrderStatusId === 0 ? 'bg-red-300' : 'bg-transparent'"
       ></span>
     </li>
     <li
@@ -27,8 +27,10 @@ const chosenOrderStatusId = defineModel();
     >
       <span class=""> {{ status.name }} </span>
       <span
-        class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
-        :class="chosenOrderStatusId === status.id ? 'bg-red-300' : ''"
+        class="w-full group-hover:bg-red-300 h-[3px]"
+        :class="
+          chosenOrderStatusId === status.id ? 'bg-red-300' : 'bg-transparent'
+        "
       ></span>
     </li>
   </ul>

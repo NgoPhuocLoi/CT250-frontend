@@ -5,13 +5,15 @@ const props = defineProps(["order"]);
   <div class="p-5 w-full border">
     <div>
       <RouterLink
-        to="/tai-khoan/quan-ly-don-hang/123"
+        :to="`/tai-khoan/quan-ly-don-hang/${props.order.id}`"
         class="flex w-full gap-5"
       >
         <div class="w-[150px] flex-shrink-0">
           <img
             class="w-[150px] h-[150px]"
-            src="https://media-fmplus.cdn.vccloud.vn/el-finder-file-system/thumb/v1_L3Byb2R1Y3RzLzIzMDhRVEFCODg4MDUwMS83ZjUwMWQwMy04ZDY4LTRjNGEtOTA0MC1mZTM0MjdkNDczZDJfRUVEMTY5ODJCNzQwODRBM0VDQUI3NEY3OTg1MkMxMDEuanBn0"
+            :src="
+              props.order.OrderDetail[0].variant.color.productImage.image.path
+            "
             alt=""
           />
         </div>

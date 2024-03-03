@@ -37,7 +37,7 @@ import paymentService from "@/services/payment";
 const cartStore = useCartStore();
 
 const paymentMethods = ref([]);
-const chosenPaymentMethodId = ref();
+const chosenPaymentMethodId = defineModel();
 
 const method = ref("COD");
 

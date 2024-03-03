@@ -25,7 +25,7 @@
             </div>
             <div class="flex flex-col gap-3 justify-center">
               <router-link
-                :to="'/san-pham' + item.product.slug"
+                :to="'/san-pham/' + item.product.slug"
                 class="cursor-pointer line-clamp-1 overflow-hidden text-ellipsis"
                 >{{ item.product.name }}</router-link
               >

@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+const props = defineProps(["order"]);
+</script>
 <template>
   <div class="p-5 w-full border">
     <div>
@@ -18,25 +20,36 @@
             <div>
               <div class="flex">
                 <div class="w-[150px]">Số lượng</div>
-                <div>: 1 sản phẩm</div>
+                <div>: {{ props.order.OrderDetail.length }} sản phẩm</div>
               </div>
 
               <div class="flex">
                 <div class="w-[150px]">Tổng tiền hàng</div>
-                <div>: 350.000 VNĐ</div>
+                <div>
+                  :
+                  {{ new Intl.NumberFormat().format(props.order.totalPrice) }}
+                  VNĐ
+                </div>
               </div>
 
               <div class="flex">
                 <div class="w-[150px]">Phí vận chuyển</div>
-                <div>: 30.000 VNĐ</div>
+                <div>
+                  :
+                  {{ new Intl.NumberFormat().format(props.order.shippingFee) }}
+                  VNĐ
+                </div>
               </div>
             </div>
 
-            <div class="ml-auto text-xl text-yellow-400">Chờ thanh toán</div>
+            <div class="ml-auto text-xl text-yellow-400">
+              {{ props.order.currentStatus.name }}
+            </div>
           </div>
 
           <div class="text-xl text-orange-500 mt-2 text-right w-full">
-            Tổng thanh toán: 380.000 VNĐ
+            Tổng thanh toán:
+            {{ new Intl.NumberFormat().format(props.order.finalPrice) }} VNĐ
           </div>
         </div>
       </RouterLink>

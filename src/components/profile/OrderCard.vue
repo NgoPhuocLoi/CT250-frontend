@@ -1,5 +1,7 @@
 <script setup>
-const props = defineProps(["order"]);
+import { ORDER_STATUS_ID_MAPPING } from "@/constants/orderStatus";
+
+const props = defineProps(["order", "handleCancelOrder", "handleReOrder"]);
 </script>
 <template>
   <div class="p-5 w-full border">
@@ -44,7 +46,18 @@ const props = defineProps(["order"]);
               </div>
             </div>
 
-            <div class="ml-auto text-xl text-yellow-400">
+            <div
+              class="ml-auto text-xl"
+              :class="
+                props.order.currentStatusId ===
+                ORDER_STATUS_ID_MAPPING.DELIVERED
+                  ? 'text-green-500'
+                  : props.order.currentStatusId ===
+                    ORDER_STATUS_ID_MAPPING.CANCELED
+                  ? 'text-red-500'
+                  : 'text-orange-500'
+              "
+            >
               {{ props.order.currentStatus.name }}
             </div>
           </div>
@@ -57,6 +70,26 @@ const props = defineProps(["order"]);
       </RouterLink>
     </div>
 
-    <div></div>
+    <div class="mt-4 flex gap-[10px] justify-end">
+      <button
+        class="px-4 py-[2px] border border-black rounded hover:bg-black hover:text-white text-[15px]"
+        v-if="
+          props.order.currentStatusId ===
+            ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM ||
+          props.order.currentStatusId ===
+            ORDER_STATUS_ID_MAPPING.AWAITING_FULFILLMENT
+        "
+        @click="() => props.handleCancelOrder(props.order.id)"
+      >
+        Hủy đặt hàng
+      </button>
+      <button
+        class="px-4 py-[2px] border border-black rounded hover:bg-black hover:text-white text-[15px]"
+        v-if="props.order.currentStatusId === ORDER_STATUS_ID_MAPPING.CANCELED"
+        @click="() => handleReOrder(props.order)"
+      >
+        Mua lại
+      </button>
+    </div>
   </div>
 </template>

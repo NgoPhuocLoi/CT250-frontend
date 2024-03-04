@@ -8,6 +8,11 @@ class PaymentService {
   async getPaymentMethods() {
     return (await this.api.get("/methods")).data;
   }
+
+  async createPaymentUrl({ orderId, amount }) {
+    return (await this.api.post("/create-payment-url", { orderId, amount }))
+      .data;
+  }
 }
 
 export default new PaymentService();

@@ -1,15 +1,34 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import moment from "moment";
-import orderService from "@/services/order";
 import { ORDER_STATUS_ID_MAPPING } from "@/constants/orderStatus";
+import { PAYMENT_STATUS_ID_MAPPING } from "@/constants/paymentStatus";
+import orderService from "@/services/order";
+import paymentService from "@/services/payment";
+import { useCartStore } from "@/stores";
+import moment from "moment";
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
+const cartStore = useCartStore();
 
 const order = ref();
 
 onMounted(async () => {
+  if (route.query.code) {
+    const isSuccess = route.query.code === "00";
+
+    Swal.fire({
+      title: isSuccess ? "Thành công" : "Thất bại",
+      text: isSuccess ? "Thanh toán thành công" : "Thanh toán thất bại",
+      icon: isSuccess ? "success" : "error",
+    });
+  }
+
+  await fetchOrderInformation();
+});
+
+async function fetchOrderInformation() {
   try {
     const res = await orderService.getOrderById(route.params.orderId);
 
@@ -17,7 +36,7 @@ onMounted(async () => {
   } catch (error) {
     console.log(error);
   }
-});
+}
 
 function handleCancelOrder(orderId) {
   Swal.fire({
@@ -35,9 +54,39 @@ function handleCancelOrder(orderId) {
         title: "Thành công",
         text: "Đơn hàng đã được hủy thành công!",
         icon: "success",
+      }).then(async () => {
+        await fetchOrderInformation();
       });
     }
   });
+}
+
+function handleReOrder(order) {
+  order.OrderDetail.forEach((item) => {
+    cartStore.addItem({
+      productId: item.variant.productId,
+      variantId: item.variantId,
+      quantity: item.quantity,
+      price: item.price,
+    });
+  });
+
+  router.push("/gio-hang");
+}
+
+async function handlePayment() {
+  try {
+    const res = await paymentService.createPaymentUrl({
+      orderId: order.value?.id,
+      amount: order.value?.finalPrice,
+    });
+
+    const redirectUrl = res.metadata.redirectUrl;
+    console.log(redirectUrl);
+    window.location = redirectUrl;
+  } catch (error) {
+    console.log(error);
+  }
 }
 </script>
 <template>
@@ -74,7 +123,17 @@ function handleCancelOrder(orderId) {
           </div>
         </div>
 
-        <div>{{ order?.currentStatus.name }}</div>
+        <div
+          :class="
+            order?.currentStatusId === ORDER_STATUS_ID_MAPPING.DELIVERED
+              ? 'text-green-500'
+              : order?.currentStatusId === ORDER_STATUS_ID_MAPPING.CANCELED
+              ? 'text-red-500'
+              : 'text-orange-500'
+          "
+        >
+          {{ order?.currentStatus.name }}
+        </div>
       </div>
 
       <div class="flex gap-5 w-full mb-[30px]">
@@ -102,14 +161,42 @@ function handleCancelOrder(orderId) {
             <div>{{ order?.Payment.paymentMethod.name }}</div>
           </div>
 
-          <div class="flex justify-between mt-auto w-full">
+          <div
+            v-if="
+              order?.currentStatusId ===
+              ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM
+            "
+            class="flex justify-between mt-auto w-full"
+          >
             <button
               class="btn-basic px-5 py-2 bg-orange-500"
-              v-if="order?.Payment.paymentMethod.id === 2"
+              v-if="
+                order?.Payment.paymentMethod.id === 2 &&
+                order?.Payment.paymentStatus.id !==
+                  PAYMENT_STATUS_ID_MAPPING.SUCCESS
+              "
+              @click="handlePayment"
             >
-              Thanh toán
+              <span>Thanh toán</span>
+              <span
+                v-if="
+                  order?.Payment.paymentStatus.id ===
+                  PAYMENT_STATUS_ID_MAPPING.FAILED
+                "
+                >lại</span
+              >
             </button>
-            <div class="text-lg text-orange-500 ml-auto flex items-center">
+            <div
+              :class="`text-lg ml-auto flex items-center ${
+                order?.Payment.paymentStatusId ===
+                PAYMENT_STATUS_ID_MAPPING.PENDING
+                  ? 'text-orange-500'
+                  : order?.Payment.paymentStatusId ===
+                    PAYMENT_STATUS_ID_MAPPING.FAILED
+                  ? 'text-red-500'
+                  : 'text-green-500'
+              }`"
+            >
               <p class="leading-none">
                 {{ order?.Payment.paymentStatus.name }}
               </p>
@@ -189,6 +276,7 @@ function handleCancelOrder(orderId) {
           <button
             v-if="order?.currentStatusId === ORDER_STATUS_ID_MAPPING.CANCELED"
             class="btn-basic px-5 py-2 bg-orange-500"
+            @click="() => handleReOrder(order)"
           >
             Mua lại
           </button>

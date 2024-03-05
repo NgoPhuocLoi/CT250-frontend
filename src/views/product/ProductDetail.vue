@@ -1,5 +1,6 @@
 <template>
   <div class="text-lg container mx-auto">
+    <Breadcumb :breadcumb="breadcumb" />
     <div class="py-10 px-[7%]">
       <div class="flex gap-8 flex-nowrap">
         <div class="noSelect w-[60%] flex flex-col">
@@ -20,14 +21,17 @@ import ProductDescription from "@/components/product/ProductDescription.vue";
 import ProductInfo from "@/components/product/ProductInfo.vue";
 import { computed, onMounted, ref } from "vue";
 import { useLoadingStore, useProductStore } from "@/stores";
-import productService from "@/services/product";
 import { useRoute } from "vue-router";
+import Breadcumb from "@/components/common/Breadcumb.vue";
+import productService from "@/services/product";
+import categoryService from "@/services/category";
 
 const productStore = useProductStore();
 const loadingStore = useLoadingStore();
 const route = useRoute();
 
 const currentImageId = ref(0);
+const breadcumb = ref([]);
 
 const activeImage = computed(
   () =>
@@ -39,16 +43,27 @@ const activeImage = computed(
 onMounted(async () => {
   loadingStore.startLoading();
   try {
-    const res = await productService.getOneBySlug(route.params.productSlug);
-    productStore.setDetailProductInfo(res.metadata);
-    currentImageId.value =
-      productStore.detailProductInfo.colors[0].productImageId;
+    await Promise.all([fetchProductInformation(), fetchBreadcumb()]);
   } catch (error) {
     console.log(error);
   } finally {
     loadingStore.endLoading();
   }
 });
+
+async function fetchProductInformation() {
+  const res = await productService.getOneBySlug(route.params.productSlug);
+  productStore.setDetailProductInfo(res.metadata);
+  currentImageId.value =
+    productStore.detailProductInfo.colors[0].productImageId;
+}
+
+async function fetchBreadcumb() {
+  const res = await categoryService.getBreadcumbFromProduct(
+    route.params.productSlug
+  );
+  breadcumb.value = res.metadata;
+}
 </script>
 
 <style></style>

@@ -186,7 +186,10 @@ async function handleUpdateAccountInfo(values) {
   }
   try {
     const res = await accountService.updateInfo(values);
-    accountStore.setAccount(res.metadata);
+    accountStore.setAccount({
+      ...res.metadata,
+      avatar: accountStore.account.avatar,
+    });
     Toast.fire({
       icon: "success",
       title: "Cập nhật thông tin thành công",

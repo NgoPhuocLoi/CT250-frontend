@@ -5,7 +5,7 @@
     <section class="pb-24 pt-6">
       <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
         <!-- Filters -->
-        <form class="block">
+        <form class="block border-r pr-4">
           <FilterCategory />
           <FilterColor />
           <FilterSize />

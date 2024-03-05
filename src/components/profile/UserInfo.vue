@@ -119,7 +119,7 @@
                 type="date"
                 name="birthday"
                 id="birthday"
-                :value="user.birthday.slice(0, 10)"
+                :value="user.birthday?.slice(0, 10)"
                 class="block w-full p-3 rounded border border-gray-300 mt-3 mb-2"
                 placeholder="--/--/----"
               />

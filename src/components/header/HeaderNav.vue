@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted } from "vue";
 import { SearchIcon, UserIcon, CartIcon } from "../icons";
+import { useAccountStore, useCartStore, useCategoryStore } from "@/stores";
 import categoryService from "@/services/category";
-import { useCartStore, useCategoryStore } from "@/stores";
+import authService from "@/services/auth";
 
 const links = [
   {
@@ -18,12 +19,19 @@ const links = [
 const headerState = defineModel();
 const categoryStore = useCategoryStore();
 const cartStore = useCartStore();
+const accountStore = useAccountStore();
 
 onMounted(async () => {
   cartStore.getCartFromLocalStorage();
   try {
     const res = await categoryService.getAll();
     categoryStore.setCategories(res.metadata);
+
+    const accesstoken = localStorage.getItem("accesstoken");
+    if (accesstoken) {
+      const res = await authService.getLoggedInAccount(accesstoken);
+      accountStore.setAccount(res.metadata);
+    }
   } catch (error) {
     console.log(error);
   }
@@ -77,13 +85,6 @@ function openCategoryMenu(categoryId) {
       </div>
 
       <router-link
-        to="/tai-khoan"
-        class="p-2 cursor-pointer w-[50px] h-[50px] flex items-center justify-center"
-      >
-        <UserIcon />
-      </router-link>
-
-      <router-link
         to="/gio-hang"
         class="p-2 cursor-pointer w-[50px] h-[50px] flex items-center justify-center relative"
       >
@@ -93,6 +94,29 @@ function openCategoryMenu(categoryId) {
           class="absolute text-white bg-red-600 w-[15px] h-[15px] rounded-full text-[12px] flex items-center justify-center top-1 right-1"
         >
           {{ cartStore.totalItems }}
+        </div>
+      </router-link>
+
+      <router-link
+        to="/tai-khoan"
+        :class="`p-2 cursor-pointer flex items-center justify-center ${
+          accountStore.account ? '' : 'w-[50px] h-[50px]'
+        }`"
+      >
+        <UserIcon v-if="!accountStore.account" />
+        <div class="w-full flex gap-[10px] items-center" v-else>
+          <div class="w-[36px] h-[36px] overflow-hidden rounded-full border">
+            <img
+              class="w-[36px] h-[36px] object-cover"
+              :src="
+                accountStore.account.avatar
+                  ? accountStore.account.avatar.path
+                  : 'https://media.fmplus.com.vn/defaults/user.png'
+              "
+              alt=""
+            />
+          </div>
+          <span>{{ accountStore.account.fullName }}</span>
         </div>
       </router-link>
     </div>

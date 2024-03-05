@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 const useAccountStore = defineStore("account", () => {
-  const account = ref({});
+  const account = ref(null);
 
   const setAccount = (payload) => {
     account.value = payload;
@@ -10,7 +10,7 @@ const useAccountStore = defineStore("account", () => {
 
   return {
     account,
-    setAccount
+    setAccount,
   };
 });
 

@@ -7,9 +7,10 @@
       {{ new Intl.NumberFormat().format(detailProductInfo?.price) }}
       VND
     </div>
-    <div class="mb-2 border-p-[0.5px] border-gray-300 pb-3 whitespace-pre-line">
-      {{ detailProductInfo?.description }}
-    </div>
+    <div
+      v-html="detailProductInfo?.description"
+      class="mb-2 border-p-[0.5px] border-gray-300 pb-3 whitespace-pre-line"
+    ></div>
     <div class="mb-2">
       <div class="flex gap-2 text-xl uppercase font-bold">
         <div class="mb-2">Còn lại:</div>

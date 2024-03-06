@@ -86,11 +86,7 @@ async function handleCreateOrder() {
       items: cartStore.items.filter((item) => item.selected),
     });
 
-    cartStore.items.forEach((item) => {
-      if (item.selected) {
-        cartStore.deleteItem(item);
-      }
-    });
+    cartStore.setItems(cartStore.items.filter((item) => !item.selected));
 
     Swal.fire({
       title: "Thành công",

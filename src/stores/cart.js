@@ -18,6 +18,10 @@ const useCartStore = defineStore("cart", () => {
     }
   };
 
+  const setItems = (payload) => {
+    items.value = payload;
+  };
+
   watch(
     items,
     (cart) => {
@@ -76,6 +80,7 @@ const useCartStore = defineStore("cart", () => {
     getCartFromLocalStorage,
     changeQuantityOfItem,
     toggleSelectItem,
+    setItems,
   };
 });
 

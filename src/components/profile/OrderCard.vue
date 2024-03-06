@@ -24,7 +24,7 @@ const props = defineProps(["order", "handleCancelOrder", "handleReOrder"]);
             <div>
               <div class="flex">
                 <div class="w-[150px]">Số lượng</div>
-                <div>: {{ props.order.OrderDetail.length }} sản phẩm</div>
+                <div>: {{ props.order.OrderDetail?.length }} sản phẩm</div>
               </div>
 
               <div class="flex">

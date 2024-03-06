@@ -163,8 +163,10 @@ async function handlePayment() {
 
           <div
             v-if="
-              order?.currentStatusId ===
-              ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM
+              order?.currentStatusId >=
+                ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM &&
+              order?.currentStatusId <=
+                ORDER_STATUS_ID_MAPPING.AWAITING_FULFILLMENT
             "
             class="flex justify-between mt-auto w-full"
           >
@@ -183,7 +185,8 @@ async function handlePayment() {
                   order?.Payment.paymentStatus.id ===
                   PAYMENT_STATUS_ID_MAPPING.FAILED
                 "
-                >lại</span
+              >
+                lại</span
               >
             </button>
             <div

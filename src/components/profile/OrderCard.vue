@@ -1,6 +1,8 @@
 <script setup>
 import { ORDER_STATUS_ID_MAPPING } from "@/constants/orderStatus";
 
+import OrderStatus from "@/components/order/OrderStatus.vue";
+
 const props = defineProps(["order", "handleCancelOrder", "handleReOrder"]);
 </script>
 <template>
@@ -46,19 +48,8 @@ const props = defineProps(["order", "handleCancelOrder", "handleReOrder"]);
               </div>
             </div>
 
-            <div
-              class="ml-auto text-xl"
-              :class="
-                props.order.currentStatusId ===
-                ORDER_STATUS_ID_MAPPING.DELIVERED
-                  ? 'text-green-500'
-                  : props.order.currentStatusId ===
-                    ORDER_STATUS_ID_MAPPING.CANCELED
-                  ? 'text-red-500'
-                  : 'text-orange-500'
-              "
-            >
-              {{ props.order.currentStatus.name }}
+            <div class="ml-auto">
+              <OrderStatus :orderStatus="props.order?.currentStatus" />
             </div>
           </div>
 
@@ -75,9 +66,7 @@ const props = defineProps(["order", "handleCancelOrder", "handleReOrder"]);
         class="px-4 py-[2px] border border-black rounded hover:bg-black hover:text-white text-[15px]"
         v-if="
           props.order.currentStatusId ===
-            ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM ||
-          props.order.currentStatusId ===
-            ORDER_STATUS_ID_MAPPING.AWAITING_FULFILLMENT
+          ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM
         "
         @click="() => props.handleCancelOrder(props.order.id)"
       >

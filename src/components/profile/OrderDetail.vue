@@ -3,6 +3,8 @@ import { ORDER_STATUS_ID_MAPPING } from "@/constants/orderStatus";
 import { PAYMENT_STATUS_ID_MAPPING } from "@/constants/paymentStatus";
 import orderService from "@/services/order";
 import paymentService from "@/services/payment";
+import OrderStatus from "@/components/order/OrderStatus.vue";
+import PaymentStatus from "@/components/order/PaymentStatus.vue";
 import { useCartStore } from "@/stores";
 import moment from "moment";
 import { onMounted, ref } from "vue";
@@ -123,17 +125,7 @@ async function handlePayment() {
           </div>
         </div>
 
-        <div
-          :class="
-            order?.currentStatusId === ORDER_STATUS_ID_MAPPING.DELIVERED
-              ? 'text-green-500'
-              : order?.currentStatusId === ORDER_STATUS_ID_MAPPING.CANCELED
-              ? 'text-red-500'
-              : 'text-orange-500'
-          "
-        >
-          {{ order?.currentStatus.name }}
-        </div>
+        <OrderStatus :orderStatus="order?.currentStatus" />
       </div>
 
       <div class="flex gap-5 w-full mb-[30px]">
@@ -189,20 +181,8 @@ async function handlePayment() {
                 lại</span
               >
             </button>
-            <div
-              :class="`text-lg ml-auto flex items-center ${
-                order?.Payment.paymentStatusId ===
-                PAYMENT_STATUS_ID_MAPPING.PENDING
-                  ? 'text-orange-500'
-                  : order?.Payment.paymentStatusId ===
-                    PAYMENT_STATUS_ID_MAPPING.FAILED
-                  ? 'text-red-500'
-                  : 'text-green-500'
-              }`"
-            >
-              <p class="leading-none">
-                {{ order?.Payment.paymentStatus.name }}
-              </p>
+            <div class="ml-auto">
+              <PaymentStatus :payment-status="order?.Payment.paymentStatus" />
             </div>
           </div>
         </div>
@@ -269,9 +249,7 @@ async function handlePayment() {
             class="px-5 py-2 border border-black rounded hover:bg-black hover:text-white"
             v-if="
               order?.currentStatusId ===
-                ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM ||
-              order?.currentStatusId ===
-                ORDER_STATUS_ID_MAPPING.AWAITING_FULFILLMENT
+              ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM
             "
           >
             Hủy đơn

@@ -11,7 +11,7 @@ const props = defineProps(["title"]);
         <h3 class="text-2xl font-bold">
           {{ props.title }}
         </h3>
-        <div>Xem them</div>
+        <div>Xem thêm</div>
       </div>
       <slot></slot>
     </div>

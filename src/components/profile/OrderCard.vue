@@ -46,6 +46,17 @@ const props = defineProps(["order", "handleCancelOrder", "handleReOrder"]);
                   VNĐ
                 </div>
               </div>
+
+              <div class="flex">
+                <div class="w-[150px]">Tổng giảm trừ</div>
+                <div>
+                  :
+                  {{
+                    new Intl.NumberFormat().format(props.order.totalDiscount)
+                  }}
+                  VNĐ
+                </div>
+              </div>
             </div>
 
             <div class="ml-auto">

@@ -9,11 +9,14 @@
       <div class="flex flex-col gap-6 flex-1">
         <OrderProduct />
         <OrderAddress />
-        <CouponReduce />
+        <CouponReduce v-model="chosenCoupon" />
       </div>
       <div class="flex flex-col gap-6 w-[30%]">
         <PaymentMethod v-model="chosenPaymentMethodId" />
-        <TotalOrder :chosen-payment-method-id="chosenPaymentMethodId" />
+        <TotalOrder
+          :chosen-coupon="chosenCoupon"
+          :chosen-payment-method-id="chosenPaymentMethodId"
+        />
       </div>
     </div>
   </div>
@@ -28,4 +31,5 @@ import TotalOrder from "@/components/checkout/TotalOrder.vue";
 import { ref } from "vue";
 
 const chosenPaymentMethodId = ref();
+const chosenCoupon = ref();
 </script>

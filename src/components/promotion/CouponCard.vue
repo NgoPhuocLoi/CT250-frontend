@@ -25,28 +25,79 @@
     <div class="relative flex flex-col gap-4 justify-between py-3 pr-3 w-full">
       <div>
         <div class="flex justify-between">
-          <div>
-            <div class="leading-[25px] mb-2">Giảm 20%</div>
+          <div class="w-full">
+            <div class="leading-[25px] mb-2 flex justify-between">
+              <span>
+                Giảm
+                {{
+                  coupon.discountType === "percentage"
+                    ? `${props.coupon.discountValue}%`
+                    : `${new Intl.NumberFormat("vi-VN", {
+                        currency: "VND",
+                      }).format(coupon.discountValue)} VND`
+                }}
+              </span>
+
+              <span>Còn: {{ coupon.quantity - coupon.collectedQuantity }}</span>
+            </div>
             <div class="leading-[22px] text-gray-500 mb-2">
-              Cho đơn hàng từ 0 VND
+              Cho đơn hàng từ
+              {{
+                `${new Intl.NumberFormat("vi-VN", {
+                  currency: "VND",
+                }).format(props.coupon.minimumPriceToUse)}`
+              }}
+              VND
             </div>
           </div>
         </div>
         <div class="flex justify-between items-center">
           <div class="leading-[22px] text-gray-500">
-            HSD: 24.01.2024 - 24.02.2024
+            HSD: {{ getFormatDate(coupon.startDate) }} -
+            {{ getFormatDate(coupon.endDate) }}
           </div>
         </div>
       </div>
       <div class="flex">
-        <button class="btn-basic px-4 py-2 w-[60%] mx-auto">Thu thập</button>
+        <button
+          @click="handleCollectCoupon"
+          v-if="!isCollected"
+          class="btn-basic px-4 py-2 w-[60%] mx-auto"
+        >
+          Lấy
+        </button>
+        <button
+          v-else
+          class="btn-basic px-4 py-2 w-[60%] mx-auto opacity-60 cursor-default pointer-events-none"
+        >
+          Đã lấy
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import moment from "moment";
+import { ref, toRef } from "vue";
+import couponService from "@/services/coupon";
 
-const props = defineProps(["isCollected"]);
+const props = defineProps(["isCollected", "coupon"]);
+const collectedCouponIds = defineModel();
+
+const coupon = toRef(() => props.coupon);
+
+function getFormatDate(date) {
+  return moment(date).format("DD.MM.YYYY");
+}
+
+async function handleCollectCoupon() {
+  try {
+    await couponService.collectCoupon(props.coupon.code);
+    coupon.value.collectedQuantity++;
+    collectedCouponIds.value.push(props.coupon.id);
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>

@@ -18,12 +18,30 @@
           <p>Phí vận chuyển</p>
           <p>{{ new Intl.NumberFormat().format(shippingFee) }} VND</p>
         </div>
+
+        <div class="flex justify-between">
+          <p>Mã giảm giá</p>
+          <p>
+            {{
+              new Intl.NumberFormat().format(
+                getTotalDiscount(props.chosenCoupon)
+              )
+            }}
+            VND
+          </p>
+        </div>
       </div>
     </div>
     <div class="pt-3 flex justify-between">
       <p>Tổng thanh toán</p>
       <p>
-        {{ new Intl.NumberFormat().format(cartStore.totalCost + shippingFee) }}
+        {{
+          new Intl.NumberFormat().format(
+            cartStore.totalCost +
+              shippingFee -
+              getTotalDiscount(props.chosenCoupon)
+          )
+        }}
         VND
       </p>
     </div>
@@ -55,7 +73,7 @@ const cartStore = useCartStore();
 const addressStore = useAddressStore();
 const router = useRouter();
 
-const props = defineProps(["chosenPaymentMethodId"]);
+const props = defineProps(["chosenPaymentMethodId", "chosenCoupon"]);
 const shippingFee = ref(0);
 
 watch(
@@ -78,12 +96,16 @@ async function handleCreateOrder() {
   try {
     const res = await orderService.createOrder({
       totalPrice: cartStore.totalCost,
-      totalDiscount: 0,
+      totalDiscount: getTotalDiscount(props.chosenCoupon),
       shippingFee: shippingFee.value,
-      finalPrice: cartStore.totalCost + shippingFee.value,
+      finalPrice:
+        cartStore.totalCost +
+        shippingFee.value -
+        getTotalDiscount(props.chosenCoupon),
       deliveryAddressId: addressStore.chosenAddressToCheckout.id,
       paymentMethodId: props.chosenPaymentMethodId,
       items: cartStore.items.filter((item) => item.selected),
+      usedCouponId: props.chosenCoupon.id,
     });
 
     cartStore.setItems(cartStore.items.filter((item) => !item.selected));
@@ -98,5 +120,13 @@ async function handleCreateOrder() {
   } catch (error) {
     console.log(error);
   }
+}
+
+function getTotalDiscount(chosenCoupon) {
+  if (!chosenCoupon) return 0;
+
+  return chosenCoupon.discountType === "percentage"
+    ? (+chosenCoupon.discountValue / 100) * +cartStore.totalCost
+    : chosenCoupon.discountValue;
 }
 </script>

@@ -5,14 +5,14 @@ import { useAccountStore, useCartStore, useCategoryStore } from "@/stores";
 import categoryService from "@/services/category";
 import authService from "@/services/auth";
 
-const links = [
+const otherLinks = [
   {
-    icon: UserIcon,
-    url: "/tai-khoan",
+    title: "Khuyến mãi",
+    url: "/khuyen-mai",
   },
   {
-    icon: CartIcon,
-    url: "/gio-hang",
+    title: "Tin tức",
+    url: "/tin-tuc",
   },
 ];
 
@@ -65,10 +65,12 @@ function openCategoryMenu(categoryId) {
           ></span>
         </RouterLink>
         <RouterLink
-          to="/tin-tuc"
+          v-for="link of otherLinks"
+          :key="link.url"
+          :to="link.url"
           class="text-lg h-full px-4 flex flex-col justify-center group cursor-pointer"
         >
-          <span class="font-bold uppercase"> Tin tức </span>
+          <span class="font-bold uppercase"> {{ link.title }} </span>
           <span
             class="w-full bg-transparent group-hover:bg-red-300 h-[3px]"
           ></span>

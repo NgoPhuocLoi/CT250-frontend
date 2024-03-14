@@ -3,11 +3,11 @@
     <div class="flex items-baseline justify-between pb-6 pt-6">
       <h1 class="text-4xl font-bold tracking-tight text-gray-900">Giỏ hàng</h1>
     </div>
-    <div class="w-full flex justify-between">
-      <div class="min-w-[65%]">
+    <div class="w-full grid grid-cols-4 gap-4">
+      <div class="col-span-3">
         <CartLeft />
       </div>
-      <div class="w-[33%]">
+      <div>
         <CartRight />
       </div>
     </div>

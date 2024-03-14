@@ -105,7 +105,7 @@ async function handleCreateOrder() {
       deliveryAddressId: addressStore.chosenAddressToCheckout.id,
       paymentMethodId: props.chosenPaymentMethodId,
       items: cartStore.items.filter((item) => item.selected),
-      usedCouponId: props.chosenCoupon.id,
+      usedCouponId: props.chosenCoupon?.id,
     });
 
     cartStore.setItems(cartStore.items.filter((item) => !item.selected));

@@ -9,6 +9,7 @@ import { useCartStore } from "@/stores";
 import moment from "moment";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { getDiscountValue } from "@/utils";
 
 const route = useRoute();
 const router = useRouter();
@@ -70,6 +71,7 @@ function handleReOrder(order) {
       variantId: item.variantId,
       quantity: item.quantity,
       price: item.price,
+      productDiscount: item.discount,
     });
   });
 
@@ -223,9 +225,23 @@ async function handlePayment() {
               </div>
             </div>
 
-            <div class="flex items-center">
-              {{ new Intl.NumberFormat().format(orderDetail.price) }}
-              VND
+            <div class="flex flex-col justify-center">
+              <span
+                class="text-[13px] line-through text-gray-600"
+                v-if="orderDetail.discount"
+                >{{
+                  new Intl.NumberFormat().format(orderDetail.price)
+                }}
+                VND</span
+              >
+              <span>
+                {{
+                  new Intl.NumberFormat().format(
+                    orderDetail.price - orderDetail.discount
+                  )
+                }}
+                VND
+              </span>
             </div>
 
             <div class="flex items-center">x{{ orderDetail.quantity }}</div>
@@ -233,7 +249,8 @@ async function handlePayment() {
             <div class="flex items-center">
               {{
                 new Intl.NumberFormat().format(
-                  orderDetail.price * orderDetail.quantity
+                  (orderDetail.price - orderDetail.discount) *
+                    orderDetail.quantity
                 )
               }}
               VND

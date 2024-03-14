@@ -16,6 +16,7 @@ const fetchingProducts = toRef(() => props.fetchingProducts);
         v-for="product of products"
         :product="product"
         :key="product.id"
+        :on-sale="product.productDiscount.length > 0"
       />
 
       <ProductCardSkeleton v-else v-for="i in 10" />

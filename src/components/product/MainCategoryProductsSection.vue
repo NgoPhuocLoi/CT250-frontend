@@ -14,7 +14,10 @@ const props = defineProps(["title", "products"]);
         v-for="(product, index) of props.products"
         :class="index === 0 ? 'col-span-2 row-span-3' : ''"
       >
-        <ProductCard :product="product" />
+        <ProductCard
+          :product="product"
+          :on-sale="product.productDiscount.length > 0"
+        />
       </div>
     </div>
 

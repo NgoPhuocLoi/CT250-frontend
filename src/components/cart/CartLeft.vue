@@ -10,16 +10,17 @@
     </div>
     <div class="w-full">
       <div
-        class="bg-gray-300 px-[15px] py-[20px] border-[0.5px] border-gray-300"
+        class="bg-gray-300 px-[15px] py-[20px] border-[0.5px] border-gray-300 grid font-bold text-center"
+        style="grid-template-columns: repeat(20, minmax(0, 1fr))"
       >
-        <div class="flex *:text-center *:font-bold">
-          <div class="w-[3%]"></div>
-          <div class="w-[42%]">Sản phẩm</div>
-          <div class="w-[20%]">Số lượng</div>
-          <div class="w-[15%]">Đơn giá</div>
-          <div class="w-[15%]">Tổng tính</div>
-          <div class="w-[5%]">Xóa</div>
-        </div>
+        <!-- <div class="flex *:text-center *:font-bold"> -->
+
+        <div class="col-span-10">Sản phẩm</div>
+        <div class="col-span-3">Số lượng</div>
+        <div class="col-span-3">Đơn giá</div>
+        <div class="col-span-3">Tổng tính</div>
+        <div class="">Xóa</div>
+        <!-- </div> -->
       </div>
       <div class="border-[0.5px] border-t-0 border-gray-300">
         <!-- loop here -->

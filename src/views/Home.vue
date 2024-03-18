@@ -38,8 +38,10 @@ onMounted(async () => {
 
 <template>
   <div>
-    <Carousel />
-    <HomeCategory />
+    <div class="hidden lg:block">
+      <Carousel />
+    </div>
+    <div class="mt-4 lg:mt-0"><HomeCategory /></div>
     <HomeProducts
       :fetchingProducts="fetchingProducts"
       title="Sản phẩm mới"

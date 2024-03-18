@@ -2,16 +2,16 @@
 const props = defineProps(["title"]);
 </script>
 <template>
-  <div class="w-full mb-[60px] flex justify-center h-full">
+  <div class="w-full mb-[60px] flex justify-center h-full px-4">
     <div class="container mx-auto h-full">
       <div
         v-if="props.title"
         class="flex justify-between items-center mb-4 text-gray-600"
       >
-        <h3 class="text-2xl font-bold">
+        <h3 class="text-xl md:text-2xl font-bold">
           {{ props.title }}
         </h3>
-        <div>Xem thêm</div>
+        <div class="text-[14px] md:text-lg">Xem thêm</div>
       </div>
       <slot></slot>
     </div>

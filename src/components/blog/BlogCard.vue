@@ -14,12 +14,12 @@ const props = defineProps(["horizontal"]);
     </div>
 
     <div class="p-4">
-      <div class="mb-3 font-bold text-xl text-gray-700 truncate">
+      <div class="mb-3 font-bold text-lg md:text-xl text-gray-700 truncate">
         VUI CHƠI TẾT VỚI DEAL 50% CHO MŨ BẢO HIỂM ASIA
       </div>
 
       <p
-        class="text-gray-600"
+        class="text-gray-600 text-sm md:text-lg"
         :class="props.horizontal ? 'line-clamp-3' : 'line-clamp-3'"
       >
         Tết đến Xuân sang, ưu đãi ngập tràn. Deal hời giảm 50% cho Mũ bảo hiểm

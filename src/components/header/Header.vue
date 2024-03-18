@@ -18,8 +18,8 @@ const loadingStore = useLoadingStore();
   <div
     class="w-full border border-l-0 border-t-0 border-r-0 border-gray-400 bg-white fixed z-10"
   >
-    <div class="container mx-auto px-2 w-full h-full">
-      <div class="h-[72px] w-full">
+    <div class="md:container md:mx-auto px-2 w-full h-full">
+      <div class="h-[60px] md:h-[72px] w-full">
         <div class="h-full">
           <HeaderSearch
             v-if="headerState.searching"

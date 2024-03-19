@@ -2,7 +2,7 @@
 const props = defineProps(["title"]);
 </script>
 <template>
-  <div class="w-full mb-[60px] flex justify-center h-full px-4">
+  <div class="w-full mb-[30px] md:mb-[60px] flex justify-center h-full md:px-4">
     <div class="container mx-auto h-full">
       <div
         v-if="props.title"

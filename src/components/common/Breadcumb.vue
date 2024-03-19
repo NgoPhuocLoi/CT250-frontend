@@ -16,8 +16,10 @@ function getPath(currentItemIndex) {
 }
 </script>
 <template>
-  <nav class="w-full rounded-md mt-3 hidden md:block">
-    <ol class="list-reset flex">
+  <nav class="w-full rounded-md mt-3 block">
+    <ol
+      class="list-reset flex flex-wrap text-[15px] md:text-lg lg:text-[20px] px-2"
+    >
       <li class="hover:opacity-80">
         <RouterLink to="/" class="">Trang chủ</RouterLink>
       </li>

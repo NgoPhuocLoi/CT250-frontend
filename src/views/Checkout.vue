@@ -5,13 +5,13 @@
         Thanh toán
       </h1>
     </div>
-    <div class="w-full flex justify-between gap-6">
-      <div class="flex flex-col gap-6 flex-1">
+    <div class="w-full grid grid-cols-3 gap-6">
+      <div class="flex flex-col gap-6 col-span-full lg:col-span-2">
         <OrderProduct />
         <OrderAddress />
         <CouponReduce v-model="chosenCoupon" />
       </div>
-      <div class="flex flex-col gap-6 w-[30%]">
+      <div class="flex flex-col gap-6 col-span-full lg:col-span-1">
         <PaymentMethod v-model="chosenPaymentMethodId" />
         <TotalOrder
           :chosen-coupon="chosenCoupon"

@@ -3,8 +3,10 @@
     <div
       class="flex justify-between items-center border-b-[0.5px] border-gray-300"
     >
-      <div class="text-3xl uppercase font-bold py-3">Mô tả</div>
-      <div class="text-xl font-bold">
+      <div class="text-xl md:text-2xl lg:text-3xl uppercase font-bold py-3">
+        Mô tả
+      </div>
+      <div class="text-[15px] md:text-lg lg:text-xl font-bold">
         Mã sản phẩm: {{ productStore.detailProductInfo?.id }}
       </div>
     </div>
@@ -15,7 +17,7 @@
     >
       <h2 class="mb-0" :id="'heading' + index">
         <button
-          class="group relative flex w-full items-center rounded-none border-0 bg-white text-left text-xl font-bold mb-2 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none"
+          class="group relative flex w-full items-center rounded-none border-0 bg-white text-left text-lg md:text-xl font-bold mb-2 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none"
           type="button"
           data-te-collapse-init
           data-te-collapse-collapsed
@@ -33,7 +35,7 @@
       </h2>
       <div
         :id="'collapse' + index"
-        class="!visible hidden"
+        class="!visible hidden text-[16px] md:text-lg"
         data-te-collapse-item
         :aria-labelledby="'heading' + index"
       >

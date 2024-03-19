@@ -3,9 +3,9 @@
     <Breadcumb :breadcumb="breadcumb" />
     <ProductBar :categoryName="category?.name" />
     <section class="pb-24 pt-6">
-      <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-4">
         <!-- Filters -->
-        <form class="block border-r pr-4">
+        <form class="border-r pr-4 hidden md:block">
           <FilterCategory />
           <FilterColor />
           <FilterSize />

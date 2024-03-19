@@ -1,13 +1,13 @@
 <template>
   <div v-if="!loadingStore.loading" class="flex flex-col gap-3">
-    <div class="mb-5 text-4xl font-bold">
+    <div class="mb-5 text-2xl md:text-3xl lg:text-4xl font-bold">
       {{ detailProductInfo?.name }}
     </div>
     <div v-if="detailProductInfo?.productDiscount.length > 0" class="mb-4">
       <div class="text-lg line-through font-bold">
         {{ new Intl.NumberFormat().format(detailProductInfo?.price) }} VND
       </div>
-      <div class="text-red-500 text-3xl font-bold">
+      <div class="text-red-500 text-xl md:text-2xl lg:text-3xl font-bold">
         {{
           new Intl.NumberFormat().format(
             detailProductInfo?.price -

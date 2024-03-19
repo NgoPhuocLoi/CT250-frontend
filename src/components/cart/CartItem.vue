@@ -8,7 +8,7 @@
 
       <!-- checkbox end -->
       <!-- san pham begin -->
-      <div class="col-span-10 flex items-center">
+      <div class="col-span-7 xl:col-span-10 flex items-center">
         <div
           @click="toggleSelectItem"
           class="noSelect flex justify-start cursor-pointer mr-2"
@@ -16,18 +16,18 @@
           <TickIcon v-if="item.selected" />
           <EmptyBoxIcon v-else />
         </div>
-        <div class="flex gap-[2%]">
-          <div class="flex w-[100px]">
+        <div class="flex gap-1 w-full">
+          <div class="flex xl:w-[100px] w-[90px]">
             <img
               class="w-full"
               :src="item.color.productImage.image.path"
               alt=""
             />
           </div>
-          <div class="flex flex-col gap-3 justify-center w-full ml-3">
+          <div class="flex flex-col gap-3 justify-center w-full ml-1 xl:ml-3">
             <router-link
               :to="'/san-pham/' + item.product.slug"
-              class="cursor-pointer w-full line-clamp-1 overflow-hidden text-ellipsis"
+              class="cursor-pointer text-[15px] xl:text-lg w-full line-clamp-1 overflow-hidden text-ellipsis"
               >{{ item.product.name }}</router-link
             >
             <!-- size and color begin -->
@@ -39,7 +39,7 @@
               class="flex w-full gap-3"
             >
               <div
-                class="border-[0.5px] border-gray-300 rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]"
+                class="border-[0.5px] border-gray-300 rounded-[2px] cursor-pointer flex gap-3 items-center px-[6px] xl:px-[10px] py-[4px] xl:py-[8px]"
               >
                 <div
                   :style="{
@@ -53,10 +53,10 @@
                 </div>
               </div>
               <div
-                class="noSelect border-[0.5px] border-gray-300 rounded-[2px] cursor-pointer flex gap-3 items-center px-[10px] py-[8px]"
+                class="noSelect border-[0.5px] border-gray-300 rounded-[2px] cursor-pointer flex gap-3 items-center px-[6px] xl:px-[10px] py-[4px] xl:py-[8px]"
               >
                 <div
-                  class="w-6 h-6 bg-[position:48%_40%] rounded-full cursor-pointer"
+                  class="w-6 h-6 bg-[position:48%_40%] text-[15px] xl:text-lg rounded-full cursor-pointer"
                 >
                   {{ item.size.name }}
                 </div>
@@ -71,24 +71,26 @@
       </div>
       <!-- san pham end -->
       <!-- so luong begin -->
-      <div class="col-span-3 flex justify-center items-center">
+      <div
+        class="col-span-4 xl:col-span-3 flex justify-end xl:justify-center items-center pr-2 xl:pr-0"
+      >
         <div class="noSelect relative inline-flex mb-2">
           <button
             @click="() => changeQuantity(-1)"
-            class="h-[34px] w-[34px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:opacity-80"
+            class="h-[28px] xl:h-[34px] w-[28px] xl:w-[34px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:opacity-80"
             :disabled="item.quantity <= 1"
           >
             <CollapseIcon />
           </button>
           <input
-            class="h-[34px] w-[64px] text-red-500 text-center border-[0.5px] border-gray-300 border-x-0"
+            class="h-[28px] xl:h-[34px] w-[40px] xl:w-[64px] text-red-500 text-center border-[0.5px] border-gray-300 border-x-0 text-[15px] xl:text-lg"
             type="number"
             :value="item.quantity"
             @change="handleChangeQuantity"
           />
           <button
             @click="() => changeQuantity(1)"
-            class="h-[34px] w-[30px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:opacity-80"
+            class="h-[28px] xl:h-[34px] w-[28px] xl:w-[34px] cursor-pointer flex justify-center items-center border-[0.5px] border-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:opacity-80"
             :disabled="item.quantity >= item.maximumQuantity"
           >
             <ExpandIcon />
@@ -97,7 +99,9 @@
       </div>
       <!-- so luong end -->
       <!-- don gia begin -->
-      <div class="col-span-3 text-center flex justify-center items-center">
+      <div
+        class="col-span-4 xl:col-span-3 text-center hidden md:flex justify-center items-center text-[15px] xl:text-lg"
+      >
         <div v-if="item.product.productDiscount.length > 0">
           <span class="text-sm line-through"
             >{{ new Intl.NumberFormat().format(item.product.price) }}
@@ -116,7 +120,9 @@
       </div>
       <!-- don gia end -->
       <!-- tong tinh begin -->
-      <div class="col-span-3 text-center flex justify-center items-center">
+      <div
+        class="col-span-4 xl:col-span-3 text-center flex justify-center items-center text-[15px] xl:text-lg"
+      >
         <span class="mb-2"
           >{{
             new Intl.NumberFormat().format(

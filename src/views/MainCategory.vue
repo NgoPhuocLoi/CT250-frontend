@@ -58,11 +58,13 @@ const fetchProductsOfType = async (type, limit = 10) => {
 </script>
 <template>
   <div class="container mx-auto">
-    <div class="my-6 text-4xl w-full text-center font-bold uppercase">
+    <div
+      class="mt-2 mb-2 md:mb-4 lg:my-6 text-2xl md:text-3xl lg:text-4xl w-full text-center font-bold uppercase"
+    >
       {{ activeCategory?.name }}
     </div>
 
-    <div class="w-full mb-[50px]">
+    <div class="w-full lg:mb-[50px] mb-4">
       <img
         src="https://im.uniqlo.com/global-cms/spa/res34b0a46b8007fa42e4e5f77ceb4742fbfr.jpg"
         class="w-full"

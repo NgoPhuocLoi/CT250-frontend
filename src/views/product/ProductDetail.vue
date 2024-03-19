@@ -1,15 +1,25 @@
 <template>
-  <div class="text-lg container mx-auto">
+  <div class="text-lg md:container mx-auto">
     <Breadcumb :breadcumb="breadcumb" />
-    <div class="py-10 px-[7%]">
-      <div class="flex gap-8 flex-nowrap">
-        <div class="noSelect w-[60%] flex flex-col">
+    <div class="lg:p-10 md:p-6 p-4">
+      <div
+        class="hidden lg:flex gap-8 flex-nowrap lg:flex-row flex-col-reverse"
+      >
+        <div class="noSelect lg:w-[60%] flex flex-col w-full">
           <ProductImage :activeImage="activeImage" v-model="currentImageId" />
           <ProductDescription />
         </div>
-        <div class="w-[40%] ml-5 mr-0">
+        <div class="lg:w-[40%] ml-5 mr-0 w-full">
           <ProductInfo :isUpdate="false" />
         </div>
+      </div>
+
+      <div class="flex lg:hidden flex-col">
+        <div class="mb-4">
+          <ProductImage :activeImage="activeImage" v-model="currentImageId" />
+        </div>
+        <ProductInfo :isUpdate="false" />
+        <ProductDescription />
       </div>
     </div>
   </div>

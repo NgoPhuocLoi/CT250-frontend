@@ -1,11 +1,11 @@
 <template>
   <div class="flex">
-    <div class="w-[25%] mr-3">
+    <div class="w-[25%] mr-3 hidden lg:block">
       <div class="opacity-100 h-auto overflow-hidden">
-        <div class="mb-0 flex flex-row flex-wrap gap-[7px]">
+        <div class="mb-0 grid grid-cols-2 lg:gap-3 gap-1">
           <img
             v-if="!loadingStore.loading"
-            class="mr-0 mb-[7px] flex basis-[48%] w-[40%] h-auto items-center cursor-pointer"
+            class="mr-0 mb-[7px] flex h-auto items-center cursor-pointer"
             :src="activeProductImageOfColor?.image.path"
             @click="currentImageId = activeProductImageOfColor?.id"
             :class="{
@@ -15,7 +15,7 @@
           />
           <img
             v-if="!loadingStore.loading"
-            class="mr-0 mb-[7px] flex basis-[48%] w-[40%] h-auto items-center cursor-pointer"
+            class="mr-0 mb-[7px] flex h-auto items-center cursor-pointer"
             v-for="(image, index) in subImages"
             @click="currentImageId = image.id"
             :key="image.id"
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div
-      class="relative w-[75%] min-h-[500px] flex justify-center items-center"
+      class="relative w-full lg:w-[75%] md:min-h-[500px] flex justify-center items-center"
     >
       <div v-if="!loadingStore.loading">
         <PreviousIcon

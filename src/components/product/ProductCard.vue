@@ -25,9 +25,7 @@
         </div>
         <div class="text-red-600 text-[15px] md:text-xl font-bold">
           <span>{{
-            new Intl.NumberFormat().format(
-              getPriceAfterDiscount(product.price, product.productDiscount[0])
-            )
+            new Intl.NumberFormat().format(getPriceAfterDiscount(product))
           }}</span>
           <span> VND</span>
         </div>
@@ -49,6 +47,7 @@
 <script setup>
 import { ref, toRef } from "vue";
 import { useRouter } from "vue-router";
+import { getDiscountValue } from "@/utils";
 
 const router = useRouter();
 const props = defineProps(["product", "onSale"]);
@@ -58,11 +57,7 @@ function viewDetail() {
   router.push("/san-pham/" + product.value.slug);
 }
 
-function getPriceAfterDiscount(currentPrice, discount) {
-  const discountAmount =
-    discount.discoutnType === "percentage"
-      ? (currentPrice * discount.discountValue) / 100
-      : discount.discountValue;
-  return currentPrice - discountAmount;
+function getPriceAfterDiscount(product) {
+  return product.price - getDiscountValue(product);
 }
 </script>

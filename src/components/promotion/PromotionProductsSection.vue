@@ -24,12 +24,14 @@ onMounted(() => {
 </script>
 <template>
   <div>
-    <div class="text-[34px] uppercase mb-5 mt-10 font-bold">
+    <div
+      class="text-xl md:text-2xl lg:text-[34px] uppercase mb-5 mt-4 md:mt-6 lg:mt-10 font-bold"
+    >
       Sản phẩm đang khuyến mãi
     </div>
   </div>
 
-  <ul class="flex">
+  <!-- <ul class="flex">
     <li
       v-for="mainCategory of categoryStore.categories"
       :key="mainCategory.id"
@@ -40,11 +42,13 @@ onMounted(() => {
       }`"
       @click="selectedCategoryId = mainCategory.id"
     >
-      <div class="p-4 uppercase">{{ mainCategory.name }}</div>
+      <div class="text-xl md:text-2xl lg:text-3xl p-4 uppercase">
+        {{ mainCategory.name }}
+      </div>
     </li>
-  </ul>
+  </ul> -->
 
-  <div class="mt-8">
+  <div class="mt-4 lg:mt-8">
     <PromotionProducts />
   </div>
 </template>

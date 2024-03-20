@@ -21,7 +21,7 @@ async function fetchProducts() {
 }
 </script>
 <template>
-  <div class="grid grid-cols-4 gap-8">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
     <ProductCard
       v-for="product of products"
       :key="product.id"

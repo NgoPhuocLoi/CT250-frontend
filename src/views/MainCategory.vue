@@ -57,7 +57,7 @@ const fetchProductsOfType = async (type, limit = 10) => {
 };
 </script>
 <template>
-  <div class="container mx-auto">
+  <div class="px-4 md:container mx-auto">
     <div
       class="mt-2 mb-2 md:mb-4 lg:my-6 text-2xl md:text-3xl lg:text-4xl w-full text-center font-bold uppercase"
     >

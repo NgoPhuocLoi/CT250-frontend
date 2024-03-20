@@ -33,12 +33,32 @@ onMounted(() => {
   initTE({ Collapse });
 });
 
+const otherLinks = [
+  {
+    title: "Khuyến mãi",
+    url: "/khuyen-mai",
+  },
+  {
+    title: "Tin tức",
+    url: "/tin-tuc",
+  },
+];
+
 function handleNavigate(url) {
   router.push(url);
   openSideBar.value = false;
 }
 </script>
 <template>
+  <div class="flex">
+    <div
+      v-for="otherLink in otherLinks"
+      :class="`border p-4 border-gray-400 border-l-0 border-b-0 text-center cursor-pointer  uppercase font-bold flex-1`"
+      @click="() => handleNavigate(otherLink.url)"
+    >
+      {{ otherLink.title }}
+    </div>
+  </div>
   <div class="grid grid-cols-3">
     <div
       v-for="category of categoryStore.categories"

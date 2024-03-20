@@ -30,9 +30,11 @@ async function fetchCollectedCouponIds() {
 </script>
 <template>
   <div>
-    <div class="text-[34px] uppercase mb-5 mt-10 font-bold">Mã khuyến mãi</div>
+    <div class="text-xl md:text-2xl lg:text-[34px] uppercase mb-5 font-bold">
+      Mã khuyến mãi
+    </div>
 
-    <div class="grid grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       <CouponCard
         v-for="coupon of coupons"
         :key="coupon.id"

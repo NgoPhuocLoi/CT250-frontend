@@ -4,7 +4,7 @@ const props = defineProps(["orderStatus"]);
 </script>
 <template>
   <div
-    class="flex items-center gap-[10px] h-fit py-2 px-4 rounded-full"
+    class="flex items-center gap-[10px] h-fit py-1 px-2 md:py-2 md:px-4 rounded-full"
     :class="{
       'bg-orange-300':
         props.orderStatus?.id === ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM,
@@ -33,7 +33,7 @@ const props = defineProps(["orderStatus"]);
           props.orderStatus?.id === ORDER_STATUS_ID_MAPPING.CANCELED,
       }"
     ></div>
-    <p class="text-lg font-medium text-black">
+    <p class="font-medium text-black text-[12px] sm:text-sm xl:text-lg">
       {{ props.orderStatus?.name }}
     </p>
   </div>

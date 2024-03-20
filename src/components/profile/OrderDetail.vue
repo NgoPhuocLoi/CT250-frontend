@@ -94,9 +94,9 @@ async function handlePayment() {
 }
 </script>
 <template>
-  <div class="w-full md:w-3/4 lg:ml-4">
+  <div class="w-full">
     <div
-      class="rounded shadow-md border-[0.5px] border-gray-300 p-[30px] mb-6 w-full h-full"
+      class="rounded shadow-md md:border-[0.5px] border-gray-300 p-[10px] sm:p-[30px] mb-6 w-full h-full"
     >
       <RouterLink
         to="/tai-khoan/quan-ly-don-hang"
@@ -118,23 +118,34 @@ async function handlePayment() {
         <span>Quay lại quản lý đơn hàng</span>
       </RouterLink>
 
-      <div class="w-full flex justify-between text-xl mt-4 mb-[30px]">
-        <div>
-          <div class="mb-[10px]">Chi tiết đơn hàng</div>
-          <div class="text-[16px]">
+      <div
+        class="w-full flex justify-between text-xl mt-4 mb-[10px] sm:mb-[30px]"
+      >
+        <div class="w-full">
+          <div class="flex justify-between w-full mb-1">
+            <div
+              class="mb-[10px] font-bold text-[15px] sm:text-[16px] md:text-lg lg:text-2xl"
+            >
+              Chi tiết đơn hàng
+            </div>
+            <OrderStatus :orderStatus="order?.currentStatus" />
+          </div>
+          <div class="text-[15px] sm:text-[16px]">
             Ngày đặt hàng:
             {{ moment(order?.createdAt).format("DD.MM.YYYY - HH:mm") }}
           </div>
         </div>
-
-        <OrderStatus :orderStatus="order?.currentStatus" />
       </div>
 
-      <div class="flex gap-5 w-full mb-[30px]">
-        <div class="p-[15px] border border-gray-300 rounded text-[15px] flex-1">
-          <div class="mb-5">ĐỊA CHỈ NGƯỜI NHẬN</div>
+      <div
+        class="flex gap-5 w-full mb-[20px] sm:mb-[30px] flex-col md:flex-row"
+      >
+        <div
+          class="p-[10px] sm:p-[15px] border border-gray-300 rounded text-[15px] flex-1"
+        >
+          <div class="mb-2 sm:mb-5 font-bold">ĐỊA CHỈ NGƯỜI NHẬN</div>
 
-          <div class="flex flex-col gap-[10px]">
+          <div class="flex flex-col gap-1 sm:gap-[10px]">
             <div>{{ order?.deliveryAddress.contactName }}</div>
             <div>
               Địa chỉ: {{ order?.deliveryAddress.detailAddress }},
@@ -147,11 +158,11 @@ async function handlePayment() {
         </div>
 
         <div
-          class="p-[15px] border border-gray-300 rounded text-[15px] flex-1 flex flex-col"
+          class="p-[10px] sm:p-[15px] border border-gray-300 rounded text-[15px] flex-1 flex flex-col"
         >
-          <div class="mb-5">HÌNH THỨC THANH TOÁN</div>
+          <div class="mb-2 sm:mb-5 font-bold">HÌNH THỨC THANH TOÁN</div>
 
-          <div class="flex flex-col gap-[10px]">
+          <div class="flex flex-col gap-1 sm:gap-[10px]">
             <div>{{ order?.Payment.paymentMethod.name }}</div>
           </div>
 
@@ -162,10 +173,10 @@ async function handlePayment() {
               order?.currentStatusId <=
                 ORDER_STATUS_ID_MAPPING.AWAITING_FULFILLMENT
             "
-            class="flex justify-between mt-auto w-full"
+            class="flex justify-between mt-auto w-full items-center"
           >
             <button
-              class="btn-basic px-5 py-2 bg-orange-500"
+              class="btn-basic px-5 py-1 mt-1 sm:py-2 bg-orange-500 text-[15px] sm:text-lg"
               v-if="
                 order?.Payment.paymentMethod.id === 2 &&
                 order?.Payment.paymentStatus.id !==
@@ -191,7 +202,9 @@ async function handlePayment() {
       </div>
 
       <div class="border border-gray-300 rounded">
-        <div class="px-5 py-[15px] grid grid-cols-7 bg-gray-200 text-[15px]">
+        <div
+          class="hidden px-5 py-[15px] sm:grid grid-cols-7 bg-gray-200 text-[15px]"
+        >
           <div class="col-span-4">Sản phẩm</div>
           <div>Đơn giá</div>
           <div>Số lượng</div>
@@ -202,8 +215,8 @@ async function handlePayment() {
           class="mt-[15px] border-b border-gray-300"
           v-for="orderDetail in order?.OrderDetail"
         >
-          <div class="grid grid-cols-7 text-sm mb-[15px]">
-            <div class="col-span-4 flex gap-[10px] pl-5">
+          <div class="sm:grid sm:grid-cols-7 text-sm mb-[15px]">
+            <div class="sm:col-span-4 flex gap-[10px] pl-3 sm:pl-5">
               <img
                 class="w-[88px] h-[88px] object-cover"
                 :src="orderDetail.variant.color.productImage.image.path"
@@ -213,19 +226,36 @@ async function handlePayment() {
               <div class="flex flex-col gap-[10px]">
                 <div>{{ orderDetail.variant.product.name }}</div>
 
-                <div>
-                  <span class="w-[100px] inline-block">Màu sắc</span>:
-                  {{ orderDetail.variant.color.name }}
+                <div class="flex sm:flex-col gap-[10px]">
+                  <div>
+                    <span class="sm:w-[100px] inline-block">Màu sắc</span>:
+                    {{ orderDetail.variant.color.name }}
+                  </div>
+                  <div class="w-[1px] bg-gray-300"></div>
+                  <div>
+                    <span class="sm:w-[100px] inline-block">Size</span>:
+                    {{ orderDetail.variant.size.name }}
+                  </div>
                 </div>
 
-                <div>
-                  <span class="w-[100px] inline-block">Size</span>:
-                  {{ orderDetail.variant.size.name }}
+                <div class="flex justify-between">
+                  <div class="flex sm:hidden items-center">
+                    x{{ orderDetail.quantity }}
+                  </div>
+                  <div class="flex sm:hidden items-center">
+                    {{
+                      new Intl.NumberFormat().format(
+                        (orderDetail.price - orderDetail.discount) *
+                          orderDetail.quantity
+                      )
+                    }}
+                    VND
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="flex flex-col justify-center">
+            <div class="hidden sm:flex flex-col justify-center">
               <span
                 class="text-[13px] line-through text-gray-600"
                 v-if="orderDetail.discount"
@@ -244,9 +274,11 @@ async function handlePayment() {
               </span>
             </div>
 
-            <div class="flex items-center">x{{ orderDetail.quantity }}</div>
+            <div class="hidden sm:flex items-center">
+              x{{ orderDetail.quantity }}
+            </div>
 
-            <div class="flex items-center">
+            <div class="hidden sm:flex items-center">
               {{
                 new Intl.NumberFormat().format(
                   (orderDetail.price - orderDetail.discount) *
@@ -259,11 +291,13 @@ async function handlePayment() {
         </div>
       </div>
 
-      <div class="mt-[30px] flex gap-[10px]">
+      <div
+        class="mt-[30px] flex gap-[10px] flex-col-reverse sm:flex-row text-[15px] sm:text-[16px] md:text-lg"
+      >
         <div class="flex-1 flex gap-[10px] h-fit">
           <button
             @click="() => handleCancelOrder(order?.id)"
-            class="px-5 py-2 border border-black rounded hover:bg-black hover:text-white"
+            class="px-5 py-1 w-full sm:w-fit md:py-2 border border-black rounded hover:bg-black hover:text-white"
             v-if="
               order?.currentStatusId ===
               ORDER_STATUS_ID_MAPPING.AWAITING_CONFIRM
@@ -280,7 +314,7 @@ async function handlePayment() {
           </button>
         </div>
 
-        <div class="gap-10 text-lg flex-1 pl-8">
+        <div class="flex-1 md:pl-8">
           <div class="flex">
             <div>Tổng tiền hàng</div>
 
@@ -289,7 +323,7 @@ async function handlePayment() {
             </div>
           </div>
 
-          <div class="flex mt-2">
+          <div class="flex mt-1 md:mt-2">
             <div>Phí vận chuyển</div>
 
             <div class="ml-auto">
@@ -297,7 +331,7 @@ async function handlePayment() {
             </div>
           </div>
 
-          <div class="flex mt-2">
+          <div class="flex mt-1 md:mt-2">
             <div>Giảm trừ</div>
 
             <div class="ml-auto">
@@ -306,7 +340,7 @@ async function handlePayment() {
             </div>
           </div>
 
-          <div class="flex mt-5 text-orange-500">
+          <div class="flex mt-2 md:mt-5 text-orange-500">
             <div>Tổng thanh toán</div>
 
             <div class="ml-auto">

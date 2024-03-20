@@ -6,6 +6,7 @@ const useAddressStore = defineStore("address", () => {
   const addressToUpdate = ref();
   const addressIdToDelete = ref();
   const chosenAddressToCheckout = ref();
+  const addresses = ref([]);
 
   const setIsUpdatingAddress = (status) => {
     isUpdatingAddress.value = status;
@@ -23,6 +24,10 @@ const useAddressStore = defineStore("address", () => {
     chosenAddressToCheckout.value = address;
   };
 
+  const setAddresses = (payload) => {
+    addresses.value = payload;
+  };
+
   return {
     isUpdatingAddress,
     setIsUpdatingAddress,
@@ -32,6 +37,8 @@ const useAddressStore = defineStore("address", () => {
     setAddressIdToDelete,
     chosenAddressToCheckout,
     setChosenAddressToCheckout,
+    addresses,
+    setAddresses,
   };
 });
 

@@ -71,7 +71,7 @@ function handleReOrder(order) {
 </script>
 
 <template>
-  <div class="text-2xl px-5 h-full w-full mx-auto flex flex-col gap-5 mt-8">
+  <div class="text-2xl md:-5 h-full w-full mx-auto flex flex-col gap-5 mt-8">
     <div class="text-center text-lg" v-if="orders.length === 0">
       Chưa có đơn hàng nào!
     </div>

@@ -104,9 +104,10 @@ const router = createRouter({
           path: "/tai-khoan",
           component: ProfileLayout,
           beforeEnter: authenticateUser,
+
           children: [
             {
-              path: "",
+              path: "thong-tin-ca-nhan",
               component: UserInfo,
             },
             {

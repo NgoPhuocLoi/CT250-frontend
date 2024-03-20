@@ -1,9 +1,12 @@
 <template>
-  <div class="w-full md:w-3/4 lg:ml-4">
+  <Breadcumb v-if="windowSizeStore.isSmallScreen" :breadcumb="breadcumb" />
+  <div class="w-full lg:w-3/4 lg:ml-4">
     <div
-      class="rounded shadow-md border-[0.5px] border-gray-300 p-3 w-full h-full"
+      class="rounded shadow-md lg:border-[0.5px] border-gray-300 p-3 w-full h-full"
     >
-      <div class="text-3xl text-center mb-3 mt-3">Thông tin cá nhân</div>
+      <div class="text-2xl lg:text-3xl text-center lg:mb-3 lg:mt-3 font-bold">
+        Thông tin cá nhân
+      </div>
       <Form
         @submit="handleUpdateAccountInfo"
         :validation-schema="userSchema"
@@ -12,7 +15,7 @@
       >
         <!-- full name begin -->
         <div class="flex flex-col w-full">
-          <label for="fullName" class="text-xl"> Họ tên </label>
+          <label for="fullName" class="text-lg lg:text-xl"> Họ tên </label>
           <Field
             type="text"
             name="fullName"
@@ -26,11 +29,11 @@
         </div>
         <!-- full name begin -->
 
-        <div class="flex justify-between">
-          <div class="w-[45%]">
+        <div class="flex flex-col lg:flex-row justify-between">
+          <div class="w-full lg:w-[45%]">
             <!-- email begin -->
             <div class="flex flex-col w-full">
-              <label for="email" class="text-xl"> Email </label>
+              <label for="email" class="text-lg lg:text-xl"> Email </label>
               <Field
                 disabled
                 type="email"
@@ -46,10 +49,12 @@
             <!-- email end -->
           </div>
 
-          <div class="w-[45%]">
+          <div class="w-full lg:w-[45%]">
             <!-- phone begin -->
             <div class="flex flex-col w-full">
-              <label for="phone" class="text-xl"> Số điện thoại </label>
+              <label for="phone" class="text-lg lg:text-xl">
+                Số điện thoại
+              </label>
               <Field
                 type="tel"
                 name="phone"
@@ -65,19 +70,19 @@
           </div>
         </div>
 
-        <div class="flex justify-between">
-          <div class="w-[45%]">
+        <div class="flex flex-col lg:flex-row justify-between">
+          <div class="lg:w-[45%]">
             <!-- gender begin -->
             <div class="flex flex-col w-full">
-              <label for="male" class="text-xl"> Giới tính </label>
+              <label for="male" class="text-lg lg:text-xl"> Giới tính </label>
               <div
-                class="flex items-center justify-between w-[75%] p-3 mt-3 mb-2"
+                class="flex items-center justify-between w-[75%] lg:p-3 mt-2 mb-2"
               >
                 <div class="flex items-center">
                   <Field id="male" name="gender" value="true" type="radio" />
                   <label
                     for="male"
-                    class="flex items-center gap-3 text-xl ml-3 cursor-pointer"
+                    class="flex items-center gap-3 text-lg lg:text-xl ml-3 cursor-pointer"
                   >
                     <TickRoundIcon
                       v-if="
@@ -94,7 +99,7 @@
                   <Field id="female" name="gender" value="false" type="radio" />
                   <label
                     for="female"
-                    class="flex items-center gap-3 text-xl ml-3 cursor-pointer"
+                    class="flex items-center gap-3 text-lg lg:text-xl ml-3 cursor-pointer"
                   >
                     <TickRoundIcon
                       v-if="
@@ -112,9 +117,11 @@
             <!-- gender end -->
           </div>
 
-          <div class="w-[45%] mb-8">
+          <div class="lg:w-[45%] mb-8">
             <div class="flex flex-col w-full">
-              <label for="birthday" class="text-xl"> Ngày sinh </label>
+              <label for="birthday" class="text-lg lg:text-xl">
+                Ngày sinh
+              </label>
               <Field
                 type="date"
                 name="birthday"
@@ -144,9 +151,17 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import moment from "moment";
 
 import { Input, initTE, Datepicker } from "tw-elements";
-import { useAccountStore } from "@/stores";
+import { useAccountStore, useWindowSizeStore } from "@/stores";
 import { TickRoundIcon, EmptyRoundBoxIcon } from "@/components/icons";
 import accountService from "@/services/account";
+import Breadcumb from "../common/Breadcumb.vue";
+
+const breadcumb = [
+  { name: "Tài khoản", slug: "tai-khoan" },
+  { name: "Thông tin cá nhân" },
+];
+
+const windowSizeStore = useWindowSizeStore();
 
 onMounted(() => {
   initTE({ Datepicker, Input });

@@ -202,7 +202,7 @@ async function getWardsOfDistrict(districtId) {
             <label class="block">Họ và tên</label>
             <input
               type="text"
-              class="w-full h-[40px] md:h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập họ và tên..."
               v-model="userAddress.contactName"
             />
@@ -212,7 +212,7 @@ async function getWardsOfDistrict(districtId) {
             <label class="block">Số điện thoại</label>
             <input
               type="text"
-              class="w-full h-[40px] md:h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập số điện thoại..."
               v-model="userAddress.contactPhone"
             />
@@ -222,7 +222,7 @@ async function getWardsOfDistrict(districtId) {
             <label class="block">Tỉnh/ Thành phố</label>
 
             <select
-              class="w-full h-[40px] md:h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
               @change="onProvinceChange"
               v-model="userAddress.provinceId"
             >
@@ -241,7 +241,7 @@ async function getWardsOfDistrict(districtId) {
             <label class="block">Quận/ Huyện</label>
 
             <select
-              class="w-full h-[40px] md:h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
               v-model="userAddress.districtId"
               @change="onDistrictChange"
             >
@@ -260,7 +260,7 @@ async function getWardsOfDistrict(districtId) {
             <label class="block">Khu vực</label>
 
             <select
-              class="w-full h-[40px] md:h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
               v-model="userAddress.wardCode"
             >
               <option selected disabled value="0">Chọn khu vực</option>
@@ -278,7 +278,7 @@ async function getWardsOfDistrict(districtId) {
             <label class="block">Địa chỉ cụ thể</label>
             <input
               type="text"
-              class="w-full h-[40px] md:h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập địa chỉ cụ thể..."
               v-model="userAddress.detailAddress"
             />

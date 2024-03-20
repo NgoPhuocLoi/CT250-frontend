@@ -2,8 +2,10 @@
   <div
     class="flex items-center border-[0.5px] border-gray-300 min-h-[130px] rounded-[3px] w-full"
   >
-    <div class="p-[15px] pr-0">
-      <div class="flex h-[75%] w-[120px] justify-start items-center">
+    <div class="md:pl-2 pl-1">
+      <div
+        class="flex h-[75%] w-[100px] md:w-[120px] justify-start items-center"
+      >
         <img
           class="rounded-[5px] w-[80%]"
           src="../../assets/promo-voucher.jpg"
@@ -22,9 +24,11 @@
         class="absolute bg-white -bottom-[58px] border-b-[transparent] border-l-[transparent] border-[0.5px] border-gray-300 w-[17px] h-[17px] rounded-[50%] -rotate-45"
       ></div>
     </div>
-    <div class="relative flex flex-col gap-6 justify-between pr-[15px] w-full">
+    <div
+      class="relative flex flex-col gap-3 md:gap-6 justify-between pr-[10px] md:pr-[15px] w-full text-[15px] md:text-lg py-2 pl-1"
+    >
       <div class="flex justify-between">
-        <div>
+        <div class="">
           <div class="leading-[25px]">
             Giảm
             {{
@@ -47,7 +51,7 @@
         <div
           @mouseover="showDetail = true"
           @mouseleave="showDetail = false"
-          class="relative cursor-pointer"
+          class="relative cursor-pointer hidden md:block"
         >
           <VoucherInfoIcon />
         </div>

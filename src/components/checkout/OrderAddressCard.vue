@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full text-[15px] md:text-lg">
     <div class="flex items-center px-4 justify-between rounded-sm">
       <div class="">
         <div class="flex gap-3 items-center mb-2">
@@ -8,7 +8,7 @@
           </p>
           <div
             v-if="props.address.isDefault"
-            class="flex text-sm justify-center items-center px-4 py-2 h-10 bg-orange-200 text-orange-600 rounded-full"
+            class="hidden md:flex text-sm justify-center items-center px-4 py-2 h-10 bg-orange-200 text-orange-600 rounded-full"
           >
             Mặc định
           </div>

@@ -111,8 +111,6 @@
         </div>
       </div>
     </div>
-
-    <CartModal :item="item" />
   </div>
 </template>
 

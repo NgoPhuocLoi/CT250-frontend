@@ -1,14 +1,18 @@
 <template>
-  <div class="flex flex-col p-[20px] border-[0.5px] border-gray-300">
+  <div
+    class="flex flex-col p-[10px] md:p-[20px] border-[0.5px] border-gray-300"
+  >
     <div
-      class="pb-5 mb-4 flex items-center gap-3 border-b-[0.5px] border-gray-300"
+      class="pb-3 md:pb-5 md:mb-4 flex items-center gap-3 border-b-[0.5px] border-gray-300"
     >
-      <ListIcon class="w-[40px] h-[40px]" />
-      <div class="text-2xl font-bold capitalize w-full">
+      <ListIcon class="w-[28px] h-[28px] md:w-[40px] md:h-[40px]" />
+      <div class="text-lg md:text-2xl font-bold capitalize w-full">
         Chi tiết thanh toán
       </div>
     </div>
-    <div class="pb-5 pt-3 border-b-[0.5px] border-gray-300">
+    <div
+      class="pb-3 md:pb-5 pt-3 border-b-[0.5px] border-gray-300 text-[15px] md:text-lg"
+    >
       <div>
         <div class="flex justify-between">
           <p>Tổng tiền hàng</p>
@@ -32,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div class="pt-3 flex justify-between">
+    <div class="pt-3 flex justify-between text-[15px] md:text-lg">
       <p>Tổng thanh toán</p>
       <p>
         {{
@@ -47,7 +51,7 @@
     </div>
     <button
       type="submit"
-      class="mt-6 w-full text-center py-3 rounded bg-black text-white hover:bg-gray-700 focus:outline-none"
+      class="mt-4 md:mt-6 w-full text-center py-2 md:py-3 rounded bg-black text-white hover:bg-gray-700 focus:outline-none text-[15px] md:text-lg"
       @click="handleCreateOrder"
     >
       Thanh toán

@@ -11,7 +11,7 @@ import { VueSidePanel } from "vue3-side-panel";
 const headerState = ref({
   searching: false,
   openMenu: false,
-  openSideBar: true,
+  openSideBar: false,
 });
 
 const loadingStore = useLoadingStore();

@@ -110,6 +110,7 @@ const handleLogout = () => {
 
 const handleUpdateImage = async (e) => {
   const form = new FormData();
+  console.log(e.target.files[0]);
   form.append("image", e.target.files[0]);
   console.log(form);
   try {

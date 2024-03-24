@@ -74,6 +74,7 @@ import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import Spinner from "@/components/common/Spinner.vue";
 import AuthService from "@/services/auth";
+import uploadService from "@/services/upload";
 import router from "@/router";
 import { GoogleIcon } from "@/components/icons";
 
@@ -133,15 +134,38 @@ async function login() {
   }
 }
 
+const getUrlExtension = (url) => {
+  return url
+    .split(/[#?]/)[0]
+    .split(".")
+    .pop()
+    .trim();
+}
+
+const changeImageUrlToFile = async (imgUrl) => {
+  var imgExt = getUrlExtension(imgUrl);
+
+  const response = await fetch(imgUrl);
+  const blob = await response.blob();
+  const file = new File([blob], "profileImage." + imgExt, {
+    type: blob.type,
+  });
+  return file;
+}
+
 async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
     .then(async (result) => {
+      const form = new FormData();
+      const file = await changeImageUrlToFile(result.user.photoURL);
+      form.append("image", file);
+      const uploadedImage = await uploadService.uploadImage(form);
       const user = {
         fullName: result.user.displayName,
         email: result.user.email,
         phone: result.user.phoneNumber,
-        // image: result.user.photoURL,
+        avatarId: uploadedImage.metadata.id,
       }
       try {
         fetchingLoginWithGoogle.value = true;

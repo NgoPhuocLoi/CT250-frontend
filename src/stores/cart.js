@@ -9,7 +9,11 @@ const useCartStore = defineStore("cart", () => {
   const totalCost = computed(() =>
     items.value
       .filter((item) => item.selected)
-      .reduce((prev, item) => prev + item.price * item.quantity, 0)
+      .reduce(
+        (prev, item) =>
+          prev + (item.price - item.productDiscount) * item.quantity,
+        0
+      )
   );
 
   const getCartFromLocalStorage = () => {
@@ -30,13 +34,20 @@ const useCartStore = defineStore("cart", () => {
     { deep: true }
   );
 
-  const addItem = ({ productId, variantId, quantity, price }) => {
+  const addItem = ({
+    productId,
+    variantId,
+    quantity,
+    price,
+    productDiscount,
+  }) => {
     const cartItem = {
       productId,
       variantId,
       quantity,
       price,
       selected: true,
+      productDiscount,
     };
 
     const indexOfVariantInCart = findIndexOfItem(cartItem);

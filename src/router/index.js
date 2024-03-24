@@ -8,6 +8,7 @@ import VoucherList from "@/components/profile/VoucherList.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
 import ProfileLayout from "@/layouts/ProfileLayout.vue";
+import Promotion from "@/views/Promotion.vue";
 
 import Home from "@/views/Home.vue";
 
@@ -81,6 +82,10 @@ const router = createRouter({
           path: "/tin-tuc/:blogCategory",
           component: BlogList,
         },
+        {
+          path: "/khuyen-mai",
+          component: Promotion,
+        },
 
         {
           path: "/san-pham/:productSlug",
@@ -99,9 +104,10 @@ const router = createRouter({
           path: "/tai-khoan",
           component: ProfileLayout,
           beforeEnter: authenticateUser,
+
           children: [
             {
-              path: "",
+              path: "thong-tin-ca-nhan",
               component: UserInfo,
             },
             {

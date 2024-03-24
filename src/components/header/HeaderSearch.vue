@@ -4,11 +4,11 @@ const searching = defineModel();
 </script>
 
 <template>
-  <div class="h-full px-[20px] w-fit mx-auto flex items-center">
-    <div class="flex items-center">
+  <div class="h-full px-[20px] w-full mx-auto flex items-center max-w-[990px]">
+    <div class="flex items-center flex-1">
       <input
         type="text"
-        class="w-[990px] px-4 border py-2 outline-none"
+        class="w-full px-4 border py-2 outline-none"
         placeholder="Search..."
       />
       <button class="p-[6px] bg-black hover:opacity-85">

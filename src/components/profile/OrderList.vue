@@ -4,6 +4,7 @@ import { watch, ref, onMounted } from "vue";
 import orderService from "@/services/order";
 import { useCartStore } from "@/stores";
 import { useRouter } from "vue-router";
+import { getDiscountValue } from "@/utils";
 
 const props = defineProps(["chosenOrderStatusId"]);
 const orders = ref([]);
@@ -61,6 +62,7 @@ function handleReOrder(order) {
       variantId: item.variantId,
       quantity: item.quantity,
       price: item.price,
+      productDiscount: item.discount,
     });
   });
 
@@ -69,7 +71,7 @@ function handleReOrder(order) {
 </script>
 
 <template>
-  <div class="text-2xl px-5 h-full w-full mx-auto flex flex-col gap-5 mt-8">
+  <div class="text-2xl md:-5 h-full w-full mx-auto flex flex-col gap-5 mt-8">
     <div class="text-center text-lg" v-if="orders.length === 0">
       Chưa có đơn hàng nào!
     </div>

@@ -26,7 +26,7 @@ const props = defineProps(["paymentStatus"]);
           props.paymentStatus?.id === PAYMENT_STATUS_ID_MAPPING.FAILED,
       }"
     ></div>
-    <p class="text-sm font-medium text-black">
+    <p class="text-[12px] sm:text-sm font-medium text-black">
       {{ props.paymentStatus?.name }}
     </p>
   </div>

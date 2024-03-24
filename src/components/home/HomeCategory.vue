@@ -62,7 +62,27 @@ const childCategories = computed(
 <template>
   <HomeSection>
     <div class="w-full">
-      <div class="grid grid-cols-6 gap-6 px-10">
+      <div class="lg:hidden">
+        <swiper-container
+          loop="true"
+          class="h-full"
+          pagination-clickable="true"
+          slides-per-view="3"
+          slides-per-group="3"
+          grid-rows="2"
+          grid-fill="row"
+          space-between="10"
+        >
+          <swiper-slide v-for="category of homeCategories" :key="category.id">
+            <div
+              class="border shadow-4 hover:border-gray-600 cursor-pointer duration-75"
+            >
+              <img :src="category.url" class="w-full" alt="" />
+            </div>
+          </swiper-slide>
+        </swiper-container>
+      </div>
+      <div class="grid-cols-6 gap-6 px-10 hidden lg:grid">
         <div
           v-for="category of homeCategories"
           :key="category.id"

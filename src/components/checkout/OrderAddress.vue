@@ -1,20 +1,23 @@
 <template>
-  <div class="flex flex-col p-[20px] border-[0.5px] border-gray-300">
+  <div
+    class="flex flex-col p-[10px] md:p-[20px] border-[0.5px] border-gray-300"
+  >
     <div
       class="pb-3 flex items-center justify-between border-b-[0.5px] border-gray-300"
     >
       <div class="flex items-center gap-3">
-        <AddressListIcon class="w-[40px] h-[40px]" />
-        <div class="text-2xl font-bold capitalize w-full">
+        <AddressListIcon class="w-[28px] h-[28px] md:w-[40px] md:h-[40px]" />
+        <div class="text-lg md:text-2xl font-bold capitalize w-full">
           Thông tin nhận hàng
         </div>
       </div>
       <button
-        class="p-[8px] text-center py-3 rounded bg-black text-white hover:opacity-85 focus:outline-none"
+        class="md:p-[8px] text-center md:py-3 md:rounded bg-black text-white hover:opacity-85 focus:outline-none rounded-full w-[30px] h-[30px] md:h-fit md:w-fit"
         data-te-toggle="modal"
         data-te-target="#addAddressModal"
       >
-        Thêm địa chỉ mới
+        <span class="hidden md:block">Thêm địa chỉ mới</span>
+        <span class="block md:hidden">&plus;</span>
       </button>
     </div>
     <div v-for="address of addresses" :key="address.id">

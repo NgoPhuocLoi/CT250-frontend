@@ -10,6 +10,7 @@
 
 <script setup>
 import { useCartStore, useProductStore } from "@/stores";
+import { getDiscountValue } from "@/utils";
 
 const props = defineProps(["enteredQuantity"]);
 
@@ -22,6 +23,7 @@ const handleAddProductToCart = () => {
     variantId: productStore.selectedVariant.id,
     quantity: props.enteredQuantity,
     price: productStore.detailProductInfo.price,
+    productDiscount: getDiscountValue(productStore.detailProductInfo),
   });
   Toast.fire({
     icon: "success",

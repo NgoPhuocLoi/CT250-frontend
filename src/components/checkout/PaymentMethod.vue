@@ -1,21 +1,25 @@
 <template>
-  <div class="flex flex-col p-[20px] border-[0.5px] border-gray-300">
+  <div
+    class="flex flex-col p-[10px] md:p-[20px] border-[0.5px] border-gray-300"
+  >
     <div
       class="pb-3 flex items-center justify-between border-b-[0.5px] border-gray-300"
     >
       <div class="flex items-center gap-2">
-        <CoinIcon class="w-[40px] h-[40px]" />
-        <div class="text-2xl font-bold capitalize w-full">
+        <CoinIcon class="w-[28px] h-[28px] md:w-[40px] md:h-[40px]" />
+        <div class="text-lg md:text-2xl font-bold capitalize w-full">
           Phương thức thanh toán
         </div>
       </div>
-      <div class="text-gray-400">Chỉ chọn 1</div>
+      <div class="text-gray-400 text-[15px] md:text-lg hidden md:block">
+        Chỉ chọn 1
+      </div>
     </div>
     <div class="pt-6 px-0 flex flex-col">
       <div
         v-for="paymentMethod of paymentMethods"
         :key="paymentMethod.id"
-        class="mb-0 flex items-center gap-2 cursor-pointer"
+        class="mb-0 flex items-center gap-2 cursor-pointer text-[15px] md:text-lg"
         @click="chosenPaymentMethodId = paymentMethod.id"
       >
         <div>

@@ -195,34 +195,34 @@ async function getWardsOfDistrict(districtId) {
 
         <!--Modal body-->
         <div
-          class="relative grid grid-cols-3 gap-4 gap-y-6 p-4"
+          class="relative grid grid-cols-3 gap-4 gap-y-3 md:gap-y-6 p-4 text-[15px] md:text-lg"
           data-te-modal-body-ref
         >
-          <div class="col-span-2">
+          <div class="col-span-full lg:col-span-2">
             <label class="block">Họ và tên</label>
             <input
               type="text"
-              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập họ và tên..."
               v-model="userAddress.contactName"
             />
           </div>
 
-          <div class="">
+          <div class="col-span-full lg:col-span-1">
             <label class="block">Số điện thoại</label>
             <input
               type="text"
-              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập số điện thoại..."
               v-model="userAddress.contactPhone"
             />
           </div>
 
-          <div class="">
+          <div class="col-span-full lg:col-span-1">
             <label class="block">Tỉnh/ Thành phố</label>
 
             <select
-              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
               @change="onProvinceChange"
               v-model="userAddress.provinceId"
             >
@@ -237,11 +237,11 @@ async function getWardsOfDistrict(districtId) {
             </select>
           </div>
 
-          <div class="">
+          <div class="col-span-full lg:col-span-1">
             <label class="block">Quận/ Huyện</label>
 
             <select
-              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
               v-model="userAddress.districtId"
               @change="onDistrictChange"
             >
@@ -256,11 +256,11 @@ async function getWardsOfDistrict(districtId) {
             </select>
           </div>
 
-          <div class="">
+          <div class="col-span-full lg:col-span-1">
             <label class="block">Khu vực</label>
 
             <select
-              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 bg-white border-gray-400 rounded"
               v-model="userAddress.wardCode"
             >
               <option selected disabled value="0">Chọn khu vực</option>
@@ -274,17 +274,17 @@ async function getWardsOfDistrict(districtId) {
             </select>
           </div>
 
-          <div class="col-span-3">
+          <div class="col-span-full lg:col-span-3">
             <label class="block">Địa chỉ cụ thể</label>
             <input
               type="text"
-              class="w-full h-[55px] border mt-2 p-3 text-md text-gray-600 border-gray-400 rounded"
+              class="w-full h-[40px] md:h-[55px] border mt-2 p-1 md:p-3 text-md text-gray-600 border-gray-400 rounded"
               placeholder="Nhập địa chỉ cụ thể..."
               v-model="userAddress.detailAddress"
             />
           </div>
 
-          <div class="flex gap-2 items-center">
+          <div class="flex gap-2 items-center col-span-full">
             <div @click="userAddress.isDefault = !userAddress.isDefault">
               <TickIcon v-if="userAddress.isDefault" />
               <EmptyBoxIcon v-else />
@@ -303,7 +303,7 @@ async function getWardsOfDistrict(districtId) {
                 ? handleUpdateAddress()
                 : handleAddNewAddress()
             "
-            class="btn-basic px-8 py-2 mx-auto"
+            class="btn-basic px-8 py-2 mx-auto text-[15px] md:text-lg"
           >
             Xác nhận
           </button>

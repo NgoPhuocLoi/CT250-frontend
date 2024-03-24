@@ -3,7 +3,7 @@
     <div v-if="props.products.length == 0" class="text-center mt-4">
       Không có sản phẩm
     </div>
-    <div class="grid grid-cols-4 gap-4 gap-y-8 h-full">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 gap-y-8 h-full">
       <ProductCard
         v-for="product in props.products"
         :product="product"

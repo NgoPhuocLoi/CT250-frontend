@@ -1,6 +1,10 @@
 <script setup>
 import MainCategoryProductsSection from "@/components/product/MainCategoryProductsSection.vue";
-import { PRODUCT_NEWEST, PRODUCT_TRENDING } from "@/constants/productType";
+import {
+  PRODUCT_NEWEST,
+  PRODUCT_SALES,
+  PRODUCT_TRENDING,
+} from "@/constants/productType";
 import productService from "@/services/product";
 import { useCategoryStore } from "@/stores";
 import { computed, onMounted, ref, watch } from "vue";
@@ -11,6 +15,7 @@ const categoryStore = useCategoryStore();
 
 const newestProducts = ref([]);
 const topPickedProducts = ref([]);
+const onSaleProducts = ref([]);
 
 const activeCategory = computed(() =>
   categoryStore.categories.find(
@@ -27,13 +32,15 @@ onMounted(async () => {
 });
 
 const fetchProducts = async () => {
-  const [newest, topPicked] = await Promise.all([
+  const [newest, topPicked, onSales] = await Promise.all([
     fetchProductsOfType(PRODUCT_NEWEST),
     fetchProductsOfType(PRODUCT_TRENDING),
+    fetchProductsOfType(PRODUCT_SALES),
   ]);
 
   newestProducts.value = newest;
   topPickedProducts.value = topPicked;
+  onSaleProducts.value = onSales;
 };
 
 const fetchProductsOfType = async (type, limit = 10) => {
@@ -50,12 +57,14 @@ const fetchProductsOfType = async (type, limit = 10) => {
 };
 </script>
 <template>
-  <div class="container mx-auto">
-    <div class="my-6 text-4xl w-full text-center font-bold uppercase">
+  <div class="px-4 md:container mx-auto">
+    <div
+      class="mt-2 mb-2 md:mb-4 lg:my-6 text-2xl md:text-3xl lg:text-4xl w-full text-center font-bold uppercase"
+    >
       {{ activeCategory?.name }}
     </div>
 
-    <div class="w-full mb-[50px]">
+    <div class="w-full lg:mb-[50px] mb-4">
       <img
         src="https://im.uniqlo.com/global-cms/spa/res34b0a46b8007fa42e4e5f77ceb4742fbfr.jpg"
         class="w-full"
@@ -73,9 +82,6 @@ const fetchProductsOfType = async (type, limit = 10) => {
       :products="topPickedProducts"
     />
 
-    <MainCategoryProductsSection
-      title="Giá mới"
-      :products="topPickedProducts"
-    />
+    <MainCategoryProductsSection title="Giá mới" :products="onSaleProducts" />
   </div>
 </template>

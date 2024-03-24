@@ -1,19 +1,22 @@
 <template>
-  <div class="text-lg container mx-auto pb-5">
+  <div class="text-lg md:container mx-auto pb-5 px-2">
     <div class="flex items-baseline justify-between pb-6 pt-6">
       <h1 class="text-4xl font-bold tracking-tight text-gray-900">
         Thanh toán
       </h1>
     </div>
-    <div class="w-full flex justify-between gap-6">
-      <div class="flex flex-col gap-6 flex-1">
+    <div class="w-full grid grid-cols-3 gap-6">
+      <div class="flex flex-col gap-6 col-span-full lg:col-span-2">
         <OrderProduct />
         <OrderAddress />
-        <CouponReduce />
+        <CouponReduce v-model="chosenCoupon" />
       </div>
-      <div class="flex flex-col gap-6 w-[30%]">
+      <div class="flex flex-col gap-6 col-span-full lg:col-span-1">
         <PaymentMethod v-model="chosenPaymentMethodId" />
-        <TotalOrder :chosen-payment-method-id="chosenPaymentMethodId" />
+        <TotalOrder
+          :chosen-coupon="chosenCoupon"
+          :chosen-payment-method-id="chosenPaymentMethodId"
+        />
       </div>
     </div>
   </div>
@@ -28,4 +31,5 @@ import TotalOrder from "@/components/checkout/TotalOrder.vue";
 import { ref } from "vue";
 
 const chosenPaymentMethodId = ref();
+const chosenCoupon = ref();
 </script>

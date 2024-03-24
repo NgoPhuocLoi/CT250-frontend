@@ -13,6 +13,7 @@ class OrderService {
     deliveryAddressId,
     paymentMethodId,
     items,
+    usedCouponId,
   }) {
     return (
       await this.api.post("/", {
@@ -23,6 +24,7 @@ class OrderService {
         deliveryAddressId,
         paymentMethodId,
         items,
+        usedCouponId,
       })
     ).data;
   }

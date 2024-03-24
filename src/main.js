@@ -6,6 +6,9 @@ import store from "./stores";
 import App from "./App.vue";
 import router from "./router";
 import { register } from "swiper/element/bundle";
+import "swiper/element/css/grid";
+import { VueSidePanel } from "vue3-side-panel";
+import "vue3-side-panel/dist/vue3-side-panel.css";
 // register Swiper custom elements
 register();
 

@@ -6,7 +6,7 @@ const categoryStore = useCategoryStore();
 </script>
 <template>
   <div
-    class="w-full p-8 bg-white shadow animate-fade-down animate-once fixed z-10 top-[72px]"
+    class="w-full p-8 bg-white shadow animate-fade-down animate-once fixed z-10 top-[60px] md:top-[72px]"
     :class="{
       hidden: !openMenu,
       'pointer-events-none': !openMenu,

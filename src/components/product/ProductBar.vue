@@ -2,10 +2,12 @@
   <div
     class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-6"
   >
-    <h1 class="text-4xl font-bold tracking-tight text-gray-900">
+    <h1
+      class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900"
+    >
       {{ props.categoryName }}
     </h1>
-    <div class="flex items-center">
+    <div class="items-center hidden md:flex">
       <div class="relative inline-block text-left">
         <div class="flex flex-row h-9 items-center">
           <p class="mr-2">Sắp xếp theo:</p>

@@ -28,6 +28,11 @@ class ProductService {
   async getOneBySlug(slug) {
     return (await this.api.get(`/slug/${slug}`)).data;
   }
+
+  async semanticSearch(query) {
+    return (await this.api.get("/semantic-search", { params: { q: query } }))
+      .data;
+  }
 }
 
 export default new ProductService();

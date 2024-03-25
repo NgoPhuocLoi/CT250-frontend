@@ -25,6 +25,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import authService from "@/services/auth";
 import store, { useAccountStore, useLoadingStore } from "@/stores";
+import ProductSearch from "@/views/ProductSearch.vue";
 
 const loadingStore = useLoadingStore(store);
 const accountStore = useAccountStore(store);
@@ -81,6 +82,10 @@ const router = createRouter({
         {
           path: "/tin-tuc/:blogCategory",
           component: BlogList,
+        },
+        {
+          path: "/tim-kiem",
+          component: ProductSearch,
         },
         {
           path: "/khuyen-mai",

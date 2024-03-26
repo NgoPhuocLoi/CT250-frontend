@@ -4,10 +4,14 @@ import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import productService from "@/services/product";
 import ProductCard from "@/components/product/ProductCard.vue";
+import { useLoadingStore } from "@/stores";
 
 const route = useRoute();
+const loadingStore = useLoadingStore();
 
 const products = ref([]);
+const relativeProducts = ref([]);
+const showAll = ref(false);
 
 const breadcumb = [
   {
@@ -18,26 +22,35 @@ const breadcumb = [
 watch(
   () => route.query.q,
   async () => {
+    showAll.value = false;
     await handleSearchingProducts();
   }
 );
 
 onMounted(async () => {
-  console.log(route.query.q);
+  showAll.value = false;
   await handleSearchingProducts();
 });
 
 async function handleSearchingProducts() {
+  loadingStore.startLoading();
   try {
-    const res = await productService.semanticSearch(route.query.q);
-    products.value = res.metadata;
+    const res = await productService.search(route.query.q);
+    const { fullTextSearchResult, semanticSearchResult } = res.metadata;
+    products.value = fullTextSearchResult;
+    relativeProducts.value = semanticSearchResult;
   } catch (error) {
-    console.log(error);
+    Toast.fire({
+      title: "Tìm kiếm quá nhanh! Vui lòng thử lại sau",
+      icon: "error",
+    });
+  } finally {
+    loadingStore.endLoading();
   }
 }
 </script>
 <template>
-  <div class="text-lg container mx-auto">
+  <div class="text-lg container mx-auto mb-10">
     <Breadcumb :breadcumb="breadcumb" />
     <div
       class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-6"
@@ -46,15 +59,76 @@ async function handleSearchingProducts() {
         class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900"
       >
         Tìm kiếm
+
+        <span
+          v-if="products.length > 0"
+          class="text-lg text-gray-600 font-normal leading-none"
+          >( {{ products.length }} sản phẩm )</span
+        >
       </h1>
     </div>
 
-    <div class="grid grid-cols-5 gap-4">
-      <ProductCard
-        v-for="product in products"
-        :key="product.id"
-        :product="product"
-      />
+    <div class="mt-2">
+      <div v-if="products.length > 0" class="grid grid-cols-5 gap-4 gap-y-8">
+        <ProductCard
+          v-for="product in products.slice(0, 10)"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
+      <div
+        class="grid grid-cols-5 gap-4 gap-y-8 mt-8"
+        v-if="products.length > 10 && showAll"
+      >
+        <ProductCard
+          v-for="product in products.slice(10)"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
+
+      <div v-if="products.length === 0" class="text-gray-700">
+        Không có sản phẩm nào
+      </div>
+
+      <div v-if="products.length > 10 && !showAll" class="flex mt-5">
+        <div
+          class="px-4 py-2 mx-auto border border-gray-900 w-fit hover:bg-black hover:text-white cursor-pointer duration-100 min-w-[200px] text-center"
+          @click="showAll = true"
+        >
+          Xem tất cả
+        </div>
+      </div>
+
+      <div
+        v-if="products.length > 0"
+        class="grid grid-cols-5 gap-4 gap-y-8"
+      ></div>
+    </div>
+
+    <div
+      class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10"
+    >
+      <h1
+        class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900"
+      >
+        Có thể bạn quan tâm
+      </h1>
+    </div>
+
+    <div class="mt-2">
+      <div
+        v-if="relativeProducts.length > 0"
+        class="grid grid-cols-5 gap-4 gap-y-8"
+      >
+        <ProductCard
+          v-for="product in relativeProducts"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
+
+      <div v-else class="text-gray-700">Không có sản phẩm nào</div>
     </div>
   </div>
 </template>

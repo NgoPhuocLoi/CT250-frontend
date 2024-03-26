@@ -5,6 +5,7 @@ import { useRoute } from "vue-router";
 import productService from "@/services/product";
 import ProductCard from "@/components/product/ProductCard.vue";
 import { useLoadingStore } from "@/stores";
+import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton.vue";
 
 const route = useRoute();
 const loadingStore = useLoadingStore();
@@ -22,15 +23,21 @@ const breadcumb = [
 watch(
   () => route.query.q,
   async () => {
-    showAll.value = false;
+    resetStates();
     await handleSearchingProducts();
   }
 );
 
 onMounted(async () => {
-  showAll.value = false;
+  resetStates();
   await handleSearchingProducts();
 });
+
+function resetStates() {
+  products.value = [];
+  relativeProducts.value = [];
+  showAll.value = false;
+}
 
 async function handleSearchingProducts() {
   loadingStore.startLoading();
@@ -69,6 +76,9 @@ async function handleSearchingProducts() {
     </div>
 
     <div class="mt-2">
+      <div v-if="loadingStore.loading" class="grid grid-cols-5 gap-4 gap-y-8">
+        <ProductCardSkeleton v-for="i in 5" />
+      </div>
       <div v-if="products.length > 0" class="grid grid-cols-5 gap-4 gap-y-8">
         <ProductCard
           v-for="product in products.slice(0, 10)"
@@ -87,7 +97,10 @@ async function handleSearchingProducts() {
         />
       </div>
 
-      <div v-if="products.length === 0" class="text-gray-700">
+      <div
+        v-if="products.length === 0 && !loadingStore.loading"
+        class="text-gray-700"
+      >
         Không có sản phẩm nào
       </div>
 
@@ -117,6 +130,9 @@ async function handleSearchingProducts() {
     </div>
 
     <div class="mt-2">
+      <div v-if="loadingStore.loading" class="grid grid-cols-5 gap-4 gap-y-8">
+        <ProductCardSkeleton v-for="i in 5" />
+      </div>
       <div
         v-if="relativeProducts.length > 0"
         class="grid grid-cols-5 gap-4 gap-y-8"
@@ -128,7 +144,12 @@ async function handleSearchingProducts() {
         />
       </div>
 
-      <div v-else class="text-gray-700">Không có sản phẩm nào</div>
+      <div
+        v-if="relativeProducts.length === 0 && !loadingStore.loading"
+        class="text-gray-700"
+      >
+        Không có sản phẩm nào
+      </div>
     </div>
   </div>
 </template>

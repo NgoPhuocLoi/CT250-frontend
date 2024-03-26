@@ -32,6 +32,18 @@ class ProductService {
   async search(query) {
     return (await this.api.get("/search", { params: { q: query } })).data;
   }
+
+  async getRecommendedProducts(token) {
+    return (
+      await this.api.request({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: "GET",
+        url: import.meta.env.VITE_API_BASE_URL + "/api/products/recommend",
+      })
+    ).data;
+  }
 }
 
 export default new ProductService();

@@ -10,19 +10,26 @@ class ProductService {
     return await this.getByType(PRODUCT_ALL);
   }
 
-  async getByType(type, limit = 10) {
-    return (await this.api.get("/", { params: { type, limit } })).data;
+  async getByType(type, limit = 10, page = 1) {
+    return (await this.api.get("/", { params: { type, limit, page } })).data;
   }
 
-  async getByCategories({ categoryIds = [], type, limit = 10 }) {
+  async getByCategories({ categoryIds = [], type, limit = 10, page = 1 }) {
     console.log(categoryIds);
-    return (await this.api.get("/", { params: { type, limit, categoryIds } }))
-      .data;
+    return (
+      await this.api.get("/", { params: { type, limit, categoryIds, page } })
+    ).data;
   }
 
-  async getByProductIds({ productIds = [], type = "All", limit = 10 }) {
-    return (await this.api.get("/", { params: { type, limit, productIds } }))
-      .data;
+  async getByProductIds({
+    productIds = [],
+    type = "All",
+    limit = 10,
+    page = 1,
+  }) {
+    return (
+      await this.api.get("/", { params: { type, limit, productIds, page } })
+    ).data;
   }
 
   async getOneBySlug(slug) {

@@ -14,7 +14,16 @@
 
         <!-- Product grid -->
         <div class="col-span-3">
-          <ProductsList :products="products" />
+          <ProductsList v-if="!fetching" :products="products" />
+          <div
+            class="grid grid-cols-2 lg:grid-cols-4 gap-4 gap-y-8 h-full"
+            v-else
+          >
+            <ProductCardSkeleton v-for="i in 4" />
+          </div>
+          <div class="flex justify-center mt-8">
+            <Pagination :totalPages="totalPages" v-model="currentPage" />
+          </div>
         </div>
       </div>
     </section>
@@ -29,26 +38,40 @@ import FilterColor from "@/components/product/FilterColor.vue";
 import FilterPrice from "@/components/product/FilterPrice.vue";
 import ProductsList from "@/components/product/ProductsList.vue";
 import Breadcumb from "@/components/common/Breadcumb.vue";
+import Pagination from "@/components/common/Pagination.vue";
 import { useCategoryStore } from "@/stores";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, watch } from "vue";
 import categoryService from "@/services/category";
 import productService from "@/services/product";
+import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton.vue";
 
 const categoryStore = useCategoryStore();
 const route = useRoute();
+const router = useRouter();
 const lowestCategoryId = ref();
 const category = ref();
 const breadcumb = ref([]);
 const products = ref([]);
 
+const totalPages = ref(0);
+const currentPage = ref(1);
+const fetching = ref(false);
+
 watch([() => categoryStore.categories, () => route.params], async () => {
+  currentPage.value = route.query.page ? parseInt(route.query.page) : 1;
   lowestCategoryId.value = getLowestCategoryId();
+  fetching.value = true;
   await Promise.all([
     fetchCategoryInformation(lowestCategoryId.value),
     fetchBreadcumb(lowestCategoryId.value),
     fetchProducts(lowestCategoryId.value),
   ]);
+  fetching.value = false;
+});
+
+watch(currentPage, () => {
+  router.push({ query: { page: currentPage.value } });
 });
 
 onMounted(() => {
@@ -102,9 +125,11 @@ const fetchProducts = async (categoryId) => {
     const res = await productService.getByCategories({
       categoryIds: [categoryId],
       type: "All",
-      limit: 30,
+      limit: 8,
+      page: currentPage.value,
     });
-    products.value = res.metadata;
+    products.value = res.metadata.products;
+    totalPages.value = res.metadata.pagination.totalPages;
   } catch (error) {
     console.log(error);
   }

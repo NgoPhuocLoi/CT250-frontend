@@ -13,7 +13,7 @@ onMounted(async () => {
 async function fetchProducts() {
   try {
     const res = await productService.getByType(PRODUCT_SALES, 8);
-    products.value = res.metadata;
+    products.value = res.metadata.products;
     console.log(res.metadata);
   } catch (error) {
     console.log(error);

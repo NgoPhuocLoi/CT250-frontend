@@ -50,7 +50,7 @@ const fetchProductsOfType = async (type, limit = 10) => {
       type,
       limit,
     });
-    return res.metadata;
+    return res.metadata.products;
   } catch (error) {
     console.log(error);
   }

@@ -37,8 +37,8 @@ onMounted(async () => {
       )
     );
 
-    newestProducts.value = res[0].metadata;
-    trendingProducts.value = res[1].metadata;
+    newestProducts.value = res[0].metadata.products;
+    trendingProducts.value = res[1].metadata.products;
     console.log(accountStore.account);
     if (accountStore.account) {
       await fetchRecommendedProducts();

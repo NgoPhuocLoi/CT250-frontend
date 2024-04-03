@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import SearchIcon from "../icons/SearchIcon.vue";
 import { ref, watch } from "vue";
+import uploadService from "@/services/upload";
 
 const router = useRouter();
 
@@ -9,20 +10,20 @@ const searching = defineModel();
 
 const isSearchingByImage = ref(false);
 
+const uploadedImageUrl = ref("");
+
 const searchQuery = ref("");
 
-const imageUrlToSearch = ref("");
 const imageUrlToReview = ref("");
-
-watch(imageUrlToSearch, () => {
-  imageUrlToReview.value = imageUrlToSearch.value;
-});
 
 function handleSearchByImageUrl() {
   searching.value = false;
+  const imageUrl = uploadedImageUrl.value
+    ? uploadedImageUrl.value
+    : imageUrlToReview.value;
   router.push({
     path: "/tim-kiem",
-    query: { imageUrl: imageUrlToSearch.value },
+    query: { imageUrl },
   });
 }
 
@@ -30,6 +31,33 @@ function handleSearchingProducts(e) {
   e.preventDefault();
   searching.value = false;
   router.push({ path: "/tim-kiem", query: { q: searchQuery.value } });
+}
+
+async function handleUploadImageToSearch(e) {
+  const file = e.target.files[0];
+  const formData = new FormData();
+
+  formData.append("image", file);
+
+  try {
+    const res = await uploadService.uploadImageToDisk(formData);
+    const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/${
+      res.metadata.path
+    }`;
+    imageUrlToReview.value = URL.createObjectURL(file);
+    uploadedImageUrl.value = imageUrl;
+    // router.push({ path: "/tim-kiem", query: { imageUrl } });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function handleDestroyUpdatedImage() {
+  imageUrlToReview.value = "";
+  await uploadService.destroyImageInDisk(
+    uploadedImageUrl.value.split("/").pop()
+  );
+  uploadedImageUrl.value = "";
 }
 </script>
 
@@ -72,7 +100,7 @@ function handleSearchingProducts(e) {
           <div
             @click="
               isSearchingByImage = false;
-              imageUrlToSearch = '';
+              imageUrlToReview = '';
             "
             class="ml-auto px-2 text-2xl leading-none cursor-pointer"
           >
@@ -84,7 +112,47 @@ function handleSearchingProducts(e) {
           class="border border-dashed p-5 w-full h-full bg-white border-[#ccc]"
         >
           <div class="h-[200px] w-full">
-            <img class="h-full mx-auto" :src="imageUrlToReview" alt="" />
+            <div class="h-full relative" v-if="imageUrlToReview">
+              <img class="h-full mx-auto" :src="imageUrlToReview" alt="" />
+
+              <div
+                class="absolute text-4xl top-0 right-0 cursor-pointer hover:text-gray-600"
+                @click="handleDestroyUpdatedImage"
+                v-if="uploadedImageUrl"
+              >
+                &times;
+              </div>
+            </div>
+            <div class="flex items-center gap-5 justify-center h-full" v-else>
+              <span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="40"
+                  height="40"
+                  fill="currentColor"
+                  class="bi bi-image"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                  <path
+                    d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"
+                  />
+                </svg>
+              </span>
+
+              <div class="relative w-[86px] h-[25px]">
+                <input
+                  @change="handleUploadImageToSearch"
+                  type="file"
+                  class="opacity-0 cursor-pointer absolute top-0 z-10 w-[86px]"
+                />
+                <div
+                  class="text-blue-500 underline cursor-pointer absolute top-0"
+                >
+                  Tải hình lên
+                </div>
+              </div>
+            </div>
           </div>
           <div class="flex gap-10 my-2 items-center justify-center">
             <div class="h-[1px] flex-1 bg-gray-300"></div>
@@ -94,7 +162,10 @@ function handleSearchingProducts(e) {
 
           <div class="flex gap-5">
             <input
-              v-model="imageUrlToSearch"
+              :class="{
+                invisible: uploadedImageUrl !== '',
+              }"
+              v-model="imageUrlToReview"
               type="text"
               placeholder="Dán link ảnh ở đây"
               class="rounded px-4 py-2 border flex-1"

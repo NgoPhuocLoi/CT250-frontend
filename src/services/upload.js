@@ -9,8 +9,16 @@ class UploadService {
     return (await this.api.post("/image", formData)).data;
   }
 
+  async uploadImageToDisk(formData) {
+    return (await this.api.post("/image/disk", formData)).data;
+  }
+
   async destroyImage(uploadedImageId) {
     return (await this.api.delete("/" + uploadedImageId)).data;
+  }
+
+  async destroyImageInDisk(uploadedImagePath) {
+    return (await this.api.delete("/disk/" + uploadedImagePath)).data;
   }
 }
 

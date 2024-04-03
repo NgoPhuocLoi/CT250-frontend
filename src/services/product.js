@@ -40,6 +40,10 @@ class ProductService {
     return (await this.api.get("/search", { params: { q: query } })).data;
   }
 
+  async searchByImageUrl(imageUrl) {
+    return (await this.api.get("/search/image", { params: { imageUrl } })).data;
+  }
+
   async getRecommendedProducts(token) {
     return (
       await this.api.request({

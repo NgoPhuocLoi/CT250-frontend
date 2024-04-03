@@ -21,7 +21,7 @@ const breadcumb = [
 ];
 
 watch(
-  () => route.query.q,
+  () => route.query,
   async () => {
     resetStates();
     await handleSearchingProducts();
@@ -40,15 +40,40 @@ function resetStates() {
 }
 
 async function handleSearchingProducts() {
+  const { q, imageUrl } = route.query;
+  if (q) {
+    await searchProductsByText(q);
+  } else if (imageUrl) {
+    await searchProductsByImageUrl(imageUrl);
+  }
+}
+
+async function searchProductsByImageUrl(imageUrl) {
   loadingStore.startLoading();
   try {
-    const res = await productService.search(route.query.q);
+    const res = await productService.searchByImageUrl(imageUrl);
+    products.value = res.metadata;
+    console.log(products.value.map((p) => p.similarImageId));
+  } catch (error) {
+    Toast.fire({
+      title: "Tìm kiếm bị lỗi! Vui lòng thử lại sau",
+      icon: "error",
+    });
+  } finally {
+    loadingStore.endLoading();
+  }
+}
+
+async function searchProductsByText(query) {
+  loadingStore.startLoading();
+  try {
+    const res = await productService.search(query);
     const { fullTextSearchResult, semanticSearchResult } = res.metadata;
     products.value = fullTextSearchResult;
     relativeProducts.value = semanticSearchResult;
   } catch (error) {
     Toast.fire({
-      title: "Tìm kiếm quá nhanh! Vui lòng thử lại sau",
+      title: "Tìm kiếm bị lỗi! Vui lòng thử lại sau",
       icon: "error",
     });
   } finally {
@@ -94,6 +119,7 @@ async function handleSearchingProducts() {
           v-for="product in products.slice(10)"
           :key="product.id"
           :product="product"
+          :similar-image-id="product.similarImageId"
         />
       </div>
 

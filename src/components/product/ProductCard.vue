@@ -5,7 +5,16 @@
     class="cursor-pointer border shadow-4 hover:shadow-md duration-100"
   >
     <div class="w-full">
-      <img class="w-full" :src="product.colors[0].productImage.image.path" />
+      <img
+        class="w-full"
+        :src="
+          props.product.similarImageId
+            ? product.images.find(
+                (i) => i.imageId === props.product.similarImageId
+              )?.image.path
+            : product.colors[0].productImage.image.path
+        "
+      />
     </div>
 
     <div class="px-1 py-3 md:p-3 pb-0">
@@ -45,17 +54,21 @@
 </template>
 
 <script setup>
-import { ref, toRef } from "vue";
+import { onMounted, ref, toRef } from "vue";
 import { useRouter } from "vue-router";
 import { getDiscountValue } from "@/utils";
 
 const router = useRouter();
-const props = defineProps(["product", "onSale"]);
+const props = defineProps(["product", "onSale", "similarImageId"]);
 const product = toRef(() => props.product);
 
 function viewDetail() {
   router.push("/san-pham/" + product.value.slug);
 }
+
+onMounted(() => {
+  console.log(props.product.similarImageId);
+});
 
 function getPriceAfterDiscount(product) {
   return product.price - getDiscountValue(product);

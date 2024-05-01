@@ -4,7 +4,7 @@
             Tài khoản
         </h6>
         <p v-for="(link, index) in links" :key="index" class="mb-4">
-            <a href="{{ link.url }}" class="text-neutral-600">{{ link.title }}</a>
+            <RouterLink :to="link.url" class="text-neutral-600">{{ link.title }}</RouterLink>
         </p>
     </div>
 </template>
@@ -13,19 +13,19 @@
 const links = [
     {
         title: "Hồ sơ",
-        url: "",
+        url: "/tai-khoan",
     },
     {
-        title: "Cài đặt",
-        url: "",
+        title: "Địa chỉ",
+        url: "/tai-khoan/so-dia-chi",
     },
     {
         title: "Coupons",
-        url: "",
+        url: "/tai-khoan/kho-voucher",
     },
     {
         title: "Lịch sử mua hàng",
-        url: "",
+        url: "/tai-khoan/quan-ly-don-hang",
     },
 ]
 </script>

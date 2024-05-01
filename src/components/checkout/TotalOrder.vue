@@ -97,6 +97,13 @@ watch(
 );
 
 async function handleCreateOrder() {
+  if (!addressStore.chosenAddressToCheckout) {
+    return Swal.fire({
+      title: "Lỗi",
+      text: "Vui lòng chọn thông tin nhận hàng!",
+      icon: "error",
+    });
+  }
   try {
     const res = await orderService.createOrder({
       totalPrice: cartStore.totalCost,

@@ -9,12 +9,9 @@
     <p>Tên công ty: MY SHOP</p>
     <p>Giấy phép kinh doanh: 01020201</p>
     <p>Giờ làm việc: 7:00 - 22:00 (Thứ Hai - Chủ Nhật)</p>
-    <div class="mx-auto">
+    <div class="flex flex-start">
       <a href="">
-        <img
-          src="https://im.uniqlo.com/global-cms/spa/resfb28ee615b9469a533e195812bd0de44fr.png"
-          alt=""
-        />
+        <img src="https://im.uniqlo.com/global-cms/spa/resfb28ee615b9469a533e195812bd0de44fr.png" alt="" />
       </a>
     </div>
   </div>

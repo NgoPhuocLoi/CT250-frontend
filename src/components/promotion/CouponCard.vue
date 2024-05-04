@@ -32,14 +32,17 @@
           <div class="w-full">
             <div class="leading-[25px] mb-1 md:mb-2 flex justify-between">
               <span>
-                Giảm
-                {{
-                  coupon.discountType === "percentage"
-                    ? `${props.coupon.discountValue}%`
-                    : `${new Intl.NumberFormat("vi-VN", {
-                        currency: "VND",
-                      }).format(coupon.discountValue)} VND`
-                }}
+                <span class="font-bold">{{ coupon.code }} </span>
+                <span class="text-[16px]">
+                  (Giảm
+                  {{
+                    coupon.discountType === "percentage"
+                      ? `${props.coupon.discountValue}%`
+                      : `${new Intl.NumberFormat("vi-VN", {
+                          currency: "VND",
+                        }).format(coupon.discountValue)} VND`
+                  }})</span
+                >
               </span>
 
               <span class="text-[12px] md:text-[15px]"
